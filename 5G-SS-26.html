@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Judy's Social Studies Adventure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#6EC6E8;
+  --meadow:#7BC96F;
+  --sun:#FFD166;
+  --berry:#FF8FAB;
+  --cream:#FFFBF2;
+  --plum:#3D2C4E;
+  --plum-soft:#6B5C7A;
+  --card:#FFFFFF;
+  --line:#EFE6D8;
+  --gov:#8E7CC3;
+  --hist:#E8A87C;
+  --geo:#6EC6E8;
+  --econ:#7BC96F;
+  --shadow: 0 6px 0 rgba(61,44,78,0.12);
+  --radius: 22px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Nunito', sans-serif;
+  background: linear-gradient(180deg, #FFF8EC 0%, #FFF1DE 100%);
+  color:var(--plum);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+h1,h2,h3,.display{
+  font-family:'Baloo 2', cursive;
+  font-weight:800;
+  color:var(--plum);
+  margin:0 0 8px 0;
+}
+button{font-family:inherit;}
+#app{max-width:900px;margin:0 auto;padding:16px 16px 90px;position:relative;min-height:100vh;}
+.screen{display:none;animation:fadein .35s ease;}
+.screen.active{display:block;}
+@keyframes fadein{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+/* Top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 4px 18px;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-title{font-family:'Baloo 2';font-weight:800;font-size:1.3rem;color:var(--plum);}
+.brand-title .accent{color:var(--berry);}
+.icon-btn{
+  background:var(--card); border:2px solid var(--line); border-radius:16px;
+  width:44px;height:44px; display:flex;align-items:center;justify-content:center;
+  cursor:pointer; box-shadow:var(--shadow); font-size:1.2rem;
+}
+.icon-btn:active{transform:translateY(3px); box-shadow:none;}
+
+/* Progress pill */
+.progress-wrap{background:var(--card); border-radius:20px; padding:10px 16px; display:flex; align-items:center; gap:10px; box-shadow:var(--shadow); border:2px solid var(--line);}
+.progress-bar-bg{flex:1; height:14px; background:#F1E9DA; border-radius:10px; overflow:hidden;}
+.progress-bar-fill{height:100%; background:linear-gradient(90deg,var(--sun),var(--berry)); border-radius:10px; transition:width .5s ease;}
+.progress-pct{font-weight:800; font-family:'Baloo 2'; color:var(--plum); min-width:44px; text-align:right;}
+
+/* Cards / Lands */
+.lands-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px;}
+@media (max-width:560px){.lands-grid{grid-template-columns:1fr;}}
+.land-card{
+  border-radius:var(--radius); padding:18px; cursor:pointer; position:relative; overflow:hidden;
+  box-shadow:var(--shadow); border:3px solid rgba(255,255,255,0.6); color:white; min-height:150px;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.land-card:active{transform:translateY(3px); box-shadow:none;}
+.land-card.gov{background:linear-gradient(145deg,#8E7CC3,#6E5AA8);}
+.land-card.hist{background:linear-gradient(145deg,#E8A87C,#D4854D);}
+.land-card.geo{background:linear-gradient(145deg,#6EC6E8,#3FA6CC);}
+.land-card.econ{background:linear-gradient(145deg,#7BC96F,#54A648);}
+.land-card h3{color:white; font-size:1.15rem;}
+.land-sub{opacity:.92; font-size:.85rem; font-weight:600;}
+.land-badge{position:absolute; top:12px; right:14px; background:rgba(255,255,255,0.25); border-radius:12px; padding:4px 10px; font-weight:800; font-size:.8rem;}
+.module-chip-row{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;}
+.mod-chip{width:14px;height:14px;border-radius:50%; background:rgba(255,255,255,0.35); border:2px solid rgba(255,255,255,0.6);}
+.mod-chip.done{background:var(--sun); border-color:white;}
+.mod-chip.flagged{background:var(--berry); border-color:white;}
+
+/* Judy panel */
+.judy-panel{
+  background:var(--card); border-radius:var(--radius); padding:16px; display:flex; gap:14px; align-items:center;
+  box-shadow:var(--shadow); border:2px solid var(--line); margin-bottom:16px;
+}
+.judy-avatar{width:64px; height:64px; flex-shrink:0;}
+.judy-speech{flex:1; font-weight:700; color:var(--plum-soft); font-size:.98rem; line-height:1.35;}
+.judy-name{color:var(--berry); font-family:'Baloo 2'; font-weight:800;}
+
+/* Buttons */
+.btn{
+  font-family:'Baloo 2'; font-weight:700; border:none; border-radius:16px; padding:14px 22px;
+  cursor:pointer; font-size:1rem; box-shadow:var(--shadow); transition:transform .1s;
+}
+.btn:active{transform:translateY(3px); box-shadow:none;}
+.btn-primary{background:var(--berry); color:white;}
+.btn-secondary{background:var(--card); color:var(--plum); border:2px solid var(--line);}
+.btn-block{width:100%; display:block; text-align:center;}
+.btn-row{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+.btn:disabled{opacity:.5; cursor:not-allowed;}
+
+/* Lesson screen */
+.lesson-card{background:var(--card); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); border:2px solid var(--line);}
+.strand-tag{display:inline-block; font-family:'Baloo 2'; font-weight:800; font-size:.75rem; letter-spacing:.5px; text-transform:uppercase; padding:5px 12px; border-radius:20px; color:white; margin-bottom:10px;}
+.tag-gov{background:var(--gov);} .tag-hist{background:var(--hist);} .tag-geo{background:var(--geo);} .tag-econ{background:var(--econ);}
+.svg-illustration{width:100%; max-width:420px; display:block; margin:14px auto;}
+.lesson-text{font-size:1.05rem; line-height:1.7; color:var(--plum);}
+.lesson-text p{margin:0 0 14px 0;}
+.fun-fact{background:#FFF3D6; border-radius:16px; padding:12px 16px; margin-top:14px; border:2px dashed var(--sun); font-weight:600;}
+.fun-fact-label{font-family:'Baloo 2'; color:#B8860B; font-weight:800; margin-right:6px;}
+
+/* Vocab tap word */
+.vocab-word{
+  color:var(--gov); font-weight:800; border-bottom:3px dotted var(--gov); cursor:pointer; position:relative;
+  padding:0 2px; border-radius:4px;
+}
+.vocab-word:hover{background:#F1EBFB;}
+.vocab-popover{
+  position:fixed; z-index:999; background:var(--plum); color:white; padding:12px 14px; border-radius:14px;
+  max-width:260px; font-size:.9rem; font-weight:600; line-height:1.4; box-shadow:0 10px 24px rgba(0,0,0,.25);
+  display:none;
+}
+.vocab-popover.show{display:block;}
+.vocab-popover .vp-word{font-family:'Baloo 2'; font-weight:800; font-size:1rem; color:var(--sun); display:flex; align-items:center; gap:8px;}
+.vocab-popover .vp-clue{opacity:.85; font-style:italic; margin-top:4px; font-size:.82rem;}
+.sound-btn{
+  background:rgba(255,255,255,0.15); border:none; border-radius:50%; width:26px;height:26px; color:white; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; font-size:.85rem;
+}
+.sound-btn:active{background:rgba(255,255,255,0.35);}
+
+/* Quiz */
+.quiz-progress{display:flex; gap:6px; margin-bottom:14px;}
+.qp-dot{flex:1; height:8px; border-radius:6px; background:#F1E9DA;}
+.qp-dot.active{background:var(--sky);}
+.qp-dot.correct{background:var(--meadow);}
+.qp-dot.wrong{background:var(--berry);}
+.question-text{font-size:1.15rem; font-weight:700; margin-bottom:16px; line-height:1.5;}
+.options{display:flex; flex-direction:column; gap:10px;}
+.option-btn{
+  text-align:left; background:var(--card); border:2px solid var(--line); border-radius:16px; padding:14px 16px;
+  font-family:'Nunito'; font-weight:700; font-size:1rem; cursor:pointer; color:var(--plum);
+}
+.option-btn:hover{border-color:var(--sky);}
+.option-btn.selected-correct{background:#E7F7E4; border-color:var(--meadow); color:#2F7A2A;}
+.option-btn.selected-wrong{background:#FDE7EC; border-color:var(--berry); color:#B23A56;}
+.option-btn.reveal-correct{border-color:var(--meadow); background:#E7F7E4;}
+.option-btn:disabled{cursor:default;}
+.match-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.match-item{background:var(--card); border:2px solid var(--line); border-radius:14px; padding:10px 12px; font-weight:700; cursor:pointer; text-align:center;}
+.match-item.picked{border-color:var(--sky); background:#EAF7FC;}
+.match-item.matched{border-color:var(--meadow); background:#E7F7E4; opacity:.7; cursor:default;}
+.feedback-box{margin-top:16px; padding:14px 16px; border-radius:16px; font-weight:700; display:flex; gap:10px; align-items:flex-start;}
+.feedback-correct{background:#E7F7E4; color:#2F7A2A;}
+.feedback-wrong{background:#FDE7EC; color:#B23A56;}
+.feedback-explain{font-weight:600; font-size:.92rem; margin-top:4px; color:var(--plum-soft);}
+
+/* Map click question */
+.mapclick-wrap{position:relative; max-width:420px; margin:0 auto;}
+.mapclick-wrap svg{width:100%; cursor:pointer;}
+.mapclick-target{transition:fill .15s;}
+.mapclick-target:hover{fill-opacity:.7;}
+
+/* Streak / toast */
+.toast{
+  position:fixed; top:16px; left:50%; transform:translateX(-50%); background:var(--plum); color:white;
+  padding:12px 20px; border-radius:20px; font-weight:800; font-family:'Baloo 2'; z-index:1000; box-shadow:0 8px 20px rgba(0,0,0,.25);
+  display:flex; align-items:center; gap:8px; opacity:0; transition:opacity .3s, top .3s;
+}
+.toast.show{opacity:1; top:26px;}
+
+/* Trophy / Meet Judy */
+.trophy-shelf{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:16px;}
+@media (max-width:560px){.trophy-shelf{grid-template-columns:repeat(2,1fr);}}
+.trophy-item{background:var(--card); border:2px solid var(--line); border-radius:16px; padding:12px; text-align:center; box-shadow:var(--shadow);}
+.trophy-item.locked{opacity:.35;}
+.trophy-icon{font-size:2rem;}
+.trophy-label{font-weight:700; font-size:.8rem; margin-top:4px;}
+
+/* Review queue */
+.review-item{background:var(--card); border:2px solid var(--berry); border-radius:16px; padding:14px 16px; margin-bottom:10px; font-weight:700;}
+
+/* Bottom nav */
+.bottomnav{
+  position:fixed; bottom:0; left:0; right:0; background:var(--card); border-top:2px solid var(--line);
+  display:flex; justify-content:space-around; padding:8px 10px calc(8px + env(safe-area-inset-bottom)); z-index:50;
+}
+.nav-btn{background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:2px; color:var(--plum-soft); font-weight:700; font-size:.72rem; cursor:pointer; padding:4px 10px; border-radius:12px;}
+.nav-btn.active{color:var(--berry); background:#FFF0F4;}
+.nav-icon{font-size:1.3rem;}
+
+/* Intro / Bismillah screen */
+.intro-wrap{display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:80vh; text-align:center;}
+.bismillah{font-size:1.3rem; color:var(--plum-soft); font-weight:700; margin-bottom:6px;}
+.intro-wrap .display{font-size:2rem;}
+
+.small-note{font-size:.8rem; color:var(--plum-soft); text-align:center; margin-top:10px;}
+.hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="vocabPopover" class="vocab-popover"></div>
+<div id="toast" class="toast"></div>
+<script>
+/* =========================================================
+   JUDY'S SOCIAL STUDIES ADVENTURE
+   Bismillah. Built as a single self-contained file for
+   GitHub Pages hosting. Progress is saved with localStorage
+   so it persists between sessions on the same device/browser.
+   ========================================================= */
+
+/* ---------- STORAGE ---------- */
+const STORAGE_KEY = 'judySocialStudies_v1';
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){ console.warn('Could not read saved progress', e); }
+  return {
+    completedModules:{},       // moduleId -> {score, total, date}
+    missedQuestions:{},        // "moduleId::qIndex" -> {dueAfterModuleCount, seen}
+    modulesCompletedCount:0,
+    accessories:[],            // strand ids collected
+    streak:0,
+    lastPlayedDate:null,
+    lastScreen:'home'
+  };
+}
+let STATE = loadState();
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE)); }
+  catch(e){ console.warn('Could not save progress', e); }
+}
+
+/* ---------- TEXT TO SPEECH ---------- */
+let bestVoice = null;
+function pickBestVoice(){
+  if(!('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices();
+  if(!voices.length) return null;
+  const preferredNames = ['Google US English','Samantha','Microsoft Aria Online (Natural)','Microsoft Jenny Online (Natural)','Ava','Allison','Microsoft Zira'];
+  for(const name of preferredNames){
+    const v = voices.find(v=>v.name.includes(name));
+    if(v) return v;
+  }
+  const enUS = voices.find(v=>v.lang==='en-US' && !v.name.toLowerCase().includes('robot'));
+  if(enUS) return enUS;
+  return voices.find(v=>v.lang && v.lang.startsWith('en')) || voices[0];
+}
+if('speechSynthesis' in window){
+  window.speechSynthesis.onvoiceschanged = ()=>{ bestVoice = pickBestVoice(); };
+  bestVoice = pickBestVoice();
+}
+function speakWord(text){
+  if(!('speechSynthesis' in window)){
+    showToast('🔇 Voice not supported on this device \u2014 use the spelling guide instead');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = 0.88; u.pitch = 1.02;
+  if(bestVoice) u.voice = bestVoice;
+  window.speechSynthesis.speak(u);
+}
+
+/* ---------- TOAST ---------- */
+let toastTimer=null;
+function showToast(msg, ms=2200){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), ms);
+}
+
+/* ---------- VOCAB POPOVER ---------- */
+function showVocabPopover(word, evt){
+  const entry = GLOSSARY[word.toLowerCase()];
+  if(!entry) return;
+  const pop = document.getElementById('vocabPopover');
+  pop.innerHTML = `
+    <div class="vp-word">${capitalize(word)}
+      <button class="sound-btn" onclick="speakWord('${word.replace(/'/g,"")}')" aria-label="Play pronunciation">🔊</button>
+    </div>
+    <div>${entry.def}</div>
+    ${entry.clue ? `<div class="vp-clue">Clue: ${entry.clue}</div>` : ''}
+    ${entry.ipa ? `<div class="vp-clue">Say it: ${entry.ipa}</div>` : ''}
+  `;
+  const rect = evt.target.getBoundingClientRect();
+  let left = rect.left;
+  let top = rect.bottom + 8;
+  if(left + 260 > window.innerWidth) left = window.innerWidth - 270;
+  if(top + 140 > window.innerHeight) top = rect.top - 140;
+  pop.style.left = Math.max(8,left)+'px';
+  pop.style.top = Math.max(8,top)+'px';
+  pop.classList.add('show');
+  evt.stopPropagation();
+}
+document.addEventListener('click', (e)=>{
+  if(!e.target.classList.contains('vocab-word')){
+    document.getElementById('vocabPopover').classList.remove('show');
+  }
+});
+function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+/* Render lesson text: turns [[key]] or [[key|Displayed Text]] into tappable vocab spans */
+function renderVocabText(str){
+  return str.replace(/\[\[(.+?)\]\]/g, (m, inner)=>{
+    const parts = inner.split('|');
+    const key = parts[0].trim();
+    const display = (parts[1] || parts[0]).trim();
+    return `<span class="vocab-word" onclick="showVocabPopover('${key.replace(/'/g,"")}', event)">${display}</span>`;
+  });
+}
+
+/* ---------- JUDY AVATAR (simple SVG bunny, a few moods) ---------- */
+function judySVG(mood){
+  // mood: 'idle' | 'happy' | 'think' | 'oops'
+  const earColor = '#FFE1EC';
+  const bodyColor = '#FFFFFF';
+  const outline = '#3D2C4E';
+  let mouth = 'M 40,58 Q 46,63 52,58';
+  let eyes = `<circle cx="38" cy="46" r="3.2" fill="${outline}"/><circle cx="54" cy="46" r="3.2" fill="${outline}"/>`;
+  let extra = '';
+  if(mood==='happy'){ mouth = 'M 38,56 Q 46,68 54,56'; extra = `<path d="M30,40 Q38,34 44,40" stroke="${outline}" stroke-width="2" fill="none"/><path d="M48,40 Q54,34 62,40" stroke="${outline}" stroke-width="2" fill="none"/>`; eyes=''; }
+  if(mood==='oops'){ mouth = 'M 40,60 Q 46,56 52,60'; eyes = `<circle cx="38" cy="47" r="2.6" fill="${outline}"/><circle cx="54" cy="47" r="2.6" fill="${outline}"/>`; }
+  if(mood==='think'){ mouth = 'M 42,58 L 50,58'; }
+  return `
+  <svg viewBox="0 0 92 100" class="judy-avatar">
+    <ellipse cx="46" cy="72" rx="26" ry="22" fill="${bodyColor}" stroke="${outline}" stroke-width="2.5"/>
+    <ellipse cx="28" cy="22" rx="8" ry="24" fill="${bodyColor}" stroke="${outline}" stroke-width="2.5" transform="rotate(-12 28 22)"/>
+    <ellipse cx="28" cy="24" rx="4" ry="17" fill="${earColor}" transform="rotate(-12 28 24)"/>
+    <ellipse cx="62" cy="22" rx="8" ry="24" fill="${bodyColor}" stroke="${outline}" stroke-width="2.5" transform="rotate(12 62 22)"/>
+    <ellipse cx="62" cy="24" rx="4" ry="17" fill="${earColor}" transform="rotate(12 62 24)"/>
+    <circle cx="46" cy="48" r="24" fill="${bodyColor}" stroke="${outline}" stroke-width="2.5"/>
+    ${eyes}${extra}
+    <ellipse cx="46" cy="54" rx="4" ry="3" fill="#F9B8C4"/>
+    <path d="${mouth}" stroke="${outline}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <circle cx="30" cy="56" r="4" fill="#FFD3DC" opacity="0.7"/>
+    <circle cx="62" cy="56" r="4" fill="#FFD3DC" opacity="0.7"/>
+    <path d="M36,88 Q46,80 56,88" stroke="${outline}" stroke-width="2" fill="none"/>
+  </svg>`;
+}
+
+/* ---------- NAVIGATION ---------- */
+let CURRENT = {screen:'home', land:null, moduleId:null, quizIndex:0, quizScore:0, quizMissed:[], selected:null, matchPicks:{}, matchDone:{}};
+
+function goHome(){ CURRENT.screen='home'; render(); }
+function goReview(){ CURRENT.screen='review'; render(); }
+function goTrophy(){ CURRENT.screen='trophy'; render(); }
+function openLand(landId){ CURRENT.land = landId; CURRENT.screen='land'; render(); }
+function openModule(id){
+  CURRENT.moduleId = id; CURRENT.screen='lesson'; CURRENT.quizIndex=0; CURRENT.quizScore=0; CURRENT.quizMissed=[]; CURRENT.selected=null; CURRENT.matchPicks={}; CURRENT.matchDone={};
+  render();
+}
+</script>
+<script>
+/* ---------- GLOSSARY (tappable vocabulary bank) ---------- */
+const GLOSSARY = {
+  'legislative': {def:'The branch of government that makes laws (Congress).', clue:'"Legis" is Latin for law.'},
+  'executive': {def:'The branch of government that carries out and enforces laws (the President).', clue:'Think "execute" \u2014 to carry something out.'},
+  'judicial': {def:'The branch of government that interprets laws and settles disputes (the courts).', clue:'You can hear the word "judge" inside it.'},
+  'veto': {def:'The power of the President to reject a bill passed by Congress.', clue:'"Veto" is Latin for "I forbid."'},
+  'amendment': {def:'An official change or addition made to the Constitution.', clue:'Think "amend" \u2014 to fix or change something.'},
+  'ratify': {def:'To formally approve something, making it official.', clue:''},
+  'census': {def:'An official count of everyone living in the country, taken every 10 years.', clue:''},
+  'bill of rights': {def:'The first 10 amendments to the Constitution, protecting basic freedoms like speech and religion.', clue:''},
+  'checks and balances': {def:'A system where each branch of government can limit the power of the other branches.', clue:''},
+  'electoral college': {def:'A group of representatives from each state who formally cast the votes that elect the President.', clue:''},
+  'capital city': {def:'The city where a state or country\u2019s government is based.', clue:'Don\u2019t confuse with "capital" (money)!'},
+  'capital': {def:'Money or resources used to start or grow a business.', clue:'Don\u2019t confuse with "capital city"!'},
+  'surplus': {def:'Extra money left over after all expenses are paid.', clue:''},
+  'deficit': {def:'When spending is more than the money coming in.', clue:''},
+  'tax': {def:'Money citizens and businesses pay to the government to fund roads, schools, and more.', clue:''},
+  'budget': {def:'A plan for how money will be earned, spent, and saved.', clue:''},
+  'barter': {def:'Trading goods or services directly, without using money.', clue:''},
+  'producer': {def:'A person or business that makes goods or provides services.', clue:''},
+  'consumer': {def:'A person who buys and uses goods or services.', clue:'Think "consume" \u2014 to use up.'},
+  'goods': {def:'Physical items that people make or buy, like shoes or bread.', clue:''},
+  'services': {def:'Helpful actions people do for others, usually for pay, like teaching or fixing a car.', clue:''},
+  'colony': {def:'A settlement or land controlled by another, more distant country.', clue:''},
+  'revolution': {def:'A big, often sudden change \u2014 especially the overthrow of a government.', clue:''},
+  'independence': {def:'Freedom from being ruled or controlled by another country.', clue:''},
+  'treaty': {def:'A formal, official agreement between two or more countries.', clue:''},
+  'confederacy': {def:'The group of 11 southern states that separated from the U.S. during the Civil War.', clue:''},
+  'union': {def:'During the Civil War, the northern states that stayed loyal to the U.S. government.', clue:'"Union" also just means things joined together.'},
+  'immigrant': {def:'A person who moves from one country to live permanently in another.', clue:''},
+  'archipelago': {def:'A group or chain of islands.', clue:'From Greek: "arkhi" (chief) + "pelagos" (sea).', ipa:'ar-kuh-PEL-uh-go'},
+  'atoll': {def:'A ring-shaped coral island or reef surrounding a lagoon.', clue:''},
+  'isthmus': {def:'A thin strip of land connecting two larger areas of land.', clue:'', ipa:'ISS-muhs'},
+  'estuary': {def:'The area where a river\u2019s fresh water meets and mixes with the sea.', clue:''},
+  'glacier': {def:'A huge, slow-moving mass of ice.', clue:''},
+  'peninsula': {def:'Land that is surrounded by water on three sides.', clue:'From Latin: "paene" (almost) + "insula" (island).'},
+  'plateau': {def:'A large area of flat land that sits higher than the land around it.', clue:''},
+  'levee': {def:'A wall or bank built along a river to stop it from flooding.', clue:''},
+  'hemisphere': {def:'One half of the Earth.', clue:'"Hemi" = half, "sphere" = ball.'},
+  'equator': {def:'The imaginary line circling the middle of the Earth, halfway between the North and South Poles.', clue:''},
+  'latitude': {def:'Imaginary lines running east-west that measure distance north or south of the equator.', clue:'Latitude lines are "flat," like rungs on a ladder.'},
+  'longitude': {def:'Imaginary lines running north-south (pole to pole) that measure distance east or west.', clue:''},
+  'continent': {def:'One of Earth\u2019s seven huge landmasses.', clue:''},
+  'natural resource': {def:'Something found in nature that people use, like water, trees, or coal.', clue:''},
+  'explorer': {def:'A person who travels to find and learn about new places.', clue:''},
+  'expedition': {def:'A journey made for a specific purpose, like exploring or discovery.', clue:''},
+  'pioneer': {def:'One of the first people to settle and live in a new area.', clue:''},
+  'delegate': {def:'A person chosen to represent and speak for a group of people.', clue:''},
+  'plantation': {def:'A large farm, especially in the southern colonies, that grew a single crop like cotton or tobacco.', clue:''},
+  'abolish': {def:'To officially end or get rid of something, like slavery.', clue:''},
+  'suffrage': {def:'The right to vote.', clue:''},
+  'passport': {def:'An official document from your own country that proves who you are and your citizenship.', clue:''},
+  'visa': {def:'Special permission from another country that allows you to enter and stay there.', clue:''},
+  'new amsterdam': {def:'The original name of New York City, when it was a Dutch settlement.', clue:''}
+};
+
+/* ---------- ILLUSTRATION LIBRARY (simple, reusable SVGs) ---------- */
+const ILLUS = {
+  branches: `<svg viewBox="0 0 300 190" class="svg-illustration"><rect x="0" y="0" width="300" height="190" fill="none"/>
+    <rect x="115" y="10" width="70" height="42" rx="10" fill="#8E7CC3"/><text x="150" y="35" text-anchor="middle" fill="white" font-family="Baloo 2" font-weight="800" font-size="13">Constitution</text>
+    <line x1="150" y1="52" x2="150" y2="72" stroke="#8E7CC3" stroke-width="4"/>
+    <line x1="150" y1="72" x2="55" y2="100" stroke="#8E7CC3" stroke-width="4"/>
+    <line x1="150" y1="72" x2="150" y2="100" stroke="#8E7CC3" stroke-width="4"/>
+    <line x1="150" y1="72" x2="245" y2="100" stroke="#8E7CC3" stroke-width="4"/>
+    <rect x="10" y="100" width="90" height="70" rx="14" fill="#6EC6E8"/><text x="55" y="128" text-anchor="middle" fill="white" font-family="Baloo 2" font-weight="800" font-size="12">Legislative</text><text x="55" y="146" text-anchor="middle" fill="white" font-size="10">Makes laws</text><text x="55" y="160" text-anchor="middle" fill="white" font-size="10">Congress</text>
+    <rect x="105" y="100" width="90" height="70" rx="14" fill="#FFD166"/><text x="150" y="128" text-anchor="middle" fill="#3D2C4E" font-family="Baloo 2" font-weight="800" font-size="12">Executive</text><text x="150" y="146" text-anchor="middle" fill="#3D2C4E" font-size="10">Enforces laws</text><text x="150" y="160" text-anchor="middle" fill="#3D2C4E" font-size="10">President</text>
+    <rect x="200" y="100" width="90" height="70" rx="14" fill="#FF8FAB"/><text x="245" y="128" text-anchor="middle" fill="white" font-family="Baloo 2" font-weight="800" font-size="12">Judicial</text><text x="245" y="146" text-anchor="middle" fill="white" font-size="10">Interprets laws</text><text x="245" y="160" text-anchor="middle" fill="white" font-size="10">Courts</text>
+  </svg>`,
+  checks: `<svg viewBox="0 0 300 170" class="svg-illustration"><circle cx="150" cy="30" r="8" fill="#3D2C4E"/><line x1="150" y1="38" x2="150" y2="55" stroke="#3D2C4E" stroke-width="3"/>
+    <line x1="60" y1="55" x2="240" y2="55" stroke="#3D2C4E" stroke-width="3"/>
+    <line x1="60" y1="55" x2="60" y2="80" stroke="#3D2C4E" stroke-width="3"/><line x1="240" y1="55" x2="240" y2="80" stroke="#3D2C4E" stroke-width="3"/>
+    <path d="M30,80 Q60,110 90,80 Z" fill="none" stroke="#8E7CC3" stroke-width="3"/>
+    <path d="M210,80 Q240,110 270,80 Z" fill="none" stroke="#FF8FAB" stroke-width="3"/>
+    <rect x="20" y="108" width="140" height="30" rx="8" fill="#8E7CC3"/><text x="90" y="128" text-anchor="middle" fill="white" font-size="11" font-weight="700">Congress can override a veto</text>
+    <rect x="140" y="140" width="150" height="30" rx="8" fill="#FF8FAB"/><text x="215" y="160" text-anchor="middle" fill="white" font-size="11" font-weight="700">Courts can strike down a law</text>
+  </svg>`,
+  constitution: `<svg viewBox="0 0 220 190" class="svg-illustration"><rect x="50" y="20" width="120" height="150" rx="6" fill="#FFF3D6" stroke="#B8860B" stroke-width="3"/>
+    <line x1="65" y1="45" x2="155" y2="45" stroke="#B8860B" stroke-width="3"/><line x1="65" y1="62" x2="155" y2="62" stroke="#DCC48A" stroke-width="2"/><line x1="65" y1="76" x2="155" y2="76" stroke="#DCC48A" stroke-width="2"/><line x1="65" y1="90" x2="120" y2="90" stroke="#DCC48A" stroke-width="2"/>
+    <text x="110" y="120" text-anchor="middle" font-family="Baloo 2" font-weight="800" font-size="16" fill="#8E7CC3">We the</text><text x="110" y="140" text-anchor="middle" font-family="Baloo 2" font-weight="800" font-size="16" fill="#8E7CC3">People</text>
+  </svg>`,
+  billofrights: `<svg viewBox="0 0 220 190" class="svg-illustration"><path d="M110,15 L175,40 V95 C175,140 145,165 110,178 C75,165 45,140 45,95 V40 Z" fill="#8E7CC3"/>
+    <text x="110" y="90" text-anchor="middle" fill="white" font-family="Baloo 2" font-weight="800" font-size="30">10</text>
+    <text x="110" y="120" text-anchor="middle" fill="white" font-weight="700" font-size="13">Amendments</text>
+    <text x="110" y="140" text-anchor="middle" fill="white" font-weight="700" font-size="12">Basic Freedoms</text>
+  </svg>`,
+  vote: `<svg viewBox="0 0 220 170" class="svg-illustration"><rect x="60" y="70" width="100" height="80" rx="8" fill="#6EC6E8"/>
+    <rect x="85" y="40" width="50" height="35" rx="4" fill="#3FA6CC"/>
+    <rect x="95" y="15" width="30" height="45" rx="3" fill="#FFD166" transform="rotate(-8 110 37)"/>
+    <text x="110" y="42" text-anchor="middle" font-size="9" font-weight="800" fill="#3D2C4E" transform="rotate(-8 110 37)">VOTE</text>
+    <circle cx="110" cy="110" r="18" fill="none" stroke="white" stroke-width="3"/>
+  </svg>`,
+  census: `<svg viewBox="0 0 240 170" class="svg-illustration">
+    <circle cx="60" cy="60" r="18" fill="#7BC96F"/><rect x="42" y="80" width="36" height="50" rx="10" fill="#7BC96F"/>
+    <circle cx="120" cy="55" r="18" fill="#FFD166"/><rect x="102" y="75" width="36" height="55" rx="10" fill="#FFD166"/>
+    <circle cx="180" cy="60" r="18" fill="#FF8FAB"/><rect x="162" y="80" width="36" height="50" rx="10" fill="#FF8FAB"/>
+    <rect x="20" y="140" width="200" height="26" rx="8" fill="#3D2C4E"/><text x="120" y="158" text-anchor="middle" fill="white" font-weight="800" font-size="12" font-family="Baloo 2">Every 10 years!</text>
+  </svg>`,
+  documents: `<svg viewBox="0 0 240 160" class="svg-illustration"><rect x="20" y="30" width="100" height="70" rx="8" fill="#8E7CC3" transform="rotate(-6 70 65)"/><text x="70" y="70" text-anchor="middle" fill="white" font-weight="800" font-size="13" transform="rotate(-6 70 65)">PASSPORT</text>
+    <rect x="120" y="50" width="100" height="70" rx="8" fill="#FFD166" transform="rotate(5 170 85)"/><text x="170" y="90" text-anchor="middle" fill="#3D2C4E" font-weight="800" font-size="13" transform="rotate(5 170 85)">VISA</text>
+  </svg>`,
+  govlevels: `<svg viewBox="0 0 240 170" class="svg-illustration">
+    <rect x="70" y="20" width="100" height="35" rx="6" fill="#FF8FAB"/><text x="120" y="42" text-anchor="middle" fill="white" font-weight="800" font-size="12">Federal</text>
+    <rect x="45" y="65" width="150" height="35" rx="6" fill="#FFD166"/><text x="120" y="87" text-anchor="middle" fill="#3D2C4E" font-weight="800" font-size="12">State</text>
+    <rect x="20" y="110" width="200" height="35" rx="6" fill="#7BC96F"/><text x="120" y="132" text-anchor="middle" fill="white" font-weight="800" font-size="12">Local</text>
+  </svg>`,
+  flag: `<svg viewBox="0 0 220 140" class="svg-illustration"><rect x="10" y="10" width="200" height="120" fill="#FDE7EC"/>
+    ${[0,1,2,3,4,5].map(i=>`<rect x="10" y="${10+i*20}" width="200" height="10" fill="${i%2===0?'#B23A56':'#FDE7EC'}"/>`).join('')}
+    <rect x="10" y="10" width="90" height="70" fill="#3D2C4E"/>
+    ${Array.from({length:15}).map((_,i)=>`<circle cx="${20+(i%5)*17}" cy="${22+Math.floor(i/5)*20}" r="2.6" fill="white"/>`).join('')}
+  </svg>`,
+  nativepeoples: `<svg viewBox="0 0 240 170" class="svg-illustration"><path d="M60,150 L60,80 L100,30 L140,80 L140,150 Z" fill="#E8A87C"/><path d="M60,80 L100,30 L140,80" fill="none" stroke="#8C5A34" stroke-width="4"/>
+    <circle cx="190" cy="45" r="22" fill="#FFD166"/>
+    <path d="M20,150 Q120,130 220,150" stroke="#7BC96F" stroke-width="8" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  explorer: `<svg viewBox="0 0 240 170" class="svg-illustration"><path d="M50,110 L190,110 L170,150 L70,150 Z" fill="#8C5A34"/>
+    <line x1="120" y1="30" x2="120" y2="110" stroke="#8C5A34" stroke-width="5"/>
+    <path d="M120,35 L170,70 L120,90 Z" fill="#6EC6E8"/>
+    <path d="M20,150 Q120,140 220,150" stroke="#3FA6CC" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <circle cx="190" cy="40" r="16" fill="none" stroke="#FFD166" stroke-width="3"/><line x1="190" y1="40" x2="196" y2="30" stroke="#FFD166" stroke-width="3"/>
+  </svg>`,
+  colonies: `<svg viewBox="0 0 240 170" class="svg-illustration"><path d="M40,20 Q60,90 40,160" stroke="#7BC96F" stroke-width="6" fill="none"/>
+    ${Array.from({length:13}).map((_,i)=>`<circle cx="${52+ (i%2)*8}" cy="${25+i*11}" r="6" fill="#E8A87C" stroke="#8C5A34" stroke-width="1.5"/>`).join('')}
+    <path d="M80,20 Q220,90 80,160" fill="none" stroke="#3D2C4E" stroke-width="2" stroke-dasharray="4 4"/>
+  </svg>`,
+  revolution: `<svg viewBox="0 0 220 170" class="svg-illustration"><path d="M110,20 C150,20 165,55 160,85 L60,85 C55,55 70,20 110,20 Z" fill="#8E7CC3"/>
+    <rect x="55" y="85" width="110" height="14" rx="4" fill="#6E5AA8"/><rect x="95" y="99" width="30" height="20" fill="#6E5AA8"/>
+    <path d="M100,99 L120,99 L118,140 L102,140 Z" fill="#6E5AA8"/>
+    <text x="110" y="60" text-anchor="middle" fill="white" font-family="Baloo 2" font-weight="800" font-size="14">1776</text>
+  </svg>`,
+  founding: `<svg viewBox="0 0 220 170" class="svg-illustration"><rect x="70" y="60" width="80" height="90" fill="#FDE7EC"/>
+    <path d="M70,60 L110,20 L150,60 Z" fill="#E8A87C"/>
+    ${[0,1,2].map(i=>`<rect x="${85+i*20}" y="${90+ (i===1?-10:0)}" width="12" height="60" fill="#E8A87C"/>`).join('')}
+    <circle cx="110" cy="35" r="8" fill="#FFD166"/>
+  </svg>`,
+  expansion: `<svg viewBox="0 0 240 170" class="svg-illustration"><path d="M20,150 Q120,110 220,150" stroke="#E8A87C" stroke-width="8" fill="none" stroke-dasharray="10 8"/>
+    <rect x="90" y="90" width="60" height="35" rx="4" fill="#FFF" stroke="#8C5A34" stroke-width="2"/>
+    <path d="M90,90 Q120,65 150,90" fill="none" stroke="#FFF" stroke-width="3"/>
+    <circle cx="102" cy="132" r="10" fill="#3D2C4E"/><circle cx="138" cy="132" r="10" fill="#3D2C4E"/>
+  </svg>`,
+  civilwar: `<svg viewBox="0 0 240 150" class="svg-illustration"><rect x="20" y="20" width="90" height="60" fill="#6EC6E8"/><text x="65" y="55" text-anchor="middle" fill="white" font-weight="800" font-size="13">UNION</text>
+    <rect x="130" y="20" width="90" height="60" fill="#B23A56"/><text x="175" y="55" text-anchor="middle" fill="white" font-weight="800" font-size="13">CONFEDERACY</text>
+    <line x1="120" y1="20" x2="120" y2="80" stroke="#3D2C4E" stroke-width="3" stroke-dasharray="5 5"/>
+  </svg>`,
+  immigration: `<svg viewBox="0 0 220 170" class="svg-illustration"><rect x="95" y="30" width="12" height="80" fill="#3D2C4E"/>
+    <path d="M101,30 L101,10" stroke="#3D2C4E" stroke-width="3"/>
+    <path d="M60,45 L142,45 L101,10 Z" fill="#7BC96F"/>
+    <path d="M50,110 L152,110 L135,150 L67,150 Z" fill="#8C5A34"/>
+    <path d="M20,150 Q110,140 200,150" stroke="#3FA6CC" stroke-width="10" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  hemispheres: `<svg viewBox="0 0 200 170" class="svg-illustration"><circle cx="100" cy="80" r="65" fill="#6EC6E8"/>
+    <ellipse cx="100" cy="80" rx="65" ry="20" fill="none" stroke="white" stroke-width="2.5" stroke-dasharray="6 5"/>
+    <line x1="100" y1="15" x2="100" y2="145" stroke="white" stroke-width="2" stroke-dasharray="4 4"/>
+    <text x="100" y="55" text-anchor="middle" fill="white" font-weight="800" font-size="11">N</text><text x="100" y="112" text-anchor="middle" fill="white" font-weight="800" font-size="11">S</text>
+  </svg>`,
+  mapskills: `<svg viewBox="0 0 200 180" class="svg-illustration"><circle cx="100" cy="90" r="70" fill="#FFF3D6" stroke="#B8860B" stroke-width="2"/>
+    <line x1="100" y1="20" x2="100" y2="160" stroke="#B8860B" stroke-width="1.5"/><line x1="30" y1="90" x2="170" y2="90" stroke="#B8860B" stroke-width="1.5"/>
+    <text x="100" y="35" text-anchor="middle" font-weight="800" font-size="13" fill="#8E7CC3">N</text>
+    <text x="100" y="152" text-anchor="middle" font-weight="800" font-size="13" fill="#8E7CC3">S</text>
+    <text x="45" y="95" text-anchor="middle" font-weight="800" font-size="13" fill="#8E7CC3">W</text>
+    <text x="155" y="95" text-anchor="middle" font-weight="800" font-size="13" fill="#8E7CC3">E</text>
+  </svg>`,
+  worldmap: `<svg viewBox="0 0 260 160" class="svg-illustration"><rect width="260" height="160" fill="#BEE7F5"/>
+    <path d="M20,40 Q40,25 60,40 Q55,60 35,60 Q15,55 20,40" fill="#7BC96F"/>
+    <path d="M50,70 Q65,60 75,85 Q70,120 55,125 Q40,100 50,70" fill="#7BC96F"/>
+    <path d="M110,30 Q150,20 170,45 Q140,55 110,50 Z" fill="#E8A87C"/>
+    <path d="M120,55 Q160,55 165,100 Q130,120 115,90 Z" fill="#FFD166"/>
+    <path d="M190,30 Q230,35 225,60 Q195,65 190,30" fill="#8E7CC3"/>
+    <path d="M195,110 Q225,105 220,135 Q195,140 195,110" fill="#FF8FAB"/>
+    <text x="35" y="90" font-size="9" fill="#2B6CA3" font-weight="700">Atlantic</text>
+    <text x="150" y="15" font-size="9" fill="#2B6CA3" font-weight="700">Arctic</text>
+    <text x="200" y="90" font-size="9" fill="#2B6CA3" font-weight="700">Pacific</text>
+  </svg>`,
+  usmap: `<svg viewBox="0 0 260 150" class="svg-illustration"><path d="M15,60 L60,35 L120,30 L180,40 L240,55 L235,95 L190,110 L120,120 L60,110 L20,95 Z" fill="#7BC96F" stroke="#3D2C4E" stroke-width="2"/>
+    <circle cx="60" cy="65" r="5" fill="#B23A56"/><text x="60" y="55" text-anchor="middle" font-size="9" font-weight="700">West</text>
+    <circle cx="130" cy="70" r="5" fill="#B23A56"/><text x="130" y="60" text-anchor="middle" font-size="9" font-weight="700">Midwest</text>
+    <circle cx="200" cy="75" r="5" fill="#B23A56"/><text x="200" y="65" text-anchor="middle" font-size="9" font-weight="700">East</text>
+    <circle cx="150" cy="105" r="5" fill="#B23A56"/><text x="150" y="118" text-anchor="middle" font-size="9" font-weight="700">South</text>
+  </svg>`,
+  nymap: `<svg viewBox="0 0 220 160" class="svg-illustration" id="nyMapSvg"><path d="M20,70 L60,40 L110,45 L150,35 L200,55 L195,80 L160,75 L120,90 L70,100 L30,95 Z" fill="#6EC6E8" stroke="#3D2C4E" stroke-width="2"/>
+    <circle cx="35" cy="80" r="5" fill="#B23A56"/><text x="35" y="72" text-anchor="middle" font-size="9" font-weight="700">Buffalo</text>
+    <circle cx="115" cy="55" r="5" fill="#FFD166"/><text x="115" y="46" text-anchor="middle" font-size="9" font-weight="700">Albany \u2605</text>
+    <circle cx="150" cy="70" r="5" fill="#B23A56"/><text x="150" y="88" text-anchor="middle" font-size="9" font-weight="700">Rochester</text>
+    <circle cx="185" cy="95" r="5" fill="#B23A56"/><text x="185" y="112" text-anchor="middle" font-size="9" font-weight="700">NYC</text>
+  </svg>`,
+  landforms: `<svg viewBox="0 0 240 160" class="svg-illustration"><path d="M0,140 L60,60 L100,110 L140,50 L190,140 Z" fill="#8C5A34"/>
+    <path d="M40,140 Q120,120 200,140" fill="#6EC6E8"/>
+    <path d="M140,50 L150,60 L130,60 Z" fill="white"/>
+  </svg>`,
+  community: `<svg viewBox="0 0 240 160" class="svg-illustration">
+    <path d="M20,150 L20,100 L55,75 L90,100 L90,150 Z" fill="#FFD166"/>
+    <path d="M100,150 L100,90 L140,60 L180,90 L180,150 Z" fill="#FF8FAB"/>
+    <path d="M190,150 L190,105 L215,85 L220,150 Z" fill="#7BC96F"/>
+  </svg>`,
+  moneyvocab: `<svg viewBox="0 0 220 160" class="svg-illustration"><ellipse cx="110" cy="120" rx="70" ry="20" fill="#FFD166"/>
+    <ellipse cx="110" cy="105" rx="70" ry="20" fill="#FFDD85"/><ellipse cx="110" cy="90" rx="70" ry="20" fill="#FFD166"/>
+    <text x="110" y="96" text-anchor="middle" font-family="Baloo 2" font-weight="800" font-size="16" fill="#B8860B">$</text>
+  </svg>`,
+  budget: `<svg viewBox="0 0 220 150" class="svg-illustration"><rect x="20" y="30" width="80" height="60" rx="10" fill="#7BC96F"/><text x="60" y="65" text-anchor="middle" fill="white" font-weight="800" font-size="12">Save</text>
+    <rect x="120" y="30" width="80" height="60" rx="10" fill="#FF8FAB"/><text x="160" y="65" text-anchor="middle" fill="white" font-weight="800" font-size="12">Spend</text>
+    <path d="M100,60 L120,60" stroke="#3D2C4E" stroke-width="3" marker-end="url(#arrow)"/>
+  </svg>`
+};
+const LANDS = [
+  {id:'gov', name:'Government Grove', tag:'tag-gov', cls:'gov', emoji:'\ud83c\udfdb\ufe0f', sub:'Laws, rights & how the country runs'},
+  {id:'hist', name:'History Hills', tag:'tag-hist', cls:'hist', emoji:'\ud83d\udcdc', sub:'From first peoples to a growing nation'},
+  {id:'geo', name:'Map Meadow', tag:'tag-geo', cls:'geo', emoji:'\ud83c\udf0e', sub:'Maps, land, water & where things are'},
+  {id:'econ', name:'Money Market', tag:'tag-econ', cls:'econ', emoji:'\ud83c\udf3e', sub:'Needs, wants, and how money works'}
+];
+const ACCESSORY_BY_LAND = {gov:{icon:'\ud83c\udfa9', label:'Tiny Top Hat'}, hist:{icon:'\ud83e\udded', label:'Explorer Compass'}, geo:{icon:'\ud83c\udf10', label:'Little Globe'}, econ:{icon:'\ud83d\udc5b', label:'Coin Purse'}};
+
+const MODULES = [
+/* ================= GOVERNMENT GROVE ================= */
+{
+  id:'g1', land:'gov', title:'Three Branches of Government', illus:'branches',
+  judyPrompt:'If one person got to make ALL the laws, enforce them, AND decide punishments \u2014 do you think that would be fair? Let\u2019s see how the U.S. avoids that!',
+  lesson:[
+   'The United States government is split into three parts, called branches, so that no single group ever has too much power. This idea is called separation of powers.',
+   'The [[legislative]] branch is Congress \u2014 it writes and passes laws. The [[executive]] branch is led by the President \u2014 it carries out and enforces those laws. The [[judicial]] branch is made up of courts, including the Supreme Court \u2014 it interprets laws and decides if they are fair under the Constitution.'
+  ],
+  fact:'Each branch works in a different building in Washington, D.C.: Congress meets in the Capitol, the President works in the White House, and the Supreme Court has its own building nearby!',
+  questions:[
+    {type:'mcq', q:'Which branch makes the laws?', options:['Judicial','Executive','Legislative','Local'], correct:2, explain:'Congress (the legislative branch) writes and passes laws.'},
+    {type:'mcq', q:'Who leads the executive branch?', options:['The Supreme Court','The President','Congress','The Governor'], correct:1, explain:'The President leads the executive branch and enforces laws.'},
+    {type:'tf', q:'True or False: The judicial branch is made up of courts.', correct:true, explain:'Yes! Courts interpret the law \u2014 that\u2019s the judicial branch.'},
+    {type:'match', q:'Match each branch to its job.', pairs:[['Legislative','Makes laws'],['Executive','Enforces laws'],['Judicial','Interprets laws']]},
+    {type:'mcq', q:'Why does the U.S. split power into three branches?', options:['To make government slower on purpose for no reason','So no single group has too much power','Because the Constitution needed more pages','To create more jobs for lawyers'], correct:1, explain:'Splitting power (separation of powers) keeps any one branch from becoming too strong.'}
+  ]
+},
+{
+  id:'g2', land:'gov', title:'Checks and Balances & the Constitution', illus:'checks',
+  judyPrompt:'What do you think would stop the President from just ignoring a law he doesn\u2019t like?',
+  lesson:[
+   'Written in 1787, the Constitution is the master plan for how the U.S. government works \u2014 it\u2019s the oldest written national constitution still in use anywhere in the world today!',
+   'To keep any branch from getting too powerful, the Constitution set up [[checks and balances]]. For example: Congress passes a bill, but the President can [[veto]] it. If the President vetoes it, Congress can override that veto if enough members agree. And if a law seems unfair, the judicial branch can strike it down.',
+   'Before the Constitution, the states tried a weaker plan called the Articles of Confederation \u2014 it gave the federal government so little power that it struggled to function, which is part of why the Founders wrote a stronger Constitution instead.'
+  ],
+  fact:'It takes a LOT to override a presidential veto \u2014 two-thirds of both the House and the Senate have to agree. It doesn\u2019t happen often!',
+  questions:[
+    {type:'mcq', q:'What is a "veto"?', options:['A new law','The President rejecting a bill','A type of election','A Supreme Court ruling'], correct:1, explain:'A veto is the President\u2019s power to reject a bill Congress passed.'},
+    {type:'tf', q:'True or False: Congress can override a presidential veto.', correct:true, explain:'Yes, with a two-thirds vote in both the House and Senate.'},
+    {type:'mcq', q:'What was the plan for government BEFORE the Constitution?', options:['The Bill of Rights','The Declaration of Independence','The Articles of Confederation','The Treaty of Paris'], correct:2, explain:'The Articles of Confederation came first, but gave the federal government too little power.'},
+    {type:'mcq', q:'What is the purpose of "checks and balances"?', options:['To make sure everyone gets a paycheck','To let each branch limit the others\u2019 power','To count votes in an election','To balance the national budget'], correct:1, explain:'Checks and balances let each branch limit the power of the others.'},
+    {type:'tf', q:'True or False: The U.S. Constitution is the newest national constitution in the world.', correct:false, explain:'Actually the opposite \u2014 it\u2019s the oldest written national constitution still in use!'}
+  ]
+},
+{
+  id:'g3', land:'gov', title:'Bill of Rights & Amendments', illus:'billofrights',
+  judyPrompt:'Can you guess how many times the Constitution has been officially changed since 1787?',
+  lesson:[
+   'An [[amendment]] is an official change or addition to the Constitution. So far, there have been exactly 27 [[ratify|ratified]] amendments \u2014 and to [[ratify]] one, three-fourths of all states must approve it. That\u2019s why amendments don\u2019t happen very often!',
+   'The first 10 amendments together are called the [[bill of rights]]. They protect basic freedoms, like freedom of speech, freedom of religion, and the right to a fair trial.',
+   'Some later amendments are especially interesting: the 13th Amendment abolished slavery, and the 19th Amendment gave women [[suffrage]] \u2014 the right to vote. Amendments show that the Constitution can grow and change as the country does.'
+  ],
+  fact:'The newest amendment, the 27th, was actually first proposed all the way back in 1789 \u2014 but it wasn\u2019t ratified until 1992, over 200 years later!',
+  questions:[
+    {type:'mcq', q:'How many amendments does the Constitution have?', options:['10','19','27','50'], correct:2, explain:'There are 27 ratified amendments.'},
+    {type:'mcq', q:'What are the first 10 amendments called together?', options:['The Preamble','The Bill of Rights','The Articles','The Charter'], correct:1, explain:'The first 10 amendments are the Bill of Rights.'},
+    {type:'tf', q:'True or False: The 19th Amendment gave women the right to vote.', correct:true, explain:'Yes \u2014 the 19th Amendment guaranteed women\u2019s suffrage in 1920.'},
+    {type:'mcq', q:'What fraction of states must approve an amendment for it to be ratified?', options:['One-half','Two-thirds','Three-fourths','All 50'], correct:2, explain:'Three-fourths (75%) of states must approve.'},
+    {type:'match', q:'Match the amendment to what it did.', pairs:[['13th Amendment','Abolished slavery'],['19th Amendment','Gave women the right to vote'],['1st Amendment','Protects free speech']]}
+  ]
+},
+{
+  id:'g4', land:'gov', title:'Elections & the Electoral College', illus:'vote',
+  judyPrompt:'When you vote for President, do you think your vote goes straight to picking the winner \u2014 or does something else happen first?',
+  lesson:[
+   'When Americans vote for President, they\u2019re actually voting for a group of people in their state called [[electoral college|electors]]. This system is called the [[electoral college]].',
+   'Each state gets a certain number of electors based on its population. Whoever wins the most electoral votes nationwide becomes President \u2014 which is usually, but not always, the same person who won the most individual votes.'
+  ],
+  fact:'There are 538 total electoral votes up for grabs, and a candidate needs at least 270 to win the presidency.',
+  questions:[
+    {type:'mcq', q:'What officially elects the President?', options:['The Supreme Court','The Electoral College','The Senate','The Governors'], correct:1, explain:'The Electoral College formally casts the votes that elect the President.'},
+    {type:'tf', q:'True or False: Every state has the exact same number of electoral votes.', correct:false, explain:'False \u2014 electoral votes are based on each state\u2019s population.'},
+    {type:'mcq', q:'How many electoral votes does a candidate need to win?', options:['100','200','270','500'], correct:2, explain:'270 out of 538 total electoral votes wins the presidency.'},
+    {type:'mcq', q:'What is a person called who casts an electoral vote for their state?', options:['A senator','An elector','A delegate','A justice'], correct:1, explain:'These representatives are called electors.'}
+  ]
+},
+{
+  id:'g5', land:'gov', title:'The Census & Citizenship Documents', illus:'census',
+  judyPrompt:'Why do you think the government wants to count every single person every 10 years?',
+  lesson:[
+   'A [[census]] is an official count of everyone living in the country. The U.S. Constitution requires a census every 10 years \u2014 the results help decide how many representatives each state gets in Congress and how funding gets shared.',
+   'When people travel between countries, they need the right documents. A [[passport]] proves who you are and what country you\u2019re a citizen of. A [[visa]] is special permission from another country that allows you to enter and stay there for a visit.'
+  ],
+  fact:'The very first U.S. census in 1790 counted fewer than 4 million people. Today it counts over 330 million!',
+  questions:[
+    {type:'mcq', q:'How often is the U.S. census taken?', options:['Every year','Every 5 years','Every 10 years','Every 20 years'], correct:2, explain:'The Constitution requires a census every 10 years.'},
+    {type:'mcq', q:'An American traveling to Brazil needs a document from Brazil\u2019s government allowing entry. What is it?', options:['Passport','Visa','Boarding pass','Credit card'], correct:1, explain:'A visa is issued by the country you\u2019re visiting to allow entry.'},
+    {type:'tf', q:'True or False: A passport is issued by your OWN country to prove your citizenship.', correct:true, explain:'Yes \u2014 your passport comes from your home country.'},
+    {type:'mcq', q:'What does the census help decide?', options:['The weather forecast','How many representatives each state gets','Who wins elections','State capitals'], correct:1, explain:'Census counts affect how many representatives each state has in Congress.'}
+  ]
+},
+{
+  id:'g6', land:'gov', title:'Federal, State & Local Government', illus:'govlevels',
+  judyPrompt:'Who do you think decides on things like your town\u2019s speed limits \u2014 the President, or someone closer to home?',
+  lesson:[
+   'Government in the U.S. works at three levels. The federal government handles national issues, like the military and printing money. State governments handle things like state parks and state highways \u2014 for example, a state\u2019s Department of Natural Resources manages lakes, fish, and wetlands (but not private factories, which are handled differently).',
+   'Local governments \u2014 cities and towns \u2014 handle things closest to home, like schools, libraries, and trash pickup.'
+  ],
+  fact:'You actually live under all three governments at once \u2014 federal, state, AND local \u2014 each handling different jobs!',
+  questions:[
+    {type:'mcq', q:'Which level of government usually handles trash pickup and local libraries?', options:['Federal','State','Local','International'], correct:2, explain:'Local government handles day-to-day community services.'},
+    {type:'mcq', q:'Which of these would NOT typically be monitored by a state\u2019s Department of Natural Resources?', options:['Lakes','Fish','Wetlands','Factories'], correct:3, explain:'Factories are usually regulated separately, not by Natural Resources.'},
+    {type:'tf', q:'True or False: The federal government is in charge of the U.S. military.', correct:true, explain:'Yes, national defense is a federal responsibility.'},
+    {type:'match', q:'Match the government level to an example job.', pairs:[['Federal','Printing money'],['State','State highways'],['Local','City schools']]}
+  ]
+},
+{
+  id:'g7', land:'gov', title:'National Symbols & What They Mean', illus:'flag',
+  judyPrompt:'Do you know why the American flag has exactly 13 stripes?',
+  lesson:[
+   'The American flag has 13 stripes representing the original 13 colonies, and 50 stars representing the current states. The bald eagle is the national bird, chosen partly because it\u2019s a symbol of strength and freedom.',
+   'The national anthem, "The Star-Spangled Banner," was written after a battle in the War of 1812. Symbols like these help unite people around shared history and values.'
+  ],
+  fact:'The bald eagle was almost NOT chosen as the national bird \u2014 Benjamin Franklin reportedly preferred the turkey!',
+  questions:[
+    {type:'mcq', q:'What do the 13 stripes on the American flag represent?', options:['The 13 branches of government','The original 13 colonies','13 famous presidents','13 amendments'], correct:1, explain:'The 13 stripes stand for the original 13 colonies.'},
+    {type:'mcq', q:'What is the national bird of the United States?', options:['Turkey','Robin','Bald Eagle','Hawk'], correct:2, explain:'The bald eagle is the national bird, symbolizing strength and freedom.'},
+    {type:'tf', q:'True or False: The number of stars on the flag represents the number of states.', correct:true, explain:'Yes \u2014 currently 50 stars for 50 states.'}
+  ]
+},
+/* ================= HISTORY HILLS ================= */
+{
+  id:'h1', land:'hist', title:'Native Peoples Before European Contact', illus:'nativepeoples',
+  judyPrompt:'Before any European ships arrived, do you think the land we call America was empty \u2014 or full of people already?',
+  lesson:[
+   'Long before European explorers arrived, hundreds of different Native American nations already lived across the land \u2014 each with its own language, government, traditions, and ways of using the land around them.',
+   'Different groups adapted to their environments in clever ways: Plains nations often followed buffalo herds, Northeast nations like the Haudenosaunee (Iroquois) built longhouses and farmed corn, beans, and squash, and Southwest nations built homes from adobe suited to a dry climate.'
+  ],
+  fact:'The Haudenosaunee Confederacy united several nations under a shared system of government \u2014 some historians think it may have even influenced ideas in the U.S. Constitution!',
+  questions:[
+    {type:'tf', q:'True or False: Native American nations all shared one single language and government.', correct:false, explain:'False \u2014 there were hundreds of distinct nations, each with its own language and government.'},
+    {type:'mcq', q:'What crops did many Northeast nations commonly grow together?', options:['Wheat, oats, rice','Corn, beans, squash','Cotton, tobacco, sugar','Potatoes, apples, grapes'], correct:1, explain:'Corn, beans, and squash were grown together and are sometimes called the "Three Sisters."'},
+    {type:'mcq', q:'Which nation\u2019s government may have influenced ideas in the U.S. Constitution?', options:['Aztec','Haudenosaunee (Iroquois)','Inca','Maya'], correct:1, explain:'The Haudenosaunee Confederacy\u2019s system of government is thought by some historians to have influenced U.S. founders.'}
+  ]
+},
+{
+  id:'h2', land:'hist', title:'The Age of Exploration', illus:'explorer',
+  judyPrompt:'Why do you think European explorers risked long, dangerous ocean voyages to reach new lands?',
+  lesson:[
+   'Starting in the 1400s, European countries sent [[explorer|explorers]] across the ocean looking for faster trade routes to Asia, new resources, and land to claim. This time period is called the Age of Exploration.',
+   'Christopher Columbus sailed for Spain in 1492 and reached islands in the Caribbean, believing he\u2019d found a route to Asia. Other explorers followed, from many countries \u2014 the Spanish, English, French, and Dutch all explored and claimed different parts of the Americas.'
+  ],
+  fact:'Because different European countries claimed different areas, many places in America still carry names from Dutch, Spanish, or French explorers and settlers today.',
+  questions:[
+    {type:'mcq', q:'What did Columbus believe he had found in 1492?', options:['A route to Asia','A new planet','Gold mines in Europe','The North Pole'], correct:0, explain:'Columbus believed he had reached a new route to Asia.'},
+    {type:'mcq', q:'Which of these was NOT one of the main European countries exploring and claiming land in the Americas?', options:['Spain','France','Dutch (Netherlands)','Japan'], correct:3, explain:'Spain, France, England, and the Dutch were the main European colonizers \u2014 not Japan.'},
+    {type:'tf', q:'True or False: European explorers were partly searching for faster trade routes to Asia.', correct:true, explain:'Yes, finding a faster route to Asia was a major motivation.'}
+  ]
+},
+{
+  id:'h3', land:'hist', title:'Colonial America & the 13 Colonies', illus:'colonies',
+  judyPrompt:'Do you know what New York City used to be called, back when the Dutch controlled it?',
+  lesson:[
+   'By the 1600s and 1700s, England had established 13 [[colony|colonies]] along the eastern coast of North America. Each colony had its own local government, but all were ultimately ruled by England.',
+   'Some cities had different names under different rulers. New York City was first settled by the Dutch and called [[new amsterdam|New Amsterdam]] \u2014 it was renamed New York after England took control in 1664.',
+   'The colonies are often grouped into three regions: New England (fishing, shipbuilding), Middle (farming, trade), and Southern (large [[plantation|plantations]] growing tobacco and cotton).'
+  ],
+  fact:'New Amsterdam was originally a small Dutch trading settlement \u2014 today it\u2019s one of the largest cities in the world!',
+  questions:[
+    {type:'mcq', q:'What was New York City originally called under Dutch rule?', options:['Fort Christina','New Amsterdam','Charles Town','Jamestown'], correct:1, explain:'It was called New Amsterdam before the English renamed it New York.'},
+    {type:'mcq', q:'How many original English colonies were there?', options:['10','13','15','20'], correct:1, explain:'There were 13 original colonies.'},
+    {type:'tf', q:'True or False: All 13 colonies were ruled by France.', correct:false, explain:'False \u2014 the 13 colonies were ruled by England (Great Britain).'},
+    {type:'match', q:'Match the colonial region to what it was known for.', pairs:[['New England','Fishing & shipbuilding'],['Middle Colonies','Farming & trade'],['Southern Colonies','Large plantations']]}
+  ]
+},
+{
+  id:'h4', land:'hist', title:'The American Revolution', illus:'revolution',
+  judyPrompt:'Can you guess who famously said, "I have not yet begun to fight!" during a Revolutionary War battle at sea?',
+  lesson:[
+   'By the 1770s, many colonists felt it was unfair to be taxed by England without having any say in English government. This frustration grew into the American [[revolution]], as colonists fought for [[independence]].',
+   'Key figures included Patrick Henry, famous for a fiery speech, and naval commander John Paul Jones, who declared "I have not yet begun to fight!" during a tough sea battle. In 1776, colonial leaders signed the Declaration of Independence, formally announcing separation from England.',
+   'The war ended in 1783 with the [[treaty]] of Paris, in which England officially recognized the United States as an independent nation.'
+  ],
+  fact:'The Declaration of Independence was signed in 1776, but the Revolutionary War didn\u2019t officially end until 1783 \u2014 seven years later!',
+  questions:[
+    {type:'mcq', q:'In which year was the Declaration of Independence written?', options:['1774','1775','1776','1777'], correct:2, explain:'The Declaration of Independence was written in 1776.'},
+    {type:'mcq', q:'What treaty officially ended the American Revolution?', options:['Treaty of Yorktown','Treaty of Brussels','Treaty of Paris','Treaty of Breslau'], correct:2, explain:'The Treaty of Paris (1783) ended the Revolutionary War.'},
+    {type:'mcq', q:'Who declared "I have not yet begun to fight!"?', options:['Patrick Henry','Richard Henry Lee','John Paul Jones','George Washington'], correct:2, explain:'Naval commander John Paul Jones said this during a Revolutionary War sea battle.'},
+    {type:'tf', q:'True or False: The colonists were upset partly because they were taxed without having a say in English government.', correct:true, explain:'Yes, "no taxation without representation" was a major complaint.'}
+  ]
+},
+{
+  id:'h5', land:'hist', title:'Founding the Nation', illus:'founding',
+  judyPrompt:'After winning independence, who do you think became the very first President of the United States?',
+  lesson:[
+   'After independence, leaders gathered in 1787 to write the U.S. Constitution, creating a stronger federal government. George Washington became the first President in 1789.',
+   'The government also needed a judicial branch. John Jay, though never president, became the very first Chief Justice of the Supreme Court.',
+   'When Washington finished his two terms, he gave a famous farewell address warning Americans to be cautious about political parties, worried they could divide the country.'
+  ],
+  fact:'George Washington could have been President for life, but he chose to step down after two terms \u2014 setting a tradition most presidents followed for over 150 years.',
+  questions:[
+    {type:'mcq', q:'Who was the first Chief Justice of the Supreme Court (not a president)?', options:['John Jay','James Madison','John Adams','James Monroe'], correct:0, explain:'John Jay was the first Chief Justice of the Supreme Court.'},
+    {type:'mcq', q:'In his farewell address, what did Washington warn Americans against?', options:['Elections','Congress','Political parties','Taxes'], correct:2, explain:'Washington warned against the dangers of political parties dividing the nation.'},
+    {type:'tf', q:'True or False: George Washington was the first President of the United States.', correct:true, explain:'Yes, Washington became President in 1789.'}
+  ]
+},
+{
+  id:'h6', land:'hist', title:'Westward Expansion & a Growing Nation', illus:'expansion',
+  judyPrompt:'As the country grew bigger, how do you think families traveled thousands of miles to new land \u2014 before cars or trains?',
+  lesson:[
+   'During the 1800s, the United States grew rapidly westward. [[pioneer|Pioneers]] traveled in covered wagons along long trails, often taking months to reach new territories.',
+   'This growth added huge amounts of land, like the Louisiana Purchase in 1803, which roughly doubled the size of the country. But westward expansion also had a painful cost: it pushed many Native American nations off land they had lived on for generations.'
+  ],
+  fact:'The Louisiana Purchase added around 828,000 square miles of land \u2014 for about 3 cents an acre!',
+  questions:[
+    {type:'mcq', q:'What were settlers who traveled to new western territories often called?', options:['Colonists','Pioneers','Delegates','Immigrants'], correct:1, explain:'Pioneers were among the first settlers to move into new territories.'},
+    {type:'tf', q:'True or False: The Louisiana Purchase roughly doubled the size of the United States.', correct:true, explain:'Yes, it was a massive land purchase in 1803.'},
+    {type:'mcq', q:'What was a difficult cost of westward expansion?', options:['Higher taxes only','Native American nations losing their land','Fewer jobs','Smaller cities'], correct:1, explain:'Expansion often meant Native American nations were forced off their land.'}
+  ]
+},
+{
+  id:'h7', land:'hist', title:'The Civil War', illus:'civilwar',
+  judyPrompt:'Do you know which side of the Civil War the president who led it \u2014 Abraham Lincoln \u2014 belonged to?',
+  lesson:[
+   'By the 1860s, the country was deeply divided, largely over slavery and states\u2019 rights. Eleven southern states broke away to form the [[confederacy]], while the northern states remained the [[union]] under President Abraham Lincoln.',
+   'Jefferson Davis served as president of the Confederacy. The war lasted from 1861 to 1865 and ended with a Union victory, followed by the 13th Amendment, which officially [[abolish|abolished]] slavery.'
+  ],
+  fact:'The Civil War remains the deadliest war in American history \u2014 more U.S. soldiers died than in any other conflict.',
+  questions:[
+    {type:'mcq', q:'Who was the president of the Confederacy during the Civil War?', options:['Robert E. Lee','Jefferson Davis','James Buchanan','William T. Sherman'], correct:1, explain:'Jefferson Davis was the Confederacy\u2019s president.'},
+    {type:'mcq', q:'Which side did Abraham Lincoln lead?', options:['The Confederacy','The Union','Neither','Both'], correct:1, explain:'Lincoln led the Union (the northern states).'},
+    {type:'tf', q:'True or False: The 13th Amendment abolished slavery.', correct:true, explain:'Yes, the 13th Amendment officially ended slavery in the U.S.'},
+    {type:'match', q:'Match the side to its description.', pairs:[['Union','Northern states, led by Lincoln'],['Confederacy','11 southern states that broke away']]}
+  ]
+},
+{
+  id:'h8', land:'hist', title:'Immigration & a Nation of Newcomers', illus:'immigration',
+  judyPrompt:'Have you ever heard of Ellis Island? What do you think happened there?',
+  lesson:[
+   'Throughout its history, the U.S. has been shaped by [[immigrant|immigrants]] arriving from around the world, seeking opportunity, safety, or freedom. Between the late 1800s and early 1900s, millions arrived by ship, often passing through Ellis Island in New York Harbor.',
+   'The Statue of Liberty, standing near Ellis Island, became a famous symbol welcoming newcomers to the United States.'
+  ],
+  fact:'More than 12 million immigrants were processed through Ellis Island between 1892 and 1954!',
+  questions:[
+    {type:'mcq', q:'Where did many immigrants first arrive when coming to the U.S. in the late 1800s/early 1900s?', options:['Ellis Island','Plymouth Rock','Jamestown','Angel Island only'], correct:0, explain:'Ellis Island in New York Harbor processed millions of immigrants.'},
+    {type:'tf', q:'True or False: The Statue of Liberty became a symbol welcoming immigrants.', correct:true, explain:'Yes, it stands near Ellis Island as a symbol of welcome and freedom.'},
+    {type:'mcq', q:'What is an "immigrant"?', options:['A government official','A person who moves to a new country to live','A type of ship','A soldier'], correct:1, explain:'An immigrant is a person who moves to live in a new country.'}
+  ]
+},
+/* ================= MAP MEADOW ================= */
+{
+  id:'m1', land:'geo', title:'Hemispheres, Equator & Coordinates', illus:'hemispheres',
+  judyPrompt:'If you cut the Earth exactly in half around its middle, what do you think that imaginary line is called?',
+  lesson:[
+   'The Earth can be divided into halves, called [[hemisphere|hemispheres]]. The [[equator]] is the imaginary line circling the middle of the Earth, splitting it into the Northern and Southern Hemispheres.',
+   'Mapmakers also use [[latitude]] lines (running east-west, measuring how far north or south you are) and [[longitude]] lines (running north-south, measuring how far east or west you are) to pinpoint any exact location on Earth.'
+  ],
+  fact:'The line of 0\u00b0 longitude is called the Prime Meridian, and it runs right through Greenwich, England!',
+  questions:[
+    {type:'mcq', q:'What is the imaginary line circling the middle of the Earth called?', options:['Prime Meridian','Equator','Longitude','Latitude'], correct:1, explain:'The equator splits the Earth into Northern and Southern Hemispheres.'},
+    {type:'mcq', q:'Which lines run east-west and measure distance north or south?', options:['Longitude','Hemisphere lines','Latitude','Meridian'], correct:2, explain:'Latitude lines run east-west, like rungs on a ladder.'},
+    {type:'tf', q:'True or False: "Hemi" means "half."', correct:true, explain:'Yes \u2014 hemisphere literally means "half sphere."'}
+  ]
+},
+{
+  id:'m2', land:'geo', title:'Map Skills Toolkit', illus:'mapskills',
+  judyPrompt:'If you were reading a map and needed to know which way was "up," what tool would help you?',
+  lesson:[
+   'Maps use special tools to help us read them. A compass rose shows the four main directions: North, South, East, and West. A map\u2019s legend (or key) explains what symbols mean, and its scale shows how map distance relates to real-world distance.',
+   'There are also different types of maps: political maps show borders and cities, while physical maps show landforms like mountains and rivers.'
+  ],
+  fact:'On most maps, North points to the top of the page \u2014 but that\u2019s just a convention mapmakers agreed on, not a rule of nature!',
+  questions:[
+    {type:'mcq', q:'What does a map\u2019s "legend" or "key" do?', options:['Shows real distances only','Explains what symbols on the map mean','Points north','Shows the weather'], correct:1, explain:'A legend explains the symbols used on a map.'},
+    {type:'mcq', q:'A map showing country borders and cities is called a:', options:['Physical map','Political map','Weather map','Topographic map'], correct:1, explain:'Political maps show borders, cities, and boundaries.'},
+    {type:'hotspot', illus:'mapskills', q:'Tap the direction "East" on the compass rose.', points:[{x:50,y:19,label:'N',correct:false},{x:50,y:84,label:'S',correct:false},{x:22,y:50,label:'W',correct:false},{x:78,y:50,label:'E',correct:true}], explain:'East is on the right side of a standard compass rose.'}
+  ]
+},
+{
+  id:'m3', land:'geo', title:'World Geography: Continents & Oceans', illus:'worldmap',
+  judyPrompt:'How many continents can you name off the top of your head? There are seven total!',
+  lesson:[
+   'Earth has seven [[continent|continents]]: North America, South America, Europe, Africa, Asia, Australia, and Antarctica. It also has five oceans: the Pacific, Atlantic, Indian, Arctic, and Southern Oceans.',
+   'The Pacific Ocean is the largest and deepest ocean on Earth \u2014 it\u2019s so big it covers about a third of the planet\u2019s surface!'
+  ],
+  fact:'The Arctic Ocean is the smallest and shallowest of the five oceans, and much of it stays covered in ice.',
+  questions:[
+    {type:'mcq', q:'How many continents are there?', options:['5','6','7','8'], correct:2, explain:'There are seven continents.'},
+    {type:'mcq', q:'Which ocean is the largest?', options:['Atlantic','Pacific','Indian','Arctic'], correct:1, explain:'The Pacific Ocean is the largest and deepest.'},
+    {type:'hotspot', illus:'worldmap', q:'Tap the Arctic Ocean on the map.', points:[{x:58,y:9,label:'Arctic',correct:true},{x:13,y:56,label:'Atlantic',correct:false},{x:77,y:56,label:'Pacific',correct:false}], explain:'The Arctic Ocean sits at the top of the world map, near the North Pole.'},
+    {type:'tf', q:'True or False: There are five oceans on Earth.', correct:true, explain:'Yes: Pacific, Atlantic, Indian, Arctic, and Southern.'}
+  ]
+},
+{
+  id:'m4', land:'geo', title:'U.S. Geography: Regions, States & Capitals', illus:'usmap',
+  judyPrompt:'The U.S. is often divided into big regions, like West, Midwest, South, and East. Can you guess which region YOU live closest to?',
+  lesson:[
+   'The United States is often grouped into regions such as the West, Midwest, South, and Northeast, each with its own geography, climate, and culture.',
+   'Every state has a [[capital city]] where its state government is based \u2014 note this is different from "capital" meaning money, which we\u2019ll cover in Money Market!'
+  ],
+  fact:'Some state capitals surprise people because they aren\u2019t the biggest city in the state \u2014 for example, Albany, not New York City, is the capital of New York!',
+  questions:[
+    {type:'mcq', q:'What is a "capital city"?', options:['The biggest city in a state','The city where a state or country\u2019s government is based','A city with a river','The oldest city in a state'], correct:1, explain:'A capital city is where the government is based \u2014 not necessarily the biggest city.'},
+    {type:'hotspot', illus:'usmap', q:'Tap the region labeled "Midwest."', points:[{x:23,y:43,label:'West',correct:false},{x:50,y:47,label:'Midwest',correct:true},{x:77,y:50,label:'East',correct:false},{x:58,y:70,label:'South',correct:false}], explain:'The Midwest sits in the central part of the country.'},
+    {type:'tf', q:'True or False: A state\u2019s capital is always its biggest city.', correct:false, explain:'False! Many capitals, like Albany, NY, are not the biggest city in their state.'}
+  ]
+},
+{
+  id:'m5', land:'geo', title:'New York State Deep-Dive', illus:'nymap',
+  judyPrompt:'You live in New York \u2014 can you guess the capital city without peeking?',
+  lesson:[
+   'Let\u2019s put your map skills to work close to home! New York State\u2019s capital is Albany \u2014 not New York City, which is actually the state\u2019s largest city but not its capital.',
+   'New York has major cities spread across the state, including Buffalo in the west and Rochester along the way. Practicing on a map you know well \u2014 like your home state \u2014 is a great way to build strong map-reading skills for any test.'
+  ],
+  fact:'New York State is bordered by Lake Erie and Lake Ontario, and Niagara Falls sits right on its border with Canada!',
+  questions:[
+    {type:'hotspot', illus:'nymap', q:'Tap the capital of New York State.', points:[{x:16,y:50,label:'Buffalo',correct:false},{x:52,y:34,label:'Albany',correct:true},{x:68,y:44,label:'Rochester',correct:false},{x:84,y:59,label:'NYC',correct:false}], explain:'Albany is the capital of New York State.'},
+    {type:'mcq', q:'What is the largest city in New York State?', options:['Albany','Buffalo','New York City','Rochester'], correct:2, explain:'New York City is the largest city, but not the capital.'},
+    {type:'tf', q:'True or False: Niagara Falls is on New York\u2019s border with Canada.', correct:true, explain:'Yes! Niagara Falls sits right on that border.'}
+  ]
+},
+{
+  id:'m6', land:'geo', title:'Landforms, Rivers, Mountains & Natural Resources', illus:'landforms',
+  judyPrompt:'What do you think you\u2019d call a huge, slow-moving mass of ice \u2014 kind of like a frozen river?',
+  lesson:[
+   'Earth has many kinds of landforms. A [[glacier]] is a huge, slow-moving mass of ice. An [[archipelago]] is a group of islands, while an [[atoll]] is a ring-shaped coral island. An [[isthmus]] is a thin strip of land connecting two larger areas, and an [[estuary]] is where a river meets the sea.',
+   'A [[peninsula]] is land surrounded by water on three sides, and a [[plateau]] is a large area of high, flat land. A [[levee]] is a wall built along a river to help stop flooding.',
+   'Natural resources, like forests, water, and minerals, come from the environment and are important for how communities live and grow \u2014 unlike man-made things like factories or friendships, which are not natural resources.'
+  ],
+  fact:'Florida is a great real-world example of a peninsula \u2014 it\u2019s surrounded by water on three sides!',
+  questions:[
+    {type:'mcq', q:'What is a group of islands called?', options:['Archipelago','Atoll','Estuary','Isthmus'], correct:0, explain:'A group of islands is called an archipelago.'},
+    {type:'mcq', q:'What landform is a large, slowly-moving mass of ice?', options:['Coral reef','Glacier','Fjord','Levee'], correct:1, explain:'A glacier is a huge, slow-moving mass of ice.'},
+    {type:'mcq', q:'Which of these would be considered a natural resource?', options:['Factory','Forest','Friendship','Flute'], correct:1, explain:'A forest comes from nature \u2014 that makes it a natural resource.'},
+    {type:'match', q:'Match the landform to its description.', pairs:[['Peninsula','Land surrounded by water on 3 sides'],['Isthmus','Thin strip of land connecting two areas'],['Plateau','Large area of high, flat land']]}
+  ]
+},
+/* ================= MONEY MARKET ================= */
+{
+  id:'e1', land:'econ', title:'Needs, Wants & How Communities Work', illus:'community',
+  judyPrompt:'Is a computer something you NEED to survive, or something you WANT? Think carefully!',
+  lesson:[
+   'A need is something people must have to survive, like food, water, shelter, and medicine. A want is something nice to have but not required for survival \u2014 like a computer or video games. Education is generally treated as a need because it\u2019s essential for a person\u2019s future.',
+   'Communities work because of [[producer|producers]] (people who make [[goods]] or provide [[services]]) and [[consumer|consumers]] (people who buy and use them). A baker producing bread is a producer; a family buying that bread is a consumer.'
+  ],
+  fact:'Sometimes the same person can be both a producer AND a consumer \u2014 like a farmer who grows vegetables to sell (producer) but also buys shoes at the store (consumer)!',
+  questions:[
+    {type:'mcq', q:'Which of these would be considered a "want" rather than a "need"?', options:['Vegetables','Computer','Medication','Education'], correct:1, explain:'A computer is nice to have, but not required for survival \u2014 that makes it a want.'},
+    {type:'mcq', q:'A baker who makes bread to sell is an example of a:', options:['Consumer','Producer','Immigrant','Delegate'], correct:1, explain:'Someone who makes goods is a producer.'},
+    {type:'tf', q:'True or False: A "service" is a physical item you can hold.', correct:false, explain:'False \u2014 a service is a helpful action, like teaching or fixing something, not a physical object.'},
+    {type:'match', q:'Match the term to its example.', pairs:[['Producer','A farmer growing crops to sell'],['Consumer','A family buying groceries'],['Service','A dentist checking your teeth']]}
+  ]
+},
+{
+  id:'e2', land:'econ', title:'Money Vocabulary: Capital, Surplus, Deficit & Taxes', illus:'moneyvocab',
+  judyPrompt:'If a company earns more money than it spends in a year, what do you think that extra money is called?',
+  lesson:[
+   'When someone starts a business, they need [[capital]] \u2014 the money used to get things going. If, at the end of the year, there\u2019s money left over after expenses, that\u2019s called a [[surplus]]. But if spending was MORE than the money earned, that\u2019s a [[deficit]].',
+   'Governments collect [[tax]] money from citizens and businesses to pay for shared things like roads, schools, and emergency services.'
+  ],
+  fact:'The word "surplus" and "deficit" are opposites \u2014 surplus means extra, deficit means short!',
+  questions:[
+    {type:'mcq', q:'Harmon needs money to start his new business. What is this money called?', options:['Budget','Asset','Debt','Capital'], correct:3, explain:'Capital is money used to start or grow a business.'},
+    {type:'mcq', q:'The city of Deep River needs money to repair its roads. Where does this money mostly come from?', options:['Assets','Inflation','Bartering','Taxes'], correct:3, explain:'Taxes fund public projects like road repairs.'},
+    {type:'mcq', q:'Balfour Paper Company had money left over at the end of the year. What is this extra money called?', options:['Capital','Production','Surplus','Deficit'], correct:2, explain:'Extra money left over is called a surplus.'},
+    {type:'tf', q:'True or False: A "deficit" means you have extra money left over.', correct:false, explain:'False \u2014 a deficit means spending was MORE than income, the opposite of a surplus.'}
+  ]
+},
+{
+  id:'e3', land:'econ', title:'Bartering, Currency & Budgeting Basics', illus:'budget',
+  judyPrompt:'Before money existed, how do you think people got things they needed from each other?',
+  lesson:[
+   'Long ago, people often used [[barter]] \u2014 trading goods or services directly without money. For example, a farmer might trade eggs for a pair of shoes. Money made trading much easier, since not everyone wants exactly what you have to offer!',
+   'A [[budget]] is a plan for how money will be earned, spent, and saved. Making a budget helps people and governments avoid spending more than they have (a deficit) and plan for the future.'
+  ],
+  fact:'Some of the earliest forms of "money" were things like shells, salt, and even cacao beans!',
+  questions:[
+    {type:'mcq', q:'Trading goods directly without using money is called:', options:['Budgeting','Bartering','Taxing','Producing'], correct:1, explain:'Bartering is trading goods or services directly.'},
+    {type:'mcq', q:'What is a "budget"?', options:['A type of tax','A plan for earning, spending, and saving money','A government building','A trade agreement'], correct:1, explain:'A budget is a spending and saving plan.'},
+    {type:'tf', q:'True or False: Bartering requires using money.', correct:false, explain:'False \u2014 bartering is trading WITHOUT using money.'}
+  ]
+}
+];
+function getModule(id){ return MODULES.find(m=>m.id===id); }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function overallPct(){ return Math.round(100 * Object.keys(STATE.completedModules).length / MODULES.length); }
+function landModules(landId){ return MODULES.filter(m=>m.land===landId); }
+function landDoneCount(landId){ return landModules(landId).filter(m=>STATE.completedModules[m.id]).length; }
+function isFlagged(modId, qIdx){ return !!STATE.missedQuestions[modId+'::'+qIdx] && !STATE.missedQuestions[modId+'::'+qIdx].resolved; }
+
+function updateStreak(){
+  const today = todayStr();
+  if(STATE.lastPlayedDate === today) return;
+  const y = new Date(); y.setDate(y.getDate()-1);
+  const yStr = y.toISOString().slice(0,10);
+  STATE.streak = (STATE.lastPlayedDate === yStr) ? (STATE.streak||0)+1 : 1;
+  STATE.lastPlayedDate = today;
+  saveState();
+}
+
+/* ---------- MASTER RENDER ---------- */
+function render(){
+  let html = '';
+  if(CURRENT.screen==='intro') html = renderIntro();
+  else if(CURRENT.screen==='home') html = renderHome();
+  else if(CURRENT.screen==='land') html = renderLandScreen();
+  else if(CURRENT.screen==='lesson') html = renderLessonScreen();
+  else if(CURRENT.screen==='quiz') html = renderQuizScreen();
+  else if(CURRENT.screen==='complete') html = renderCompleteScreen();
+  else if(CURRENT.screen==='review') html = renderReviewScreen();
+  else if(CURRENT.screen==='trophy') html = renderTrophyScreen();
+  document.getElementById('app').innerHTML = html;
+  window.scrollTo(0,0);
+}
+
+/* ---------- INTRO (Bismillah splash, first run only) ---------- */
+function renderIntro(){
+  return `
+  <div class="intro-wrap">
+    ${judySVG('happy')}
+    <div class="bismillah">Bismillah\u2026</div>
+    <h1 class="display">Judy's Social Studies<br>Adventure</h1>
+    <p style="max-width:340px; color:var(--plum-soft); font-weight:700;">Explore four lands, learn everything a 5th grader needs to know, and help Judy collect an accessory from each one!</p>
+    <button class="btn btn-primary" style="margin-top:18px;" onclick="STATE.introSeen=true; saveState(); goHome();">Bismillah, let's begin! \ud83c\udf1f</button>
+  </div>`;
+}
+
+/* ---------- BOTTOM NAV ---------- */
+function bottomNav(active){
+  const items = [['home','\ud83c\udfe0','Adventure Map'],['review','\ud83d\udd01','Review'],['trophy','\ud83c\udfc6','Meet Judy']];
+  return `<div class="bottomnav">
+    ${items.map(([id,icon,label])=>`<button class="nav-btn ${active===id?'active':''}" onclick="${id==='home'?'goHome()':id==='review'?'goReview()':'goTrophy()'}">
+      <span class="nav-icon">${icon}</span>${label}</button>`).join('')}
+  </div>`;
+}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  updateStreak();
+  const pct = overallPct();
+  const doneCount = Object.keys(STATE.completedModules).length;
+  let judyMsg;
+  if(doneCount===0) judyMsg = `Bismillah! I'm Judy \ud83d\udc30 \u2014 ready to explore our first land together?`;
+  else if(pct<100) judyMsg = `Alhamdulillah, ${doneCount} module${doneCount===1?'':'s'} down! You're at ${pct}%. Keep going, you've got this!`;
+  else judyMsg = `Ya salam! Every single module done \u2014 m\u0101 sh\u0101 All\u0101h, you really did it! \ud83c\udf89`;
+  const streakLine = STATE.streak>1 ? `<div style="margin-top:6px; font-size:.85rem; color:var(--berry); font-weight:800;">\ud83d\udd25 ${STATE.streak}-day streak!</div>` : '';
+  return `
+  <div class="screen active">
+    <div class="topbar">
+      <div class="brand">${judySVG('idle').replace('class="judy-avatar"','class="judy-avatar" style="width:40px;height:40px;"')}<div class="brand-title">Judy's Social<br><span class="accent">Studies Adventure</span></div></div>
+    </div>
+    <div class="progress-wrap">
+      <div style="font-family:'Baloo 2'; font-weight:800; font-size:.85rem; color:var(--plum-soft);">MAP</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+      <div class="progress-pct">${pct}%</div>
+    </div>
+    <div class="judy-panel" style="margin-top:14px;">
+      ${judySVG(doneCount===0?'happy':'idle')}
+      <div class="judy-speech"><span class="judy-name">Judy:</span> ${judyMsg}${streakLine}</div>
+    </div>
+    <div class="lands-grid">
+      ${LANDS.map(l=>{
+        const total = landModules(l.id).length;
+        const done = landDoneCount(l.id);
+        const chips = landModules(l.id).map(m=>{
+          const flagged = m.questions.some((q,i)=>isFlagged(m.id,i));
+          const cls = STATE.completedModules[m.id] ? (flagged?'flagged':'done') : '';
+          return `<div class="mod-chip ${cls}"></div>`;
+        }).join('');
+        return `<div class="land-card ${l.cls}" onclick="openLand('${l.id}')">
+          <div class="land-badge">${done}/${total}</div>
+          <div>
+            <div style="font-size:2rem;">${l.emoji}</div>
+            <h3>${l.name}</h3>
+            <div class="land-sub">${l.sub}</div>
+          </div>
+          <div class="module-chip-row">${chips}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    ${bottomNav('home')}
+  </div>`;
+}
+
+/* ---------- LAND SCREEN ---------- */
+function renderLandScreen(){
+  const land = LANDS.find(l=>l.id===CURRENT.land);
+  const mods = landModules(land.id);
+  return `
+  <div class="screen active">
+    <div class="topbar">
+      <button class="icon-btn" onclick="goHome()">\u2190</button>
+      <div class="brand-title">${land.emoji} ${land.name}</div>
+      <div style="width:44px;"></div>
+    </div>
+    <div class="judy-panel">${judySVG('idle')}<div class="judy-speech"><span class="judy-name">Judy:</span> ${land.sub}. Pick a module to start!</div></div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      ${mods.map(m=>{
+        const done = STATE.completedModules[m.id];
+        const flagged = m.questions.some((q,i)=>isFlagged(m.id,i));
+        return `<div class="lesson-card" style="cursor:pointer; display:flex; align-items:center; justify-content:space-between; padding:16px 18px;" onclick="openModule('${m.id}')">
+          <div>
+            <span class="strand-tag ${land.tag}">${land.name.split(' ')[0]}</span>
+            <h3 style="font-size:1.05rem; margin-top:2px;">${m.title}</h3>
+            ${done ? `<div style="font-weight:700; color:var(--meadow); font-size:.85rem;">\u2713 Completed \u2014 ${done.score}/${done.total} ${flagged?'<span style=\"color:var(--berry)\">(some flagged for review)</span>':''}</div>` : `<div style="font-weight:700; color:var(--plum-soft); font-size:.85rem;">Not started yet</div>`}
+          </div>
+          <div style="font-size:1.5rem;">${done ? '\ud83c\udf1f' : '\u25b6\ufe0f'}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    ${bottomNav('home')}
+  </div>`;
+}
+
+/* ---------- LESSON SCREEN ---------- */
+function renderLessonScreen(){
+  const m = getModule(CURRENT.moduleId);
+  const land = LANDS.find(l=>l.id===m.land);
+  return `
+  <div class="screen active">
+    <div class="topbar">
+      <button class="icon-btn" onclick="openLand('${m.land}')">\u2190</button>
+      <div class="brand-title" style="font-size:1rem;">Part 1: Learn</div>
+      <div style="width:44px;"></div>
+    </div>
+    <div class="judy-panel">${judySVG('think')}<div class="judy-speech"><span class="judy-name">Judy's hunch:</span> ${m.judyPrompt}</div></div>
+    <div class="lesson-card">
+      <span class="strand-tag ${land.tag}">${land.name}</span>
+      <h2>${m.title}</h2>
+      ${ILLUS[m.illus] || ''}
+      <div class="lesson-text">${m.lesson.map(p=>`<p>${renderVocabText(p)}</p>`).join('')}</div>
+      <div class="fun-fact"><span class="fun-fact-label">\u2728 Fun fact:</span>${m.fact}</div>
+      <p class="small-note">Tap any <span class="vocab-word" style="pointer-events:none;">purple word</span> to see what it means \u2014 and tap the \ud83d\udd0a to hear it said aloud!</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary btn-block" onclick="startQuiz()">Part 2: Quick Check \u2192</button>
+    </div>
+    ${bottomNav('home')}
+  </div>`;
+}
+
+function startQuiz(){
+  CURRENT.screen='quiz'; CURRENT.quizIndex=0; CURRENT.quizScore=0; CURRENT.quizMissed=[]; CURRENT.selected=null; CURRENT.matchPicks={}; CURRENT.matchDone={};
+  render();
+}
+
+/* ---------- QUIZ SCREEN ---------- */
+function renderQuizScreen(){
+  const m = getModule(CURRENT.moduleId);
+  const q = m.questions[CURRENT.quizIndex];
+  const total = m.questions.length;
+  const dots = m.questions.map((qq,i)=>{
+    let cls='qp-dot';
+    if(i===CURRENT.quizIndex) cls+=' active';
+    else if(CURRENT.answeredLog && CURRENT.answeredLog[i]===true) cls+=' correct';
+    else if(CURRENT.answeredLog && CURRENT.answeredLog[i]===false) cls+=' wrong';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+  if(!CURRENT.answeredLog) CURRENT.answeredLog = {};
+
+  let bodyHtml = '';
+  if(q.type==='mcq' || q.type==='tf'){
+    const options = q.type==='tf' ? ['True','False'] : q.options;
+    bodyHtml = `<div class="question-text">${q.q}</div><div class="options">
+      ${options.map((opt,i)=>`<button class="option-btn" id="opt${i}" onclick="answerChoice(${i})">${opt}</button>`).join('')}
+    </div><div id="feedbackZone"></div>`;
+  } else if(q.type==='match'){
+    bodyHtml = renderMatchQuestion(q);
+  } else if(q.type==='hotspot'){
+    bodyHtml = `<div class="question-text">${q.q}</div>
+    <div class="mapclick-wrap">${ILLUS[q.illus]}
+      ${q.points.map((p,i)=>`<button onclick="answerHotspot(${i})" style="position:absolute; left:${p.x}%; top:${p.y}%; transform:translate(-50%,-50%); width:34px; height:34px; border-radius:50%; border:3px solid white; background:rgba(255,143,171,0.55); cursor:pointer;" id="hp${i}" title="${p.label}"></button>`).join('')}
+    </div><div id="feedbackZone"></div>`;
+  }
+
+  return `
+  <div class="screen active">
+    <div class="topbar">
+      <button class="icon-btn" onclick="openModule('${m.id}')">\u2190</button>
+      <div class="brand-title" style="font-size:1rem;">Part 2: Quick Check</div>
+      <div style="width:44px;"></div>
+    </div>
+    <div class="quiz-progress">${dots}</div>
+    <div class="lesson-card" style="position:relative;">
+      ${bodyHtml}
+    </div>
+    ${bottomNav('home')}
+  </div>`;
+}
+
+function renderMatchQuestion(q){
+  const lefts = q.pairs.map(p=>p[0]);
+  const rights = shuffleStable(q.pairs.map(p=>p[1]), q.q);
+  return `<div class="question-text">${q.q}</div>
+  <div class="match-grid">
+    <div>${lefts.map((l,i)=>`<div class="match-item" data-side="L" data-val="${escAttr(l)}" onclick="matchPick(this,'L','${escAttr(l)}')" id="ml${i}">${l}</div>`).join('')}</div>
+    <div>${rights.map((r,i)=>`<div class="match-item" data-side="R" data-val="${escAttr(r)}" onclick="matchPick(this,'R','${escAttr(r)}')" id="mr${i}">${r}</div>`).join('')}</div>
+  </div>
+  <div id="feedbackZone"></div>`;
+}
+function escAttr(s){ return s.replace(/'/g,"&#39;").replace(/"/g,'&quot;'); }
+function shuffleStable(arr, seed){
+  const a = arr.slice();
+  let s = seed.length;
+  for(let i=a.length-1;i>0;i--){ s = (s*9301+49297)%233280; const j = Math.floor((s/233280)*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+let matchState = {leftPicked:null, matchedCount:0};
+function matchPick(el, side, val){
+  const m = getModule(CURRENT.moduleId); const q = m.questions[CURRENT.quizIndex];
+  if(el.classList.contains('matched')) return;
+  if(side==='L'){
+    document.querySelectorAll('.match-item[data-side="L"]').forEach(e=>e.classList.remove('picked'));
+    el.classList.add('picked'); matchState.leftPicked = {el, val};
+  } else {
+    if(!matchState.leftPicked) return;
+    const leftVal = matchState.leftPicked.val;
+    const correctPair = q.pairs.find(p=>p[0]===leftVal);
+    if(correctPair && correctPair[1]===val){
+      matchState.leftPicked.el.classList.add('matched'); matchState.leftPicked.el.classList.remove('picked');
+      el.classList.add('matched');
+      matchState.matchedCount++;
+      matchState.leftPicked = null;
+      if(matchState.matchedCount === q.pairs.length){
+        recordAnswer(true);
+        document.getElementById('feedbackZone').innerHTML = feedbackHtml(true, q.explain||'All matched correctly!');
+        disableAllInputs();
+      }
+    } else {
+      showToast('Not quite \u2014 try again!');
+      matchState.leftPicked.el.classList.remove('picked'); matchState.leftPicked=null;
+      matchState.matchWrongOnce = true;
+    }
+  }
+}
+
+function answerChoice(i){
+  const m = getModule(CURRENT.moduleId); const q = m.questions[CURRENT.quizIndex];
+  const options = document.querySelectorAll('.option-btn');
+  const correctIdx = q.type==='tf' ? (q.correct?0:1) : q.correct;
+  const isCorrect = i===correctIdx;
+  options.forEach((o,idx)=>{
+    o.disabled = true;
+    if(idx===correctIdx) o.classList.add(isCorrect? 'selected-correct':'reveal-correct');
+    if(idx===i && !isCorrect) o.classList.add('selected-wrong');
+  });
+  recordAnswer(isCorrect, q.explain);
+}
+
+function answerHotspot(i){
+  const m = getModule(CURRENT.moduleId); const q = m.questions[CURRENT.quizIndex];
+  const buttons = document.querySelectorAll('.mapclick-wrap button');
+  const isCorrect = !!q.points[i].correct;
+  buttons.forEach((b,idx)=>{
+    b.disabled = true; b.style.pointerEvents='none';
+    if(q.points[idx].correct) b.style.background = 'rgba(123,201,111,0.75)';
+    if(idx===i && !isCorrect) b.style.background = 'rgba(178,58,86,0.75)';
+  });
+  recordAnswer(isCorrect, q.explain);
+}
+
+function recordAnswer(isCorrect, explain){
+  const m = getModule(CURRENT.moduleId);
+  CURRENT.answeredLog[CURRENT.quizIndex] = isCorrect;
+  if(isCorrect) CURRENT.quizScore++;
+  else CURRENT.quizMissed.push(CURRENT.quizIndex);
+  matchState = {leftPicked:null, matchedCount:0};
+  if(explain !== undefined){
+    document.getElementById('feedbackZone').innerHTML = feedbackHtml(isCorrect, explain);
+  }
+  if(isCorrect) showToast(pickPraise());
+  setTimeout(()=>{
+    const zone = document.getElementById('feedbackZone');
+    if(zone && !zone.querySelector('.next-btn')){
+      zone.innerHTML += `<button class="btn btn-primary next-btn" style="margin-top:10px;" onclick="nextQuestion()">${CURRENT.quizIndex < m.questions.length-1 ? 'Next question \u2192' : 'See my results \u2192'}</button>`;
+    }
+  }, 150);
+}
+function disableAllInputs(){
+  document.querySelectorAll('.match-item').forEach(e=>e.style.pointerEvents='none');
+}
+function feedbackHtml(isCorrect, explain){
+  return `<div class="feedback-box ${isCorrect?'feedback-correct':'feedback-wrong'}">
+    <div style="font-size:1.3rem;">${isCorrect ? '\u2705':'\ud83d\udca1'}</div>
+    <div><div>${isCorrect ? pickPraise() : "Let's figure this out together:"}</div><div class="feedback-explain">${explain||''}</div></div>
+  </div>`;
+}
+function pickPraise(){
+  const opts = ['M\u0101 sh\u0101 All\u0101h! \ud83c\udf1f','Alhamdulillah, well done!','Excellent thinking!','You nailed it!','Judy is hopping with joy!'];
+  return opts[Math.floor(Math.random()*opts.length)];
+}
+
+function nextQuestion(){
+  const m = getModule(CURRENT.moduleId);
+  if(CURRENT.quizIndex < m.questions.length-1){
+    CURRENT.quizIndex++;
+    render();
+  } else {
+    finishModule();
+  }
+}
+
+/* ---------- FINISH MODULE + SPACED REVIEW SCHEDULING ---------- */
+function finishModule(){
+  const m = getModule(CURRENT.moduleId);
+  const total = m.questions.length;
+  const score = CURRENT.quizScore;
+  const wasFirstTime = !STATE.completedModules[m.id];
+  STATE.completedModules[m.id] = {score, total, date: todayStr()};
+  if(wasFirstTime) STATE.modulesCompletedCount++;
+
+  // spaced review scheduling for missed questions
+  CURRENT.quizMissed.forEach(qIdx=>{
+    const key = m.id+'::'+qIdx;
+    STATE.missedQuestions[key] = {moduleId:m.id, qIndex:qIdx, dueAfterCount: STATE.modulesCompletedCount + 2, resolved:false};
+  });
+  // any question answered correctly this time that was previously flagged -> resolve it
+  m.questions.forEach((q,i)=>{
+    if(CURRENT.answeredLog[i]===true){
+      const key = m.id+'::'+i;
+      if(STATE.missedQuestions[key]) STATE.missedQuestions[key].resolved = true;
+    }
+  });
+
+  // accessory award: full land completed
+  const land = LANDS.find(l=>l.id===m.land);
+  const allDone = landModules(land.id).every(mm=>STATE.completedModules[mm.id]);
+  let newAccessory = false;
+  if(allDone && !STATE.accessories.includes(land.id)){
+    STATE.accessories.push(land.id);
+    newAccessory = true;
+  }
+  saveState();
+  CURRENT.screen='complete';
+  CURRENT.lastResult = {score, total, newAccessory, land};
+  render();
+}
+
+function renderCompleteScreen(){
+  const {score, total, newAccessory, land} = CURRENT.lastResult;
+  const pct = Math.round(100*score/total);
+  const mood = pct>=80 ? 'happy' : (pct>=50 ? 'idle' : 'oops');
+  let msg;
+  if(pct>=80) msg = `M\u0101 sh\u0101 All\u0101h, alhamdulillah! You got ${score} out of ${total}! You really know this one.`;
+  else if(pct>=50) msg = `Good effort \u2014 ${score} out of ${total}! Alhamdulillah for the progress. A little review will make it even stronger, in sh\u0101' All\u0101h.`;
+  else msg = `You got ${score} out of ${total} \u2014 that's alright, learning takes practice! Let's add these to the Review Den and try again soon, in sh\u0101' All\u0101h.`;
+  return `
+  <div class="screen active">
+    <div class="intro-wrap" style="min-height:60vh;">
+      ${judySVG(mood)}
+      <h2 class="display" style="margin-top:10px;">${pct>=80?'Amazing work!':'Nice try!'}</h2>
+      <p style="font-weight:700; color:var(--plum-soft); max-width:360px;">${msg}</p>
+      ${newAccessory ? `<div class="fun-fact" style="margin-top:14px;">\ud83c\udf89 New accessory unlocked for Judy: <b>${ACCESSORY_BY_LAND[land.id].icon} ${ACCESSORY_BY_LAND[land.id].label}</b>! Check the Meet Judy tab.</div>` : ''}
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="openLand('${land.id}')">Back to ${land.name}</button>
+        <button class="btn btn-primary" onclick="goHome()">Adventure Map</button>
+      </div>
+    </div>
+    ${bottomNav('home')}
+  </div>`;
+}
+
+/* ---------- REVIEW SCREEN (spaced repetition queue) ---------- */
+function renderReviewScreen(){
+  const entries = Object.entries(STATE.missedQuestions).filter(([k,v])=>!v.resolved);
+  const ready = entries.filter(([k,v])=>STATE.modulesCompletedCount >= v.dueAfterCount);
+  const upcoming = entries.filter(([k,v])=>STATE.modulesCompletedCount < v.dueAfterCount);
+  return `
+  <div class="screen active">
+    <div class="topbar"><div class="brand-title">\ud83d\udd01 Review Den</div></div>
+    <div class="judy-panel">${judySVG('idle')}<div class="judy-speech"><span class="judy-name">Judy:</span> ${entries.length===0 ? "You're all caught up \u2014 nothing to review right now!" : `Let's go over ${ready.length} question${ready.length===1?'':'s'} together.`}</div></div>
+    ${ready.length===0 && upcoming.length===0 ? '' : ''}
+    ${ready.map(([key,v])=>renderReviewCard(key,v)).join('')}
+    ${upcoming.length>0 ? `<h3 style="margin-top:20px;">Coming up soon</h3><p class="small-note" style="text-align:left;">These will reappear here after you finish a couple more modules \u2014 spacing them out helps them really stick!</p>` : ''}
+    ${upcoming.map(([key,v])=>{
+      const m = getModule(v.moduleId); const q = m.questions[v.qIndex];
+      return `<div class="review-item" style="opacity:.55;"><div class="strand-tag ${LANDS.find(l=>l.id===m.land).tag}" style="font-size:.65rem;">${m.title}</div><div>${q.q||q.pairs?.map(p=>p[0]).join(', ')}</div></div>`;
+    }).join('')}
+    ${bottomNav('review')}
+  </div>`;
+}
+function renderReviewCard(key, v){
+  const m = getModule(v.moduleId); const q = m.questions[v.qIndex];
+  const land = LANDS.find(l=>l.id===m.land);
+  if(q.type==='mcq' || q.type==='tf'){
+    const options = q.type==='tf' ? ['True','False'] : q.options;
+    return `<div class="review-item">
+      <span class="strand-tag ${land.tag}" style="font-size:.65rem;">${m.title}</span>
+      <div class="question-text" style="font-size:1rem;">${q.q}</div>
+      <div class="options">${options.map((opt,i)=>`<button class="option-btn" onclick="reviewAnswer('${key}', ${i}, this)">${opt}</button>`).join('')}</div>
+      <div id="rf_${key.replace(/[:]/g,'_')}"></div>
+    </div>`;
+  }
+  // fallback for match/hotspot: simple "got it now?" self-check
+  return `<div class="review-item">
+    <span class="strand-tag ${land.tag}" style="font-size:.65rem;">${m.title}</span>
+    <div class="question-text" style="font-size:1rem;">${q.q}</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="reviewSelfCheck('${key}', false)">Still tricky</button>
+      <button class="btn btn-primary" onclick="reviewSelfCheck('${key}', true)">Got it now!</button>
+    </div>
+  </div>`;
+}
+function reviewAnswer(key, choice, btnEl){
+  const v = STATE.missedQuestions[key];
+  const m = getModule(v.moduleId); const q = m.questions[v.qIndex];
+  const correctIdx = q.type==='tf' ? (q.correct?0:1) : q.correct;
+  const isCorrect = choice===correctIdx;
+  const zone = document.getElementById('rf_'+key.replace(/[:]/g,'_'));
+  zone.innerHTML = feedbackHtml(isCorrect, q.explain);
+  if(isCorrect){ STATE.missedQuestions[key].resolved = true; }
+  else { STATE.missedQuestions[key].dueAfterCount = STATE.modulesCompletedCount + 2; }
+  saveState();
+  setTimeout(render, 1400);
+}
+function reviewSelfCheck(key, gotIt){
+  if(gotIt) STATE.missedQuestions[key].resolved = true;
+  else STATE.missedQuestions[key].dueAfterCount = STATE.modulesCompletedCount + 2;
+  saveState(); render();
+}
+
+/* ---------- TROPHY / MEET JUDY SCREEN ---------- */
+function renderTrophyScreen(){
+  return `
+  <div class="screen active">
+    <div class="topbar"><div class="brand-title">\ud83c\udfc6 Meet Judy</div></div>
+    <div class="judy-panel">${judySVG('happy')}<div class="judy-speech"><span class="judy-name">Judy:</span> Here's everything I've collected on our adventure so far!</div></div>
+    <div class="trophy-shelf">
+      ${LANDS.map(l=>{
+        const has = STATE.accessories.includes(l.id);
+        const acc = ACCESSORY_BY_LAND[l.id];
+        return `<div class="trophy-item ${has?'':'locked'}">
+          <div class="trophy-icon">${has?acc.icon:'\ud83d\udd12'}</div>
+          <div class="trophy-label">${has?acc.label:'Finish '+l.name}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="lesson-card" style="margin-top:18px; text-align:center;">
+      <div style="font-weight:800; font-family:'Baloo 2'; color:var(--plum-soft); margin-bottom:6px;">Overall progress</div>
+      <div class="progress-bar-bg" style="height:18px;"><div class="progress-bar-fill" style="width:${overallPct()}%"></div></div>
+      <div style="margin-top:8px; font-weight:800;">${overallPct()}% complete \u2014 ${Object.keys(STATE.completedModules).length}/${MODULES.length} modules</div>
+    </div>
+    ${bottomNav('trophy')}
+  </div>`;
+}
+
+/* ---------- BOOTSTRAP ---------- */
+function initApp(){
+  CURRENT.screen = (Object.keys(STATE.completedModules).length===0 && !STATE.introSeen) ? 'intro' : 'home';
+  render();
+}
+document.addEventListener('DOMContentLoaded', initApp);
+</script>
+</script>
+</body>
+</html>
