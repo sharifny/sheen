@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Judy's Science Adventure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF6EA;
+    --cream-2:#F3ECDC;
+    --plum:#3A2E4D;
+    --plum-soft:#6b5d80;
+    --white:#FFFFFF;
+    --green:#4FA974;      /* Life Land */
+    --green-dark:#3A8058;
+    --amber:#F2A93B;      /* Energy & Matter Land */
+    --amber-dark:#CE871E;
+    --clay:#C1783F;       /* Earth & Sky Land */
+    --clay-dark:#9C5C29;
+    --indigo:#6C5CE7;     /* Space & Inquiry Land */
+    --indigo-dark:#4E3FC4;
+    --eye:#8B5FBF;
+    --pink:#E8698A;
+    --sky:#4FB6E8;
+    --ok:#4FA974;
+    --bad:#E8698A;
+    --shadow-plum: rgba(58,46,77,0.18);
+    --radius-lg: 26px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 8%, rgba(255,255,255,0.6), transparent 40%),
+      radial-gradient(circle at 90% 85%, rgba(111,191,115,0.12), transparent 45%),
+      var(--cream);
+    font-family:'Nunito', sans-serif;
+    color:var(--plum);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Baloo 2', sans-serif;}
+  #app{
+    max-width:720px;
+    margin:0 auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+  /* ---------- TOP BAR ---------- */
+  #topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 16px;
+    background:var(--white);
+    border-bottom:3px solid var(--cream-2);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  #topbar .brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+  }
+  #topbar .brand svg{width:38px;height:38px;}
+  #topbar .brand span{font-family:'Baloo 2';font-weight:700;font-size:1.05rem;color:var(--plum);}
+  #topbar .actions{display:flex;align-items:center;gap:8px;}
+  .icon-btn{
+    background:var(--cream-2);
+    border:none;
+    border-radius:50%;
+    width:40px;height:40px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    font-size:1.15rem;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .icon-btn:hover{transform:translateY(-2px);background:#EFE6CE;}
+  .icon-btn:active{transform:translateY(0);}
+  .streak-chip{
+    display:flex;align-items:center;gap:4px;
+    background:linear-gradient(135deg, var(--amber), var(--amber-dark));
+    color:white;font-weight:800;font-family:'Baloo 2';
+    padding:6px 12px;border-radius:20px;font-size:0.9rem;
+    box-shadow:0 3px 0 var(--amber-dark);
+  }
+  /* ---------- VIEWS ---------- */
+  .view{display:none;flex:1;padding:18px 16px 90px;animation:fadeIn .35s ease;}
+  .view.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- HOME / TRAIL ---------- */
+  .hero-card{
+    background:var(--white);
+    border-radius:var(--radius-lg);
+    padding:18px;
+    box-shadow:0 8px 0 var(--shadow-plum);
+    margin-bottom:22px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-card h1{margin:0 0 4px;font-size:1.4rem;color:var(--plum);}
+  .hero-card p{margin:0;color:var(--plum-soft);font-weight:600;font-size:.95rem;}
+  .trail-wrap{margin-top:10px;}
+  .land-list{display:flex;flex-direction:column;gap:14px;}
+  .land-card{
+    background:var(--white);
+    border-radius:var(--radius-md);
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    box-shadow:0 5px 0 var(--shadow-plum);
+    cursor:pointer;
+    border:3px solid transparent;
+    transition:transform .15s ease;
+  }
+  .land-card:hover{transform:translateY(-2px);}
+  .land-card:active{transform:translateY(1px);}
+  .land-emoji{
+    width:56px;height:56px;border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.8rem;flex-shrink:0;
+  }
+  .land-info{flex:1;min-width:0;}
+  .land-info h3{margin:0 0 4px;font-size:1.05rem;}
+  .land-info .sub{font-size:.82rem;color:var(--plum-soft);font-weight:700;}
+  .progress-track{
+    background:var(--cream-2);
+    height:10px;border-radius:6px;overflow:hidden;margin-top:6px;
+  }
+  .progress-fill{height:100%;border-radius:6px;transition:width .4s ease;}
+  .chev{font-size:1.3rem;color:var(--plum-soft);}
+
+  /* ---------- WARDROBE QUEST (home page motivator) ---------- */
+  .quest-card{
+    background:linear-gradient(135deg,#2E2545,#4A3B6B);
+    border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:20px;
+    display:flex;align-items:center;gap:14px;color:white;
+    box-shadow:0 8px 0 rgba(58,46,77,0.35);cursor:pointer;
+    position:relative;overflow:hidden;
+  }
+  .quest-card:before{
+    content:"✨";position:absolute;font-size:5rem;opacity:.08;right:-10px;top:-16px;
+  }
+  .quest-silhouette{
+    width:64px;height:96px;flex-shrink:0;position:relative;
+  }
+  .quest-silhouette svg{filter:brightness(0) invert(1);opacity:.9;width:100%;height:100%;}
+  .quest-silhouette .lock-icon{
+    position:absolute;bottom:2px;right:-2px;background:var(--amber);
+    width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;box-shadow:0 2px 0 var(--amber-dark);
+  }
+  .quest-info{flex:1;}
+  .quest-info .eyebrow{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;opacity:.75;}
+  .quest-info h3{margin:2px 0 6px;font-size:1.05rem;font-family:'Baloo 2';}
+  .quest-track{background:rgba(255,255,255,0.18);height:10px;border-radius:6px;overflow:hidden;}
+  .quest-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#F2A93B,#FFD27A);transition:width .4s ease;}
+  .quest-info .quest-sub{font-size:.78rem;font-weight:700;margin-top:5px;opacity:.85;}
+  .quest-card.all-done{background:linear-gradient(135deg,var(--green),var(--green-dark));}
+
+  /* ---------- UNLOCK CELEBRATION MODAL ---------- */
+  #unlockModal{
+    position:fixed;inset:0;background:rgba(58,46,77,0.55);z-index:400;
+    display:none;align-items:center;justify-content:center;padding:20px;
+  }
+  #unlockModal.show{display:flex;}
+  .unlock-card{
+    background:var(--white);border-radius:28px;padding:28px 24px;text-align:center;
+    max-width:340px;box-shadow:0 14px 0 rgba(58,46,77,0.3);animation:popIn .4s ease;
+  }
+  @keyframes popIn{from{transform:scale(.85);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .unlock-card h2{font-size:1.3rem;margin:8px 0 4px;color:var(--plum);}
+  .unlock-card p{font-weight:700;color:var(--plum-soft);margin:0 0 16px;font-size:.92rem;}
+
+  /* ---------- PEEK AT LESSON DRAWER ---------- */
+  #peekModal{
+    position:fixed;inset:0;background:rgba(58,46,77,0.5);z-index:350;
+    display:none;align-items:flex-end;justify-content:center;
+  }
+  #peekModal.show{display:flex;}
+  .peek-sheet{
+    background:var(--cream);width:100%;max-width:720px;max-height:82vh;
+    border-radius:26px 26px 0 0;display:flex;flex-direction:column;
+    animation:slideUp .3s ease;box-shadow:0 -10px 30px rgba(0,0,0,.2);
+  }
+  @keyframes slideUp{from{transform:translateY(30px);opacity:.4;}to{transform:translateY(0);opacity:1;}}
+  .peek-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 18px;font-family:'Baloo 2';font-weight:800;color:var(--plum);
+    border-bottom:3px solid var(--cream-2);flex-shrink:0;
+  }
+  .peek-body{overflow-y:auto;padding:16px 18px 28px;}
+  .peek-body .btn-row{display:none;}
+
+  /* ---------- LAND VIEW ---------- */
+  .back-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .back-btn{
+    background:var(--white);border:none;border-radius:12px;
+    padding:8px 14px;font-weight:800;font-family:'Baloo 2';
+    cursor:pointer;box-shadow:0 3px 0 var(--shadow-plum);color:var(--plum);
+  }
+  .module-grid{display:flex;flex-direction:column;gap:12px;}
+  .module-row{
+    background:var(--white);border-radius:16px;padding:14px 16px;
+    display:flex;align-items:center;gap:12px;cursor:pointer;
+    box-shadow:0 4px 0 var(--shadow-plum);
+  }
+  .module-status{
+    width:34px;height:34px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:.85rem;color:white;background:#D8CFBE;
+  }
+  .module-status.done{background:var(--green);}
+  .module-status.review{background:var(--amber);}
+  .module-row .m-title{font-weight:800;font-family:'Baloo 2';font-size:1rem;flex:1;}
+
+  /* ---------- LESSON VIEW ---------- */
+  .judy-speech-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;}
+  .judy-speech-row .judy-avatar{width:76px;height:76px;flex-shrink:0;}
+  .bubble{
+    background:var(--white);border-radius:18px;padding:14px 16px;
+    box-shadow:0 5px 0 var(--shadow-plum);position:relative;font-weight:700;color:var(--plum);
+    flex:1;
+  }
+  .bubble:before{
+    content:"";position:absolute;left:-8px;top:20px;
+    border-width:8px 10px 8px 0;border-style:solid;
+    border-color:transparent var(--white) transparent transparent;
+  }
+  .lesson-card{
+    background:var(--white);border-radius:var(--radius-lg);padding:20px;
+    box-shadow:0 8px 0 var(--shadow-plum);margin-bottom:16px;
+  }
+  .lesson-card h2{margin-top:0;font-size:1.3rem;}
+  .lesson-card p{line-height:1.6;font-weight:600;color:#4a3d5c;}
+  .fun-fact{
+    background:linear-gradient(135deg,#FFF3D6,#FFE8B8);
+    border-radius:14px;padding:12px 14px;font-weight:700;font-size:.92rem;
+    margin:14px 0;border:2px dashed var(--amber);
+  }
+  .vocab{
+    text-decoration:underline dotted var(--indigo);text-decoration-thickness:2px;
+    color:var(--indigo-dark);font-weight:800;cursor:pointer;position:relative;
+  }
+  .popover{
+    position:absolute;bottom:130%;left:0;background:var(--plum);color:white;
+    padding:10px 12px;border-radius:12px;font-size:.85rem;font-weight:700;
+    width:220px;z-index:30;box-shadow:0 6px 16px rgba(0,0,0,.25);display:none;
+  }
+  .popover.show{display:block;}
+  .popover button{
+    margin-top:6px;background:rgba(255,255,255,.18);border:none;color:white;
+    border-radius:8px;padding:4px 8px;cursor:pointer;font-weight:800;font-size:.78rem;
+  }
+  .diagram-box{
+    background:var(--cream-2);border-radius:18px;padding:14px;margin:14px 0;
+    display:flex;justify-content:center;
+  }
+  .diagram-box svg{max-width:100%;height:auto;}
+  .photo-diagram{border-radius:16px;overflow:hidden;background:white;}
+  .photo-diagram img{width:100%;height:auto;display:block;max-height:340px;object-fit:cover;}
+  .photo-diagram .caption-strip{
+    background:var(--plum);color:white;padding:10px 14px;
+    display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;
+    font-weight:800;font-family:'Baloo 2';font-size:.82rem;text-align:center;
+  }
+  .photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;}
+  .photo-grid figure{margin:0;border-radius:14px;overflow:hidden;background:white;}
+  .photo-grid img{width:100%;height:110px;object-fit:cover;display:block;}
+  .photo-grid figcaption{
+    background:var(--cream-2);color:var(--plum);font-weight:800;font-family:'Baloo 2';
+    font-size:.78rem;text-align:center;padding:6px 4px;
+  }
+  .photo-strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
+  .photo-strip figure{margin:0;flex:0 0 auto;width:120px;border-radius:14px;overflow:hidden;background:white;}
+  .photo-strip img{width:120px;height:100px;object-fit:cover;display:block;}
+  .photo-strip figcaption{
+    background:var(--cream-2);color:var(--plum);font-weight:800;font-family:'Baloo 2';
+    font-size:.72rem;text-align:center;padding:5px 3px;
+  }
+  .photo-strip .arrow-between{align-self:center;font-size:1.3rem;color:var(--plum-soft);flex:0 0 auto;}
+  .photo-credit{font-size:.7rem;color:var(--plum-soft);font-weight:700;margin-top:4px;text-align:right;}
+  .hunch-box{
+    background:linear-gradient(135deg,#EDE7FB,#E2D9FA);
+    border-radius:16px;padding:14px 16px;margin-bottom:14px;border:2px solid var(--indigo);
+  }
+  .hunch-box .label{font-family:'Baloo 2';font-weight:800;color:var(--indigo-dark);font-size:.85rem;text-transform:uppercase;letter-spacing:.03em;}
+  .btn{
+    font-family:'Baloo 2';font-weight:700;border:none;border-radius:14px;
+    padding:12px 20px;cursor:pointer;font-size:1rem;color:white;
+    box-shadow:0 4px 0 rgba(0,0,0,.18);transition:transform .12s ease;
+  }
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.18);}
+  .btn.primary{background:linear-gradient(135deg,var(--green),var(--green-dark));}
+  .btn.ghost{background:var(--cream-2);color:var(--plum);box-shadow:0 4px 0 #ddd2b8;}
+  .btn.indigo{background:linear-gradient(135deg,var(--indigo),var(--indigo-dark));}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+
+  /* ---------- HINT LADDER ---------- */
+  .hint-box{
+    background:#FFF;border:2px solid var(--cream-2);border-radius:16px;
+    padding:12px 14px;margin-top:12px;
+  }
+  .hint-reveal{
+    margin-top:8px;padding:10px 12px;background:var(--cream-2);border-radius:10px;
+    font-weight:700;font-size:.92rem;display:none;
+  }
+  .hint-reveal.show{display:block;animation:fadeIn .3s ease;}
+
+  /* ---------- QUIZ VIEW ---------- */
+  .quiz-progress{display:flex;gap:6px;margin-bottom:16px;}
+  .quiz-progress .dot{flex:1;height:8px;border-radius:6px;background:var(--cream-2);}
+  .quiz-progress .dot.active{background:var(--indigo);}
+  .quiz-progress .dot.correct{background:var(--green);}
+  .quiz-progress .dot.wrong{background:var(--pink);}
+  .q-card{background:var(--white);border-radius:var(--radius-lg);padding:20px;box-shadow:0 8px 0 var(--shadow-plum);}
+  .q-card .qtype{font-size:.75rem;font-weight:800;color:var(--plum-soft);text-transform:uppercase;letter-spacing:.05em;}
+  .q-card h3{margin:6px 0 16px;font-size:1.12rem;line-height:1.4;}
+  .choice{
+    display:block;width:100%;text-align:left;background:var(--cream-2);
+    border:3px solid transparent;border-radius:14px;padding:12px 14px;margin-bottom:10px;
+    font-weight:700;font-family:'Nunito';font-size:.98rem;cursor:pointer;color:var(--plum);
+  }
+  .choice:hover{border-color:#D8CFBE;}
+  .choice.selected-correct{background:#DFF3E5;border-color:var(--green);}
+  .choice.selected-wrong{background:#FBE3EA;border-color:var(--pink);}
+  .choice.reveal-correct{background:#DFF3E5;border-color:var(--green);}
+  .choice[disabled]{cursor:default;}
+  .feedback{
+    margin-top:14px;padding:14px;border-radius:14px;font-weight:700;
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .feedback.good{background:#DFF3E5;color:var(--green-dark);}
+  .feedback.think{background:#FDF0DD;color:var(--amber-dark);}
+  .feedback svg{width:34px;height:34px;flex-shrink:0;}
+
+  /* match question */
+  .match-wrap{display:flex;gap:14px;}
+  .match-col{flex:1;display:flex;flex-direction:column;gap:8px;}
+  .match-item{
+    background:var(--cream-2);border-radius:12px;padding:10px 12px;font-weight:700;
+    cursor:pointer;border:3px solid transparent;font-size:.9rem;text-align:center;
+  }
+  .match-item.sel{border-color:var(--indigo);background:#EDE7FB;}
+  .match-item.paired-correct{background:#DFF3E5;border-color:var(--green);}
+  .match-item.paired-wrong{background:#FBE3EA;border-color:var(--pink);}
+
+  /* true/false */
+  .tf-row{display:flex;gap:12px;}
+  .tf-row .choice{flex:1;text-align:center;}
+
+  /* ---------- WARDROBE ---------- */
+  .wardrobe-stage{
+    background:var(--white);border-radius:var(--radius-lg);padding:24px;text-align:center;
+    box-shadow:0 8px 0 var(--shadow-plum);margin-bottom:18px;
+  }
+  .wardrobe-stage svg{width:220px;height:220px;}
+  .outfit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .outfit-card{
+    background:var(--white);border-radius:16px;padding:14px 8px;text-align:center;
+    cursor:pointer;border:3px solid transparent;box-shadow:0 4px 0 var(--shadow-plum);
+    font-weight:800;font-family:'Baloo 2';font-size:.85rem;
+  }
+  .outfit-card.active{border-color:var(--indigo);background:#EDE7FB;}
+  .outfit-card.locked{opacity:.55;cursor:pointer;position:relative;}
+  .outfit-card.locked .swatch{filter:grayscale(1);}
+  .outfit-card .lock-tag{
+    display:block;font-size:.65rem;font-weight:800;color:var(--plum-soft);
+    margin-top:3px;text-transform:none;
+  }
+  .outfit-card .swatch{font-size:1.7rem;margin-bottom:4px;}
+  .lock-note{font-size:.72rem;color:var(--plum-soft);font-weight:700;margin-top:4px;}
+
+  /* ---------- SIM (states of matter) ---------- */
+  .sim-box{
+    background:linear-gradient(180deg,#EAF6FB,#DFF0F8);border-radius:18px;padding:16px;margin:14px 0;
+    position:relative;
+  }
+  .sim-canvas-wrap{
+    position:relative;background:white;border-radius:14px;height:200px;overflow:hidden;
+    border:3px solid #cfe6ee;
+  }
+  .sim-particle{
+    position:absolute;width:14px;height:14px;border-radius:50%;
+    background:var(--sky);box-shadow:0 0 0 3px rgba(79,182,232,0.25);
+  }
+  .sim-slider-row{display:flex;align-items:center;gap:12px;margin-top:12px;}
+  .sim-slider-row input[type=range]{flex:1;accent-color:var(--pink);}
+  .sim-label{
+    font-family:'Baloo 2';font-weight:800;text-align:center;margin-top:8px;font-size:1rem;
+  }
+  .state-chip{
+    display:inline-block;padding:4px 12px;border-radius:20px;font-size:.85rem;
+    font-weight:800;color:white;margin-top:4px;
+  }
+
+  /* ---------- BOTTOM NAV ---------- */
+  #bottomnav{
+    position:fixed;bottom:0;left:0;right:0;
+    background:var(--white);border-top:3px solid var(--cream-2);
+    display:flex;justify-content:center;padding:8px 0;z-index:60;
+  }
+  #bottomnav .inner{max-width:720px;width:100%;display:flex;justify-content:space-around;}
+  .nav-btn{
+    background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:var(--plum-soft);font-weight:800;font-family:'Baloo 2';font-size:.72rem;cursor:pointer;
+    padding:4px 10px;border-radius:10px;
+  }
+  .nav-btn.active{color:var(--indigo);background:#EDE7FB;}
+  .nav-btn .ic{font-size:1.3rem;}
+
+  /* Judy mascot idle animation */
+  .judy-idle{transform-origin:50% 90%;animation:judyBreathe 2.6s ease-in-out infinite;}
+  @keyframes judyBreathe{
+    0%,100%{transform:translateY(0) scale(1);}
+    50%{transform:translateY(-3px) scale(1.015);}
+  }
+  .judy-ear-wiggle{transform-origin:50% 100%;animation:earWiggle 3.4s ease-in-out infinite;}
+  @keyframes earWiggle{
+    0%,100%{transform:rotate(0deg);}
+    45%{transform:rotate(-3deg);}
+    55%{transform:rotate(2deg);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .judy-idle, .judy-ear-wiggle{animation:none;}
+  }
+
+  /* confetti canvas */
+  #confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:200;}
+
+  /* toast */
+  #toast{
+    position:fixed;left:50%;top:16px;transform:translate(-50%,-140%);
+    background:var(--plum);color:white;padding:10px 18px;border-radius:14px;
+    font-weight:800;font-family:'Baloo 2';z-index:300;transition:transform .3s ease;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+  }
+  #toast.show{transform:translate(-50%,0);}
+
+  .lock-badge{font-size:.7rem;background:var(--cream-2);color:var(--plum-soft);padding:3px 8px;border-radius:10px;font-weight:800;}
+
+  /* signs-in-creation callout */
+  .signs-box{
+    background:linear-gradient(135deg,#F1FBF3,#E3F5E7);
+    border:2px dashed var(--green);border-radius:14px;padding:12px 14px;margin:14px 0;
+  }
+  .signs-box .label{font-family:'Baloo 2';font-weight:800;color:var(--green-dark);font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;}
+  .quran-embed-wrap{margin:10px 0;border-radius:14px;overflow:hidden;background:white;min-height:150px;}
+  .quran-embed-wrap iframe{display:block;min-height:150px;border:none;}
+
+  ::selection{background:var(--eye);color:white;}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div id="toast"></div>
+<div id="unlockModal">
+  <div class="unlock-card" id="unlockCardInner"></div>
+</div>
+<div id="peekModal">
+  <div class="peek-sheet">
+    <div class="peek-header">
+      <span>📖 Peek at the lesson</span>
+      <button class="icon-btn" onclick="closePeek()" aria-label="Close">✕</button>
+    </div>
+    <div class="peek-body" id="peekBody"></div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="topbar">
+    <div class="brand" onclick="goHome()">
+      <div id="topbarJudy"></div>
+      <span>Judy's Science Adventure</span>
+    </div>
+    <div class="actions">
+      <div class="streak-chip">🔥 <span id="streakVal">0</span></div>
+      <button class="icon-btn" id="muteBtn" onclick="toggleMute()" title="Sound">🔊</button>
+      <button class="icon-btn" onclick="showView('wardrobe')" title="Dress up Judy">👗</button>
+    </div>
+  </div>
+
+  <!-- HOME VIEW -->
+  <div class="view active" id="view-home">
+    <div class="hero-card">
+      <h1>Salaam, Shareefah! 🌟</h1>
+      <p id="homeSub">Ready to explore science with Judy today?</p>
+    </div>
+    <div id="wardrobeQuestCard"></div>
+    <div class="land-list" id="landList"></div>
+  </div>
+
+  <!-- LAND VIEW -->
+  <div class="view" id="view-land">
+    <div class="back-row">
+      <button class="back-btn" onclick="showView('home')">← Back</button>
+      <h2 id="landTitle" style="margin:0;"></h2>
+    </div>
+    <div class="module-grid" id="moduleGrid"></div>
+  </div>
+
+  <!-- LESSON VIEW -->
+  <div class="view" id="view-lesson">
+    <div class="back-row">
+      <button class="back-btn" onclick="showView('land')">← Back</button>
+    </div>
+    <div class="judy-speech-row">
+      <div class="judy-avatar" id="lessonJudy"></div>
+      <div class="bubble" id="hunchBubble"></div>
+    </div>
+    <div class="lesson-card" id="lessonCard"></div>
+  </div>
+
+  <!-- QUIZ VIEW -->
+  <div class="view" id="view-quiz">
+    <div class="back-row">
+      <button class="back-btn" onclick="showView('land')">← Exit quiz</button>
+      <button class="back-btn" onclick="openPeek()" style="margin-left:auto;">📖 Peek at the lesson</button>
+    </div>
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div id="quizArea"></div>
+  </div>
+
+  <!-- WARDROBE VIEW -->
+  <div class="view" id="view-wardrobe">
+    <div class="back-row">
+      <button class="back-btn" onclick="showView('home')">← Back</button>
+      <h2 style="margin:0;">Dress up Judy</h2>
+    </div>
+    <div class="wardrobe-stage">
+      <div id="wardrobeJudy"></div>
+    </div>
+    <div class="outfit-grid" id="outfitGrid"></div>
+  </div>
+
+  <div id="bottomnav">
+    <div class="inner">
+      <button class="nav-btn active" data-nav="home" onclick="showView('home')"><span class="ic">🏠</span>Home</button>
+      <button class="nav-btn" data-nav="notebook" onclick="openNotebook()"><span class="ic">📓</span>Lab Notebook</button>
+      <button class="nav-btn" data-nav="wardrobe" onclick="showView('wardrobe')"><span class="ic">👗</span>Judy</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================
+   STATE
+===================================================== */
+const DEFAULT_STATE = {
+  outfit: 'explorer',
+  muted: false,
+  streak: 0,
+  completed: {},      // moduleId -> true
+  reviewQueue: [],     // array of {moduleId, questionId}
+  notebook: [],         // array of {moduleId, questionText, correctText, yourAnswer, note}
+  introSeen: false
+};
+let state = loadState();
+function loadState(){
+  try{
+    const raw = localStorage.getItem('judy_science_state');
+    if(raw) return Object.assign({}, DEFAULT_STATE, JSON.parse(raw));
+  }catch(e){}
+  return Object.assign({}, DEFAULT_STATE);
+}
+function saveState(){
+  try{ localStorage.setItem('judy_science_state', JSON.stringify(state)); }catch(e){}
+}
+
+/* =====================================================
+   OUTFITS
+===================================================== */
+const OUTFITS = [
+  {id:'explorer', name:'Explorer Vest', emoji:'🎒', unlockLand:null},
+  {id:'abaya', name:'Abaya', emoji:'🧕', unlockLand:'life'},
+  {id:'labcoat', name:'Lab Coat', emoji:'🥼', unlockLand:'energy'},
+  {id:'police', name:'Detective Uniform', emoji:'👮‍♀️', unlockLand:'earth'},
+  {id:'astronaut', name:'Astronaut Suit', emoji:'🚀', unlockLand:'space'},
+];
+function isOutfitUnlocked(o){ return !o.unlockLand || landComplete(o.unlockLand); }
+function nextLockedOutfit(){
+  // returns the first outfit (in land order) not yet unlocked
+  return OUTFITS.find(o=>o.unlockLand && !isOutfitUnlocked(o)) || null;
+}
+
+/* =====================================================
+   JUDY MASCOT SVG
+===================================================== */
+function judySVG(opts){
+  opts = opts || {};
+  const outfit = opts.outfit || state.outfit;
+  const mood = opts.mood || 'idle'; // idle | happy | thinking | oops
+  const size = opts.size || 140;
+  const idAnim = opts.animate !== false;
+
+  // mouth/eye variations by mood
+  let mouth, eyeShape='circle';
+  if(mood==='happy') mouth = '<path d="M67 96 Q80 108 93 96" stroke="#5c4a72" stroke-width="3.5" fill="none" stroke-linecap="round"/>';
+  else if(mood==='thinking') mouth = '<path d="M70 98 Q80 96 90 99" stroke="#5c4a72" stroke-width="3.5" fill="none" stroke-linecap="round"/>';
+  else if(mood==='oops') mouth = '<ellipse cx="80" cy="99" rx="6" ry="8" fill="#5c4a72"/>';
+  else mouth = '<path d="M70 95 Q80 102 90 95" stroke="#5c4a72" stroke-width="3.5" fill="none" stroke-linecap="round"/>';
+
+  // outfit layer (drawn UNDER hijab/ears, over body)
+  let outfitLayer = '';
+  if(outfit==='abaya'){
+    outfitLayer = `<path d="M35 118 Q40 205 45 230 L115 230 Q120 205 125 118 Q80 135 35 118 Z" fill="#4A4358"/>
+      <path d="M35 118 Q40 205 45 230 L60 230 Q52 170 50 118 Z" fill="#3d3749"/>`;
+  } else if(outfit==='police'){
+    outfitLayer = `<path d="M40 118 Q80 138 120 118 L124 220 L36 220 Z" fill="#2E4A7A"/>
+      <rect x="70" y="128" width="20" height="60" fill="#22385e"/>
+      <circle cx="63" cy="146" r="7" fill="#F2C94C" stroke="#b8951f" stroke-width="1.5"/>
+      <rect x="36" y="150" width="88" height="10" fill="#22385e"/>`;
+  } else if(outfit==='astronaut'){
+    outfitLayer = `<path d="M38 120 Q80 140 122 120 L126 222 L34 222 Z" fill="#F4F4F4" stroke="#c9c9c9" stroke-width="2"/>
+      <rect x="66" y="150" width="28" height="20" rx="4" fill="#8B5FBF" opacity="0.85"/>
+      <circle cx="80" cy="200" r="5" fill="#E8698A"/>`;
+  } else if(outfit==='labcoat'){
+    outfitLayer = `<path d="M40 118 Q80 136 120 118 L124 224 L96 224 L96 150 L64 150 L64 224 L36 224 Z" fill="#FBFBFB" stroke="#dcdcdc" stroke-width="2"/>
+      <rect x="42" y="160" width="16" height="18" rx="3" fill="#EAEAEA"/>`;
+  } else {
+    outfitLayer = `<path d="M42 120 Q80 138 118 120 L122 218 L38 218 Z" fill="#F2A93B"/>
+      <path d="M42 120 Q80 138 118 120 L120 138 Q80 154 40 138 Z" fill="#e0952a"/>`;
+  }
+
+  // astronaut helmet ring drawn OVER hijab
+  let helmet = outfit==='astronaut' ? `<circle cx="80" cy="70" r="46" fill="none" stroke="#dfefff" stroke-width="5" opacity="0.9"/>
+    <path d="M40 60 Q80 40 120 60" stroke="#ffffff" stroke-width="4" fill="none" opacity="0.6"/>` : '';
+
+  const svg = `
+  <svg viewBox="0 0 160 240" width="${size}" height="${size*1.5}" xmlns="http://www.w3.org/2000/svg" aria-label="Judy the bunny">
+    <g class="${idAnim?'judy-idle':''}">
+      <!-- shadow -->
+      <ellipse cx="80" cy="230" rx="40" ry="7" fill="rgba(58,46,77,0.12)"/>
+      <!-- feet -->
+      <ellipse cx="60" cy="220" rx="15" ry="9" fill="#D9D3E0"/>
+      <ellipse cx="100" cy="220" rx="15" ry="9" fill="#D9D3E0"/>
+      <!-- body -->
+      <ellipse cx="80" cy="160" rx="46" ry="58" fill="#CFC9DA"/>
+      <ellipse cx="80" cy="170" rx="28" ry="36" fill="#E3DEEA"/>
+      <!-- outfit -->
+      ${outfitLayer}
+      <!-- arms -->
+      <ellipse cx="34" cy="150" rx="11" ry="26" fill="#CFC9DA" transform="rotate(18 34 150)"/>
+      <ellipse cx="126" cy="150" rx="11" ry="26" fill="#CFC9DA" transform="rotate(-18 126 150)"/>
+      <!-- head -->
+      <circle cx="80" cy="88" r="46" fill="#CFC9DA"/>
+      <!-- ears -->
+      <g class="judy-ear-wiggle">
+        <ellipse cx="55" cy="30" rx="12" ry="38" fill="#CFC9DA" transform="rotate(-14 55 30)"/>
+        <ellipse cx="55" cy="32" rx="6" ry="28" fill="#F3D9E6" transform="rotate(-14 55 32)"/>
+      </g>
+      <g class="judy-ear-wiggle" style="animation-delay:.15s">
+        <ellipse cx="105" cy="30" rx="12" ry="38" fill="#CFC9DA" transform="rotate(14 105 30)"/>
+        <ellipse cx="105" cy="32" rx="6" ry="28" fill="#F3D9E6" transform="rotate(14 105 32)"/>
+      </g>
+      <!-- hijab (always on, drawn after ears base but ears poke through) -->
+      <path d="M34 78 Q34 30 80 26 Q126 30 126 78 Q126 100 118 108 L110 96 Q116 70 100 52 Q80 34 60 52 Q44 70 50 96 L42 108 Q34 100 34 78 Z" fill="#6C5CE7"/>
+      <path d="M42 108 L34 128 Q50 122 58 108 Z" fill="#5A4BD1"/>
+      <path d="M118 108 L126 128 Q110 122 102 108 Z" fill="#5A4BD1"/>
+      <path d="M60 52 Q80 34 100 52 Q116 70 110 96 Q80 80 50 96 Q44 70 60 52 Z" fill="#7B6BF0"/>
+      <!-- face -->
+      <ellipse cx="80" cy="98" rx="30" ry="26" fill="#F3EEF7"/>
+      <!-- eyes (big purple) -->
+      <ellipse cx="66" cy="92" rx="10" ry="12" fill="#FFFFFF"/>
+      <ellipse cx="94" cy="92" rx="10" ry="12" fill="#FFFFFF"/>
+      <ellipse cx="67" cy="94" rx="7" ry="9" fill="var(--eye, #8B5FBF)"/>
+      <ellipse cx="95" cy="94" rx="7" ry="9" fill="var(--eye, #8B5FBF)"/>
+      <circle cx="69" cy="90" r="2.4" fill="white"/>
+      <circle cx="97" cy="90" r="2.4" fill="white"/>
+      <!-- blush -->
+      <ellipse cx="55" cy="102" rx="6" ry="4" fill="#F3B6C4" opacity="0.7"/>
+      <ellipse cx="105" cy="102" rx="6" ry="4" fill="#F3B6C4" opacity="0.7"/>
+      <!-- nose + mouth -->
+      <ellipse cx="80" cy="103" rx="4" ry="3" fill="#C98FA8"/>
+      ${mouth}
+      ${helmet}
+    </g>
+  </svg>`;
+  return svg;
+}
+function renderAllJudys(){
+  document.getElementById('topbarJudy').innerHTML = judySVG({size:38, mood:'idle'});
+  document.getElementById('wardrobeJudy').innerHTML = judySVG({size:180, mood:'happy'});
+}
+
+/* =====================================================
+   SOUND (Web Audio API — synthesized, no files)
+===================================================== */
+let actx = null;
+function ac(){ if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)(); return actx; }
+function tone(freq, start, dur, type='sine', gain=0.18){
+  if(state.muted) return;
+  const c = ac();
+  const t0 = c.currentTime + start;
+  const osc = c.createOscillator();
+  const g = c.createGain();
+  osc.type = type; osc.frequency.setValueAtTime(freq, t0);
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(gain, t0+0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  osc.connect(g); g.connect(c.destination);
+  osc.start(t0); osc.stop(t0+dur+0.02);
+}
+function sndTap(){ tone(520,0,0.08,'sine',0.12); }
+function sndCorrect(){ tone(523,0,0.14,'triangle'); tone(659,0.1,0.16,'triangle'); tone(784,0.2,0.22,'triangle'); }
+function sndWrong(){ tone(330,0,0.18,'sine',0.14); tone(277,0.12,0.22,'sine',0.12); }
+function sndComplete(){ tone(392,0,0.12); tone(523,0.11,0.12); tone(659,0.22,0.12); tone(784,0.33,0.3); }
+function sndMilestone(){ [523,659,784,1046].forEach((f,i)=>tone(f,i*0.11,0.22,'triangle',0.16)); launchConfetti(); }
+function toggleMute(){
+  state.muted = !state.muted; saveState();
+  document.getElementById('muteBtn').textContent = state.muted ? '🔇' : '🔊';
+}
+
+/* =====================================================
+   CONFETTI
+===================================================== */
+function launchConfetti(){
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const ctx = canvas.getContext && canvas.getContext('2d');
+  if(!ctx) return;
+  const colors = ['#6C5CE7','#4FA974','#F2A93B','#E8698A','#4FB6E8'];
+  let particles = Array.from({length:70}, ()=>({
+    x: Math.random()*canvas.width, y:-20-Math.random()*200,
+    vy: 2+Math.random()*3, vx: -1.5+Math.random()*3,
+    size: 5+Math.random()*6, color: colors[Math.floor(Math.random()*colors.length)],
+    rot: Math.random()*360, vr: -6+Math.random()*12
+  }));
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ return; }
+  let frames=0;
+  function step(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+      ctx.restore();
+    });
+    frames++;
+    if(frames<140) requestAnimationFrame(step); else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  step();
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._h);
+  toast._h = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* =====================================================
+   CONTENT DATA — LANDS + MODULES (Stage 1: 2 sample modules)
+===================================================== */
+const LANDS = [
+  {id:'life', name:'Life Land', emoji:'🌱', color:'green', colorDark:'green-dark', tagline:'Cells, bodies, ecosystems & living things'},
+  {id:'energy', name:'Energy & Matter Land', emoji:'⚡', color:'amber', colorDark:'amber-dark', tagline:'Matter, forces, energy & simple machines'},
+  {id:'earth', name:'Earth & Sky Land', emoji:'🌍', color:'clay', colorDark:'clay-dark', tagline:'Rocks, water, weather & Earth\'s resources'},
+  {id:'space', name:'Space & Inquiry Land', emoji:'🚀', color:'indigo', colorDark:'indigo-dark', tagline:'Solar system, gravity & the scientific method'},
+];
+
+const MODULES = [
+  {
+    id:'life-photosynthesis',
+    land:'life',
+    title:'Plant Power: Photosynthesis',
+    hunch:"Judy's hunch: \"I think plants eat dirt to grow big... is that right, Shareefah? What do YOU think a plant needs to grow?\"",
+    lessonHTML:`
+      <h2>How Plants Make Their Own Food</h2>
+      <p>Plants are amazing — they don't eat food like we do. Instead, they make their own food inside their leaves using a process called <span class="vocab" data-term="photosynthesis">photosynthesis</span>.</p>
+      <p>To make food, a plant needs three ingredients: <span class="vocab" data-term="sunlight">sunlight</span>, <span class="vocab" data-term="water">water</span> (pulled up from the soil through the roots), and <span class="vocab" data-term="carbondioxide">carbon dioxide</span> (a gas plants pull in from the air through tiny holes in their leaves). Inside the leaf, a green substance called <span class="vocab" data-term="chlorophyll">chlorophyll</span> captures the sunlight's energy and uses it to combine the water and carbon dioxide into <span class="vocab" data-term="glucose">glucose</span> (a kind of sugar — the plant's food) and <span class="vocab" data-term="oxygen">oxygen</span>, which the plant releases back into the air.</p>
+      <div class="diagram-box">
+        <div class="photo-diagram">
+          <img src="images/leaf-photosynthesis.jpg" alt="Close-up of a green leaf with sunlight shining through it, showing visible veins">
+          <div class="caption-strip">☀️ Sunlight + 💧 Water + 🌬️ CO₂ → 🍃 Glucose + 💨 Oxygen</div>
+        </div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Nearly all of the oxygen you just breathed in was made by a plant or ocean algae doing photosynthesis, some of it maybe years ago!</div>
+      <p>This is also why plants are green — chlorophyll reflects green light and absorbs the red and blue light instead, which is why our eyes see the leaf as green.</p>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=6%3A99&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Think about how precisely this works: a leaf silently pulls in an invisible gas, captures light from 93 million miles away, and turns both into food and the very air we breathe — all without a factory or a machine.</p>
+      </div>
+    `,
+    diagram: 'photosynthesis',
+    glossary:{
+      photosynthesis:{def:'The process plants use to make their own food using sunlight, water, and carbon dioxide.', clue:'Think: "photo" = light, "synthesis" = putting together.'},
+      sunlight:{def:'Light energy from the sun that gives the plant power to make food.'},
+      water:{def:'Pulled up from the soil into the plant through the roots and stem.'},
+      carbondioxide:{def:'A gas in the air (made of carbon and oxygen) that plants pull in through tiny leaf holes called stomata.'},
+      chlorophyll:{def:'The green substance in leaves that captures sunlight energy — this is what makes leaves look green.'},
+      glucose:{def:'A type of sugar — this is the "food" the plant makes for itself to grow and live.'},
+      oxygen:{def:'A gas the plant releases back into the air as a leftover product — the same gas humans and animals breathe in.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Which THREE things does a plant need to carry out photosynthesis?',
+        choices:['Sunlight, water, and carbon dioxide','Sunlight, soil, and oxygen','Water, dirt, and glucose','Chlorophyll, oxygen, and soil'],
+        correct:0,
+        hints:[
+          "Hint 1: Think about where each ingredient comes from — one comes from the sky, one from the ground, and one from the air.",
+          "Hint 2: Look back at the diagram — what are the two arrows pointing INTO the leaf, plus the sun?"
+        ],
+        explain:'A plant pulls in water through its roots, carbon dioxide through its leaves, and captures sunlight — those three combine inside the leaf to build glucose.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Oxygen goes INTO the plant, and carbon dioxide comes OUT.',
+        answer:false,
+        hints:["Hint 1: It's actually the reverse of what the sentence says — re-read which gas is the input and which is the output."],
+        explain:'It\'s the opposite: carbon dioxide goes IN, and oxygen comes OUT as a byproduct.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Why do most leaves look green to our eyes?',
+        choices:['Chlorophyll absorbs green light and reflects red/blue light','Chlorophyll reflects green light and absorbs red/blue light','Leaves are naturally colorless and paint themselves green','Green is the only color light the sun makes'],
+        correct:1,
+        hints:["Hint 1: The color we SEE is the color of light that bounces OFF an object, not the color it soaks up.","Hint 2: If chlorophyll used green light for energy, would we ever see green leaves?"],
+        explain:'Chlorophyll actually absorbs red and blue light for energy and reflects the green light back to our eyes — that reflected green is what we see.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each part of the process to what it does.',
+        left:['Roots','Leaves (stomata)','Chlorophyll','Glucose'],
+        right:['Pull water from soil','Pull in carbon dioxide gas','Captures sunlight energy','The food the plant makes'],
+        correctPairs:[0,1,2,3],
+        hints:["Hint: Follow the diagram from the ground up — roots are at the bottom, leaves are at the top."],
+        explain:'Roots draw up water, leaf pores (stomata) draw in CO₂, chlorophyll captures light energy, and glucose is the sugar food that results.'
+      }
+    ]
+  },
+  {
+    id:'life-cells',
+    land:'life',
+    title:'Plant & Animal Cells',
+    hunch:"Judy's hunch: \"I'm made of trillions of tiny living building blocks — so are you! What do you think those building blocks are called?\"",
+    lessonHTML:`
+      <h2>The Building Blocks of Life</h2>
+      <p>Every living thing — from a tiny ant to a giant sequoia tree to you — is made of <span class="vocab" data-term="cell">cells</span>. A cell is the smallest unit that can be considered "alive." Some living things, like bacteria, are made of just one cell. You are made of trillions of them, all working together.</p>
+      <p>Inside every cell are tiny working parts called <span class="vocab" data-term="organelle">organelles</span> — think of them like organs, but for a cell instead of a body. The <span class="vocab" data-term="nucleus">nucleus</span> acts like the cell's control center, holding the instructions for everything the cell does. The <span class="vocab" data-term="mitochondria">mitochondria</span> are the cell's power plants, turning food into usable energy. The <span class="vocab" data-term="cellmembrane">cell membrane</span> is a thin boundary that holds everything in and controls what enters or leaves.</p>
+      <div class="diagram-box">
+        <div class="photo-diagram">
+          <img src="images/cells-stained-dividing.jpg" alt="Fluorescent-stained cells dividing under a microscope, showing colorful nucleus and cytoplasm structures">
+          <div class="caption-strip">🔬 Real stained cells under a microscope — you can see the nucleus glowing in each one</div>
+        </div>
+      </div>
+      <p>Plant cells have a few extra parts animal cells don't have: a rigid <span class="vocab" data-term="cellwall">cell wall</span> for extra support and shape, and <span class="vocab" data-term="chloroplast">chloroplasts</span> — the very structures that carry out photosynthesis, which you learned about earlier!</p>
+      <div class="fun-fact">🌟 Fun fact: An adult human body is estimated to have around 37 trillion cells — that's more than 4,000 times the number of people on Earth!</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=21%3A30&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Every single one of your cells is mostly made of water on the inside — this ayah connects directly to something true at the microscopic level of every living cell.</p>
+      </div>
+    `,
+    diagram:'cells',
+    glossary:{
+      cell:{def:'The smallest basic unit of a living thing — everything alive is made of one or more cells.'},
+      organelle:{def:'A tiny working part inside a cell, each with its own job — like a mini organ.'},
+      nucleus:{def:"The cell's control center, which holds the instructions (DNA) for how the cell works."},
+      mitochondria:{def:"The cell's power plant — it turns food/sugar into energy the cell can use."},
+      cellmembrane:{def:'The thin outer boundary of a cell that controls what goes in and out.'},
+      cellwall:{def:'A rigid outer layer found only in plant cells (and some others), giving extra support and structure.'},
+      chloroplast:{def:'The organelle found only in plant cells that captures sunlight to carry out photosynthesis.'}
+    },
+    quiz:[
+      {type:'mc', id:'q1', q:'Which structures are found in PLANT cells but NOT in animal cells?',
+        choices:['Cell wall and chloroplasts','Nucleus','Cell membrane','Mitochondria'], correct:0,
+        hints:['Hint 1: Think back to the photosynthesis lesson — what does a plant have that lets it capture sunlight?','Hint 2: Two of these answers (nucleus, membrane, mitochondria) are found in BOTH plant and animal cells — cross those out.'],
+        explain:'Both animal and plant cells have a nucleus, membrane, and mitochondria. Only plant cells have a rigid cell wall and chloroplasts for photosynthesis.'},
+      {type:'tf', id:'q2', q:'True or False: Every living thing, including you, is made of at least one cell.',
+        answer:true,
+        hints:['Hint 1: Even the very simplest living things, like bacteria, are made of just one of these.'],
+        explain:'Yes — the cell is the basic unit of ALL life, whether it\'s a single-celled bacterium or a human made of trillions of cells.'},
+      {type:'match', id:'q3', q:'Match each cell part to its job.',
+        left:['Nucleus','Mitochondria','Cell membrane','Chloroplast'],
+        right:['Control center with instructions','Turns food into usable energy','Controls what enters and leaves the cell','Captures sunlight for photosynthesis'],
+        correctPairs:[0,1,2,3],
+        hints:['Hint: Think of the nucleus like a brain, the mitochondria like a power plant, the membrane like a fence with a gate, and the chloroplast like a solar panel.'],
+        explain:'Nucleus = control center, mitochondria = energy maker, cell membrane = gatekeeper boundary, chloroplast = sunlight capturer (plants only).'}
+    ]
+  },
+  {
+    id:'life-body-systems',
+    land:'life',
+    title:'Human Body Systems',
+    hunch:"Judy's hunch: \"When you run really fast, your heart beats faster and you breathe harder. Why do you think those two things happen together?\"",
+    lessonHTML:`
+      <h2>Your Body's Amazing Teamwork</h2>
+      <p>Your body is made of several <span class="vocab" data-term="bodysystem">body systems</span> — groups of organs that work together to do a job. None of them work alone; they constantly depend on each other.</p>
+      <p>The <span class="vocab" data-term="digestive">digestive system</span> breaks the food you eat into tiny nutrients your body can use. The <span class="vocab" data-term="circulatory">circulatory system</span> — your heart and blood vessels — carries those nutrients (and oxygen) to every cell in your body. The <span class="vocab" data-term="respiratory">respiratory system</span> — your lungs — brings in oxygen from the air and removes carbon dioxide. The <span class="vocab" data-term="skeletal">skeletal system</span> (your bones) supports your body and protects organs like your brain and heart, while the <span class="vocab" data-term="muscular">muscular system</span> lets you move. The <span class="vocab" data-term="nervous">nervous system</span> — your brain, spinal cord, and nerves — sends fast messages so all these systems know what to do and when.</p>
+      <div class="diagram-box">
+        <div class="photo-grid">
+          <figure><img src="images/skeleton-full-body.jpg" alt="Full body real human skeleton, standing"><figcaption>Skeletal</figcaption></figure>
+          <figure><img src="images/heart-model.jpg" alt="Realistic 2-part human heart model"><figcaption>Circulatory</figcaption></figure>
+          <figure><img src="images/lung-model.jpg" alt="Human lung model with larynx and heart"><figcaption>Respiratory</figcaption></figure>
+          <figure><img src="images/digestive-model.jpg" alt="Human digestive system anatomical model"><figcaption>Digestive</figcaption></figure>
+          <figure><img src="images/brain-model.jpg" alt="Labeled 9-part human brain model"><figcaption>Nervous</figcaption></figure>
+        </div>
+      </div>
+      <p>That's why running makes your heart and lungs work harder together: your muscles suddenly need much more oxygen and energy, so your circulatory and respiratory systems speed up to deliver it.</p>
+      <div class="fun-fact">🌟 Fun fact: Your heart beats about 100,000 times a day without you ever having to think about it — your nervous system runs it automatically!</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=51%3A21&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">This ayah points inward, at our own bodies, as something worth pausing to really look at and think about — which is exactly what studying body systems is!</p>
+      </div>
+    `,
+    diagram:'body',
+    glossary:{
+      bodysystem:{def:'A group of organs that work together to carry out a major job in the body.'},
+      digestive:{def:'The system (mouth, stomach, intestines) that breaks food down into nutrients.'},
+      circulatory:{def:'The system (heart and blood vessels) that carries blood, oxygen, and nutrients around the body.'},
+      respiratory:{def:'The system (lungs and airways) that brings oxygen in and removes carbon dioxide.'},
+      skeletal:{def:'The system of bones that supports the body and protects organs.'},
+      muscular:{def:'The system of muscles that allows the body to move.'},
+      nervous:{def:'The system (brain, spinal cord, nerves) that sends fast electrical messages to control the body.'}
+    },
+    quiz:[
+      {type:'mc', id:'q1', q:"Which system's main job is to pump blood and deliver oxygen/nutrients throughout the body?",
+        choices:['Circulatory system','Digestive system','Skeletal system','Muscular system'], correct:0,
+        hints:['Hint 1: Think about the organ that beats inside your chest.'],
+        explain:'The circulatory system — your heart and blood vessels — pumps blood carrying oxygen and nutrients to every part of the body.'},
+      {type:'tf', id:'q2', q:'True or False: Your lungs are part of the digestive system.',
+        answer:false,
+        hints:['Hint 1: What gas do your lungs bring in — food, or air?'],
+        explain:'Lungs are part of the RESPIRATORY system, which deals with breathing and gas exchange — not digestion.'},
+      {type:'match', id:'q3', q:'Match each body system to its main function.',
+        left:['Digestive system','Respiratory system','Skeletal system','Nervous system'],
+        right:['Breaks food into nutrients','Brings oxygen into the blood','Supports and protects the body','Sends messages between brain and body'],
+        correctPairs:[0,1,2,3],
+        hints:['Hint: Follow the path of a breath vs. the path of a meal — they involve different systems.'],
+        explain:'Digestive = breaks down food, respiratory = handles oxygen, skeletal = structure and protection, nervous = communication and control.'}
+    ]
+  },
+  {
+    id:'life-ecosystems',
+    land:'life',
+    title:'Ecosystems & Food Webs',
+    hunch:"Judy's hunch: \"If every fox in a forest suddenly disappeared, what do you think would happen to the rabbits? And then what might happen to the grass?\"",
+    lessonHTML:`
+      <h2>Who Eats Whom? Energy in an Ecosystem</h2>
+      <p>An <span class="vocab" data-term="ecosystem">ecosystem</span> is a community of living things (plants, animals, fungi, bacteria) interacting with each other and their non-living surroundings (sunlight, water, soil, air) in one place.</p>
+      <p>Energy flows through an ecosystem in a <span class="vocab" data-term="foodchain">food chain</span>: <span class="vocab" data-term="producer">producers</span> (plants) use sunlight to make their own food, <span class="vocab" data-term="consumer">consumers</span> (animals) eat producers or other consumers for energy, and <span class="vocab" data-term="decomposer">decomposers</span> (like mushrooms and bacteria) break down dead plants and animals, returning nutrients to the soil. Since most animals eat more than one kind of food, many overlapping food chains link together into a <span class="vocab" data-term="foodweb">food web</span>.</p>
+      <div class="diagram-box">
+        <p style="font-weight:800;font-family:'Baloo 2';text-align:center;margin:0 0 8px;color:var(--plum-soft);font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;">A forest food chain, real photo by real photo</p>
+        <div class="photo-strip">
+          <figure><img src="https://cdn.pixabay.com/photo/2014/03/21/15/01/oak-tree-292111_1280.jpg" alt="A large real oak tree"><figcaption>Oak tree<br>(producer)</figcaption></figure>
+          <span class="arrow-between">→</span>
+          <figure><img src="images/foodweb-beetle.jpg" alt="A real beetle on a leaf"><figcaption>Beetle<br>(primary consumer)</figcaption></figure>
+          <span class="arrow-between">→</span>
+          <figure><img src="images/foodweb-mouse.jpg" alt="A real field mouse"><figcaption>Field mouse<br>(primary consumer)</figcaption></figure>
+          <span class="arrow-between">→</span>
+          <figure><img src="images/foodweb-fox.jpg" alt="A real fox in a forest"><figcaption>Fox<br>(secondary consumer)</figcaption></figure>
+          <span class="arrow-between">→</span>
+          <figure><img src="https://cdn.pixabay.com/photo/2021/06/08/00/00/wolf-6319260_1280.jpg" alt="A real gray wolf"><figcaption>Wolf<br>(tertiary consumer)</figcaption></figure>
+          <span class="arrow-between">→</span>
+          <figure><img src="images/foodweb-mushroom.jpg" alt="Real mushrooms decomposing on a forest floor"><figcaption>Mushroom<br>(decomposer)</figcaption></figure>
+        </div>
+      </div>
+      <p>That's why removing even one animal — like all the foxes — can ripple through a whole ecosystem: without foxes eating them, the rabbit population could grow too large and eat too much grass, which then affects every other animal that depends on that grass.</p>
+      <div class="fun-fact">🌟 Fun fact: Almost every food chain on Earth traces its energy all the way back to one source: sunlight, captured first by producers.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=6%3A38&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">This ayah describes animals as organized "communities" — which is exactly how scientists describe an ecosystem: an organized community of living things depending on one another.</p>
+      </div>
+    `,
+    diagram:'foodweb',
+    glossary:{
+      ecosystem:{def:'A community of living things interacting with each other and their environment in one place.'},
+      foodchain:{def:'A single path showing who eats whom, starting with a producer.'},
+      producer:{def:'A living thing (usually a plant) that makes its own food using sunlight.'},
+      consumer:{def:'A living thing that gets energy by eating other living things.'},
+      decomposer:{def:'A living thing (like fungi or bacteria) that breaks down dead material and returns nutrients to the soil.'},
+      foodweb:{def:'Many overlapping food chains linked together in an ecosystem.'}
+    },
+    quiz:[
+      {type:'mc', id:'q1', q:'What is the ORIGINAL source of energy for almost every food chain on Earth?',
+        choices:['The Sun','Soil','Rainwater','Decomposers'], correct:0,
+        hints:['Hint 1: What do producers (plants) use to make their food in the first place?'],
+        explain:'Producers capture energy from the Sun through photosynthesis — nearly every food chain traces back to sunlight.'},
+      {type:'mc', id:'q2', q:'What do we call living things that break down dead plants and animals and return nutrients to the soil?',
+        choices:['Decomposers','Producers','Predators','Herbivores'], correct:0,
+        hints:['Hint 1: Think of mushrooms growing on a fallen log.'],
+        explain:'Decomposers, like fungi and bacteria, break down dead material and recycle its nutrients back into the ecosystem.'},
+      {type:'match', id:'q3', q:'Match each ecosystem term to its definition.',
+        left:['Producer','Consumer','Decomposer','Food web'],
+        right:['Makes its own food from sunlight','Eats other living things for energy','Breaks down dead material into nutrients','Many connected food chains'],
+        correctPairs:[0,1,2,3],
+        hints:['Hint: Start with "producer" — the word itself is a big clue about what it does.'],
+        explain:'Producer = makes food, consumer = eats others, decomposer = breaks down remains, food web = the whole connected network.'}
+    ]
+  },
+  {
+    id:'life-adaptations',
+    land:'life',
+    title:'Adaptations & Survival',
+    hunch:"Judy's hunch: \"A polar bear has thick white fur and a desert fox has huge ears. Neither animal was ever taught to grow these — so where do you think these features come from?\"",
+    lessonHTML:`
+      <h2>Built to Survive</h2>
+      <p>An <span class="vocab" data-term="adaptation">adaptation</span> is a feature or behavior that helps a living thing survive in its environment. Adaptations can be <span class="vocab" data-term="structural">structural</span> (a physical body part, like thick fur, sharp claws, or a long neck) or <span class="vocab" data-term="behavioral">behavioral</span> (something an animal does, like migrating, hibernating, or building a nest).</p>
+      <p>Some behaviors are <span class="vocab" data-term="instinct">instincts</span> — behaviors an animal is simply born knowing how to do, without ever being taught. A spider doesn't need lessons to spin a web, and a sea turtle hatchling doesn't need to be shown the way to the ocean.</p>
+      <div class="fun-fact">🌟 Fun fact: A chameleon's ability to change color isn't mainly for camouflage — scientists have found it's mostly used to communicate mood and temperature to other chameleons!</div>
+      <div class="diagram-box">
+        <div class="photo-grid">
+          <figure><img src="https://cdn.pixabay.com/photo/2013/03/21/07/42/saudi-arabia-95500_1280.jpg" alt="A real camel in the desert"><figcaption>Camel — structural adaptation (humps, wide feet)</figcaption></figure>
+          <figure><img src="images/adaptation-anteater.jpg" alt="A real pangolin or anteater feeding on ants"><figcaption>Anteater — structural adaptation (long snout, sticky tongue)</figcaption></figure>
+        </div>
+      </div>
+      <p>Camouflage (blending into surroundings), mimicry (looking like something dangerous or unappetizing), and migration (traveling long distances for food or better weather) are all common adaptation strategies you'll find across nearly every ecosystem on Earth.</p>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=16%3A68&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">The surah is even named "The Bee"! It goes on (16:69) to describe bees producing honey with healing properties. A bee is never taught hive-building or honey-making — this is a perfect real-world example of instinct, a built-in adaptation.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      adaptation:{def:'A feature or behavior that helps a living thing survive in its environment.'},
+      structural:{def:'A physical body-part adaptation, like fur, claws, or a beak shape.'},
+      behavioral:{def:'An action-based adaptation, like migrating, hibernating, or nest-building.'},
+      instinct:{def:'A behavior an animal is born already knowing how to do, without being taught.'}
+    },
+    quiz:[
+      {type:'mc', id:'q1', q:"A polar bear's thick white fur is an example of what kind of adaptation?",
+        choices:['A structural adaptation for warmth and camouflage','A learned behavior','A food chain','A decomposer'], correct:0,
+        hints:['Hint 1: Fur is a physical BODY PART, not something the bear DOES.'],
+        explain:"Thick fur is a physical, body-part feature — that makes it a structural adaptation, helping with both warmth and blending into snow."},
+      {type:'tf', id:'q2', q:'True or False: Instincts are behaviors an animal must be taught by its parents.',
+        answer:false,
+        hints:['Hint 1: Re-read the definition of instinct in the lesson — does it involve being taught, or being born already knowing?'],
+        explain:"It's the opposite — instincts are behaviors an animal is born already knowing, without needing to be taught."},
+      {type:'mc', id:'q3', q:'Which is an example of a BEHAVIORAL adaptation rather than a physical/structural one?',
+        choices:['Birds migrating south for the winter',"A cactus's thick, waxy skin","A chameleon's color-changing skin","A polar bear's blubber layer"], correct:0,
+        hints:['Hint 1: Three of these choices are physical body parts. One of them is an ACTION an animal takes.'],
+        explain:'Migrating is something an animal DOES (a behavior), while waxy skin, color-changing skin, and blubber are all physical body-part (structural) adaptations.'}
+    ]
+  },
+  {
+    id:'life-cycles',
+    land:'life',
+    title:'Life Cycles & Metamorphosis',
+    hunch:"Judy's hunch: \"A caterpillar and a butterfly look nothing alike — but they're the exact same animal at two different points in its life. What do you think happens in between?\"",
+    lessonHTML:`
+      <h2>From Egg to Adult</h2>
+      <p>Every living thing goes through a <span class="vocab" data-term="lifecycle">life cycle</span> — a series of stages from birth (or germination) to death, often including the ability to reproduce and start the cycle again.</p>
+      <p>Some insects, like butterflies, go through <span class="vocab" data-term="completemeta">complete metamorphosis</span>: egg → <span class="vocab" data-term="larva">larva</span> (caterpillar) → <span class="vocab" data-term="pupa">pupa</span> (chrysalis) → adult. Each stage looks completely different from the last! Other insects, like grasshoppers, go through <span class="vocab" data-term="incompletemeta">incomplete metamorphosis</span>: egg → nymph → adult, where the nymph already looks like a small version of the adult.</p>
+      <div class="diagram-box">
+        <p style="font-weight:800;font-family:'Baloo 2';text-align:center;margin:0 0 8px;color:var(--plum-soft);font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;">Monarch butterfly: complete metamorphosis</p>
+        <div class="photo-strip">
+          <figure><img src="images/lifecycle-egg.jpg" alt="Real monarch butterfly egg on a leaf"><figcaption>Egg</figcaption></figure>
+          <span class="arrow-between">→</span>
+          <figure><img src="images/lifecycle-caterpillar.jpg" alt="Real monarch caterpillar instar stage"><figcaption>Caterpillar<br>(larva)</figcaption></figure>
+          <span class="arrow-between">→</span>
+          <figure><img src="images/lifecycle-chrysalis.jpg" alt="Real monarch chrysalis stages"><figcaption>Chrysalis<br>(pupa)</figcaption></figure>
+          <span class="arrow-between">→</span>
+          <figure><img src="images/lifecycle-adult.jpg" alt="Real adult monarch butterfly"><figcaption>Adult<br>butterfly</figcaption></figure>
+        </div>
+      </div>
+      <p>Plants have life cycles too: seed → germination (sprouting) → growth → flowering → pollination → new seeds. Humans also grow through recognizable stages — including remarkable, well-documented stages of development before birth.</p>
+      <div class="fun-fact">🌟 Fun fact: Inside a chrysalis, a caterpillar's body doesn't just grow wings — most of its body actually breaks down into a kind of soup and rebuilds itself into a butterfly.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=23%3A13-14&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">This describes human development before birth in clear, ordered stages — tiny drop, clinging form, lump, bones, then flesh — matching the same idea of an orderly life cycle you just learned about in butterflies and plants.</p>
+      </div>
+    `,
+    diagram:'lifecycle',
+    glossary:{
+      lifecycle:{def:"The series of stages a living thing goes through from the start of its life to when it can reproduce."},
+      completemeta:{def:'A life cycle with 4 very different-looking stages: egg, larva, pupa, adult (example: butterflies).'},
+      larva:{def:'The eating-and-growing stage right after hatching (example: a caterpillar).'},
+      pupa:{def:'The resting, transforming stage, often inside a protective case like a chrysalis or cocoon.'},
+      incompletemeta:{def:'A life cycle with only 3 stages — egg, nymph, adult — where the nymph looks like a small adult (example: grasshoppers).'}
+    },
+    quiz:[
+      {type:'mc', id:'q1', q:'What is the correct order of COMPLETE metamorphosis in a butterfly?',
+        choices:['Egg → Larva → Pupa → Adult','Egg → Adult → Larva → Pupa','Larva → Egg → Pupa → Adult','Pupa → Egg → Larva → Adult'], correct:0,
+        hints:['Hint 1: Think about which stage comes first — does a butterfly lay a pupa, or an egg?'],
+        explain:'Complete metamorphosis always follows this order: egg, then larva (caterpillar), then pupa (chrysalis), then adult.'},
+      {type:'tf', id:'q2', q:"True or False: A grasshopper nymph looks completely different from the adult, the same way a caterpillar looks nothing like a butterfly.",
+        answer:false,
+        hints:['Hint 1: Re-read the difference between complete and incomplete metamorphosis in the lesson.'],
+        explain:'This is false — a grasshopper nymph already looks like a small version of the adult (incomplete metamorphosis), unlike a caterpillar, which looks totally different from a butterfly.'},
+      {type:'match', id:'q3', q:'Match each butterfly life stage to its description.',
+        left:['Egg','Larva (caterpillar)','Pupa (chrysalis)','Adult'],
+        right:['The very start of life','The eating and growing stage','The resting, transforming stage','The final stage, able to reproduce'],
+        correctPairs:[0,1,2,3],
+        hints:['Hint: Follow the order you just learned: egg, larva, pupa, adult.'],
+        explain:'Egg = the start, larva = eats and grows, pupa = transforms inside a case, adult = the final, reproducing stage.'}
+    ]
+  },
+  {
+    id:'life-classification',
+    land:'life',
+    title:'Classifying Living Things',
+    hunch:"Judy's hunch: \"Scientists have found and named over a million different kinds of animals. How do you think they keep them all organized instead of just one giant messy list?\"",
+    lessonHTML:`
+      <h2>Sorting the Living World</h2>
+      <p>With millions of known species, scientists needed a system. <span class="vocab" data-term="classification">Classification</span> means sorting living things into groups based on shared traits, making them easier to study and compare.</p>
+      <p>One of the biggest splits is between <span class="vocab" data-term="vertebrate">vertebrates</span> (animals with a backbone — fish, amphibians, reptiles, birds, and mammals) and <span class="vocab" data-term="invertebrate">invertebrates</span> (animals without a backbone — insects, worms, jellyfish, and more; in fact, over 95% of all known animal species are invertebrates!).</p>
+      <div class="diagram-box">
+        <div class="photo-grid">
+          <figure><img src="images/classification-lion.jpg" alt="A real lion"><figcaption>Mammal</figcaption></figure>
+          <figure><img src="images/classification-eagle.jpg" alt="A real bald eagle"><figcaption>Bird</figcaption></figure>
+          <figure><img src="images/classification-frog.jpg" alt="A real green tree frog"><figcaption>Amphibian</figcaption></figure>
+          <figure><img src="images/classification-iguana.jpg" alt="A real green iguana"><figcaption>Reptile</figcaption></figure>
+          <figure><img src="images/classification-trout.jpg" alt="A real rainbow trout"><figcaption>Fish</figcaption></figure>
+        </div>
+      </div>
+      <p>Scientists also classify animals by how they move (legs, wings, fins), how they breathe (lungs, gills), whether they're warm-blooded or cold-blooded, and how their young are born or hatched.</p>
+      <div class="fun-fact">🌟 Fun fact: A whale is a mammal, not a fish — even though it lives in water and looks fish-like — because it's warm-blooded, breathes air with lungs, and nurses its young.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=24%3A45&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">This is literally a classification by method of movement — bellies (like snakes), two legs (like humans and birds), and four legs (like most mammals) — one of the very ways scientists group animals today.</p>
+      </div>
+    `,
+    diagram:'classification',
+    glossary:{
+      classification:{def:'Sorting living things into groups based on shared traits.'},
+      vertebrate:{def:'An animal that has a backbone (fish, amphibians, reptiles, birds, mammals).'},
+      invertebrate:{def:'An animal that does NOT have a backbone (insects, worms, jellyfish, and most animal species).'}
+    },
+    quiz:[
+      {type:'mc', id:'q1', q:'Which of these is an example of an INVERTEBRATE (an animal without a backbone)?',
+        choices:['An earthworm','A dog','A human','A fish'], correct:0,
+        hints:['Hint 1: Three of the choices are mammals or fish, which always have backbones.'],
+        explain:'An earthworm has no backbone, making it an invertebrate — dogs, humans, and fish are all vertebrates.'},
+      {type:'mc', id:'q2', q:'According to Surah An-Nur 24:45, what three ways of moving did the ayah mention for animals?',
+        choices:['Bellies, two legs, and four legs','Wings, fins, and legs','Water, land, and air','Two legs and wings only'], correct:0,
+        hints:["Hint 1: Re-read the ayah's simplified meaning in the signs box above."],
+        explain:'The ayah mentions creatures that move on their bellies, on two legs, and on four legs.'},
+      {type:'tf', id:'q3', q:'True or False: More than 95% of all known animal species on Earth are invertebrates.',
+        answer:true,
+        hints:['Hint 1: Think about how many kinds of insects alone exist compared to backboned animals like mammals and birds.'],
+        explain:'True — insects, worms, and other invertebrates make up the vast majority of known animal species.'}
+    ]
+  },
+  {
+    id:'life-heredity',
+    land:'life',
+    title:'Inherited vs. Learned Traits',
+    hunch:"Judy's hunch: \"You might have curly hair like your mom, but you learned to tie your shoes all on your own. What's the difference between those two things?\"",
+    lessonHTML:`
+      <h2>What You're Born With vs. What You Learn</h2>
+      <p>An <span class="vocab" data-term="inherited">inherited trait</span> is a characteristic passed down from parents to offspring — you didn't choose it or learn it, you were simply born with it. Eye color, hair type, blood type, and attached vs. unattached earlobes are all classic examples.</p>
+      <p>A <span class="vocab" data-term="learned">learned (acquired) trait</span> is something you develop during your life through experience, practice, or your environment — like knowing how to ride a bike, speaking a certain language, or even a scar from an old injury.</p>
+      <div class="diagram-box">
+        <div class="photo-diagram">
+          <img src="images/heredity-freckles.jpg" alt="Close-up of freckles on skin, a real inherited trait">
+          <div class="caption-strip">🧬 Freckles are an inherited trait — passed down, not learned</div>
+        </div>
+      </div>
+      <p>Some traits are trickier — height, for example, is influenced by BOTH inherited genes AND environmental factors like nutrition.</p>
+      <div class="fun-fact">🌟 Fun fact: Identical twins share nearly 100% of the same inherited genes, yet they can still end up with different scars, skills, and habits — because those come from their individual life experiences, not from their genes.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=30%3A22&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Human variation — including traits passed down within families and communities, like skin tone — is named directly here as something worth reflecting on.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      inherited:{def:'A trait passed down from parents to their offspring (example: eye color).'},
+      learned:{def:'A trait or skill gained through experience or practice, not passed down genetically (example: riding a bike).'}
+    },
+    quiz:[
+      {type:'mc', id:'q1', q:'Which of these is an INHERITED trait, passed down from parents, rather than a learned skill?',
+        choices:['Eye color','Knowing how to ride a bike','Speaking English','Being good at soccer'], correct:0,
+        hints:['Hint 1: Three of these are things you practiced and got better at over time.'],
+        explain:"Eye color is determined by genes passed down from parents — the other three are all skills developed through practice and experience."},
+      {type:'tf', id:'q2', q:'True or False: A scar from a childhood injury is something you inherit from your parents.',
+        answer:false,
+        hints:["Hint 1: Did your parents' genes cause the scar, or did something that happened TO you cause it?"],
+        explain:"A scar is an acquired (learned/environmental) characteristic caused by an event in your life — it is not passed down through genes."},
+      {type:'match', id:'q3', q:'Sort each trait as inherited or learned.',
+        left:['Curly hair','Playing the piano','Natural eye color','Riding a bike'],
+        right:['Inherited trait','Learned skill','Inherited trait','Learned skill'],
+        correctPairs:[0,1,2,3],
+        hints:['Hint: Ask yourself — were you born with this, or did you practice it?'],
+        explain:'Curly hair and eye color come from genes (inherited). Playing piano and riding a bike are skills built through practice (learned).'}
+    ]
+  },
+  {
+    id:'energy-states-of-matter',
+    land:'energy',
+    title:'States of Matter: Solid, Liquid, Gas',
+    hunch:"Judy's hunch: \"If I heat up an ice cube on the sidewalk on a hot day, what do you think will happen to it — and then what happens if it keeps heating up even more?\"",
+    lessonHTML:`
+      <h2>Solid, Liquid, or Gas?</h2>
+      <p>Every kind of <span class="vocab" data-term="matter">matter</span> — anything that takes up space and has mass — is made of tiny moving particles you can't see. How fast those particles move and how tightly packed they are decides whether something is a <span class="vocab" data-term="solid">solid</span>, a <span class="vocab" data-term="liquid">liquid</span>, or a <span class="vocab" data-term="gas">gas</span>.</p>
+      <p>In a <b>solid</b>, particles are packed tightly and just vibrate in place — that's why solids hold their own shape. In a <b>liquid</b>, particles are looser and can slide past each other — that's why liquids flow and take the shape of their container. In a <b>gas</b>, particles are far apart and zoom around freely — that's why gases spread out to fill any space they're in.</p>
+      <!--PEEK_SKIP_START--><div class="sim-box">
+        <div class="sim-canvas-wrap" id="simCanvas"></div>
+        <div class="sim-label" id="simStateLabel"></div>
+        <div class="sim-slider-row">
+          <span>❄️</span>
+          <input type="range" id="tempSlider" min="0" max="100" value="10" oninput="updateSim(this.value)">
+          <span>🔥</span>
+        </div>
+        <p style="text-align:center;font-weight:700;color:var(--plum-soft);font-size:.85rem;margin:6px 0 0;">Drag the slider to add heat energy and watch the particles change!</p>
+      </div><!--PEEK_SKIP_END-->
+      <p>Adding <span class="vocab" data-term="thermalenergy">thermal energy</span> (heat) makes particles move faster, which can change matter from one state to another — this is called a <span class="vocab" data-term="physicalchange">physical change</span> because the substance is still the same material, just in a different form. Ice melting into water and water boiling into steam are both physical changes, not new substances being created.</p>
+      <div class="fun-fact">🌟 Fun fact: Water is one of the few substances found naturally on Earth in all three states — ice (solid), liquid water, and water vapor (gas) — often within the very same day!</div>
+    `,
+    diagram:'states',
+    glossary:{
+      matter:{def:'Anything that takes up space and has mass (weight due to gravity).'},
+      solid:{def:'Particles packed tightly, vibrating in place — holds its own shape.'},
+      liquid:{def:'Particles loosely packed, able to slide past each other — flows and takes the shape of its container.'},
+      gas:{def:'Particles far apart, moving freely — spreads out to fill any space.'},
+      thermalenergy:{def:'Heat energy — adding it makes particles move faster; removing it makes them move slower.'},
+      physicalchange:{def:'A change in form (like melting or freezing) where the substance itself does NOT become a new material.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'What happens to particles when thermal energy (heat) is added to a substance?',
+        choices:['They move faster and spread apart','They move slower and pack tighter','They disappear','They turn into a new substance'],
+        correct:0,
+        hints:["Hint 1: Think about what you saw happen in the simulation as you dragged toward the fire icon.","Hint 2: Does heat make things move MORE or LESS?"],
+        explain:'Heat energy makes particles vibrate and move faster, and as they move faster they tend to spread further apart — which is why solids can become liquids, and liquids can become gases, as they\'re heated.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: When ice melts into water, it becomes a completely new substance.',
+        answer:false,
+        hints:["Hint 1: Is the melted ice still made of the same tiny particles — H₂O — as before?"],
+        explain:'Melting is a physical change. It\'s still water (H₂O) before and after — only its state changed, not what it\'s made of.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Which state of matter takes the shape of ANY container it is put into, no matter the container\'s size or shape?',
+        choices:['Solid','Liquid','Gas','Both liquid and gas'],
+        correct:3,
+        hints:["Hint 1: Think about pouring water into different-shaped cups — does it change shape? Now think about a gas leaking into a whole room.","Hint 2: Only ONE of the three states holds its shape regardless of container. Which one is it, and does that leave one or two remaining answers?"],
+        explain:'Both liquids and gases take the shape of their container — a liquid fills the bottom of a container up to its surface, while a gas spreads out to fill the entire container. Only solids keep their own shape.'
+      }
+    ]
+  }
+];
+
+/* =====================================================
+   NAVIGATION / RENDERING
+===================================================== */
+let currentLand = null;
+let currentModule = null;
+window.MODULES = MODULES;
+window.LANDS = LANDS;
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const navBtn = document.querySelector('.nav-btn[data-nav="'+name+'"]');
+  if(navBtn) navBtn.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
+  if(name==='home') renderHome();
+  if(name==='wardrobe') renderWardrobe();
+}
+function goHome(){ showView('home'); }
+
+function landModules(landId){ return MODULES.filter(m=>m.land===landId); }
+function landProgress(landId){
+  const mods = landModules(landId);
+  if(mods.length===0) return 0;
+  const done = mods.filter(m=>state.completed[m.id]).length;
+  return Math.round(done/mods.length*100);
+}
+function landDoneCount(landId){
+  const mods = landModules(landId);
+  return {done: mods.filter(m=>state.completed[m.id]).length, total: mods.length};
+}
+function landComplete(landId){
+  const mods = landModules(landId);
+  return mods.length>0 && mods.every(m=>state.completed[m.id]);
+}
+
+function renderQuestCard(){
+  const wrap = document.getElementById('wardrobeQuestCard');
+  const next = nextLockedOutfit();
+  if(!next){
+    // everything unlocked
+    wrap.innerHTML = `<div class="quest-card all-done" onclick="showView('wardrobe')">
+      <div class="quest-silhouette">${judySVG({size:64, animate:false, outfit:'astronaut'})}</div>
+      <div class="quest-info">
+        <div class="eyebrow">Wardrobe Complete!</div>
+        <h3>Judy has earned her whole wardrobe 🎉</h3>
+        <div class="quest-sub">Tap to dress her up for today's adventure.</div>
+      </div>
+    </div>`;
+    return;
+  }
+  const land = LANDS.find(l=>l.id===next.unlockLand);
+  const {done,total} = landDoneCount(land.id);
+  const pct = total? Math.round(done/total*100) : 0;
+  wrap.innerHTML = `<div class="quest-card" onclick="openLand('${land.id}')">
+      <div class="quest-silhouette">
+        ${judySVG({size:64, animate:false, outfit:next.id})}
+        <div class="lock-icon">🔒</div>
+      </div>
+      <div class="quest-info">
+        <div class="eyebrow">Judy's Wardrobe Quest</div>
+        <h3>Finish ${land.name} to unlock the ${next.name} ${next.emoji}</h3>
+        <div class="quest-track"><div class="quest-fill" style="width:${pct}%;"></div></div>
+        <div class="quest-sub">${done} of ${total} modules done — you've got this!</div>
+      </div>
+    </div>`;
+}
+
+function renderHome(){
+  document.getElementById('streakVal').textContent = state.streak;
+  renderQuestCard();
+  const list = document.getElementById('landList');
+  list.innerHTML = '';
+  LANDS.forEach(land=>{
+    const pct = landProgress(land.id);
+    const mods = landModules(land.id);
+    const card = document.createElement('div');
+    card.className = 'land-card';
+    card.onclick = ()=>openLand(land.id);
+    card.innerHTML = `
+      <div class="land-emoji" style="background:var(--${land.color});color:white;">${land.emoji}</div>
+      <div class="land-info">
+        <h3>${land.name}</h3>
+        <div class="sub">${mods.length} module${mods.length!==1?'s':''} · ${pct}% complete</div>
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:var(--${land.color});"></div></div>
+      </div>
+      <div class="chev">›</div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function openLand(landId){
+  currentLand = landId;
+  const land = LANDS.find(l=>l.id===landId);
+  document.getElementById('landTitle').textContent = land.emoji + ' ' + land.name;
+  const grid = document.getElementById('moduleGrid');
+  grid.innerHTML = '';
+  landModules(landId).forEach((m,i)=>{
+    const done = state.completed[m.id];
+    const row = document.createElement('div');
+    row.className = 'module-row';
+    row.onclick = ()=>openModule(m.id);
+    row.innerHTML = `
+      <div class="module-status ${done?'done':''}">${done?'✓':(i+1)}</div>
+      <div class="m-title">${m.title}</div>
+      <div class="chev">›</div>
+    `;
+    grid.appendChild(row);
+  });
+  showViewRaw('land');
+}
+function showViewRaw(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function openModule(modId){
+  currentModule = MODULES.find(m=>m.id===modId);
+  document.getElementById('lessonJudy').innerHTML = judySVG({size:76, mood:'thinking'});
+  document.getElementById('hunchBubble').textContent = currentModule.hunch;
+  document.getElementById('lessonCard').innerHTML = currentModule.lessonHTML + `
+    <div class="btn-row">
+      <button class="btn primary" onclick="startQuiz()">Quick Check ✏️</button>
+    </div>
+  `;
+  showViewRaw('lesson');
+  wireVocab();
+  if(currentModule.diagram==='states') initSim();
+  if(currentModule.lessonHTML.includes('data-quran-embed')) loadQuranWidget();
+}
+
+/* ---- Peek at the lesson (in-quiz drawer, preserves quiz progress) ---- */
+function openPeek(){
+  let content = currentModule.lessonHTML.replace(/<!--PEEK_SKIP_START-->[\s\S]*?<!--PEEK_SKIP_END-->/g,
+    '<p style="font-style:italic;color:var(--plum-soft);">🔬 The interactive simulation is back in the full lesson — exit the quiz to play with it again.</p>');
+  document.getElementById('peekBody').innerHTML = `<h2 style="margin-top:0;">${currentModule.title}</h2>` + content;
+  document.getElementById('peekModal').classList.add('show');
+  wireVocab();
+  if(content.includes('data-quran-embed')) loadQuranWidget();
+}
+function closePeek(){
+  document.getElementById('peekModal').classList.remove('show');
+}
+
+/* ---- Quran.com embed widget loader (scripts inside innerHTML never execute,
+     so we create a fresh <script> tag each time a lesson with an embed opens) ---- */
+function loadQuranWidget(){
+  const s = document.createElement('script');
+  s.src = 'https://quran.com/widget/embed-widget.v1.js';
+  s.defer = true;
+  document.body.appendChild(s);
+}
+/* ---- vocab popovers ---- */
+function wireVocab(){
+  document.querySelectorAll('.vocab').forEach(el=>{
+    el.style.position='relative';
+    el.onclick = (e)=>{
+      e.stopPropagation();
+      closeAllPopovers();
+      const term = el.dataset.term;
+      const g = currentModule.glossary[term];
+      if(!g) return;
+      const pop = document.createElement('div');
+      pop.className='popover show';
+      pop.innerHTML = `${g.def}${g.clue?'<br><br><i>'+g.clue+'</i>':''}<br><button onclick="speakTerm(event,'${term.replace(/'/g,"")}')">🔊 Hear it</button>`;
+      el.appendChild(pop);
+      sndTap();
+      document.addEventListener('click', closeAllPopovers, {once:true});
+    };
+  });
+}
+function closeAllPopovers(){ document.querySelectorAll('.popover').forEach(p=>p.remove()); }
+let cachedVoices = [];
+function refreshVoices(){
+  const v = speechSynthesis.getVoices();
+  if(v && v.length) cachedVoices = v;
+}
+if('speechSynthesis' in window){
+  refreshVoices();
+  speechSynthesis.onvoiceschanged = refreshVoices;
+}
+function pickBestVoice(){
+  if(!cachedVoices.length) refreshVoices();
+  // Preference order: explicitly enhanced/premium/neural US voices first,
+  // then well-known higher-quality default names on iOS/macOS Safari,
+  // then any US English voice, then any English voice at all.
+  const rank = [
+    /en-US.*(Enhanced|Premium|Neural)/i,
+    /(Enhanced|Premium|Neural)/i,
+    /^(Samantha|Ava|Nicky|Allison|Susan)$/i,
+    /Samantha|Ava|Nicky|Allison|Susan/i,
+    /en-US/i,
+    /^en/i
+  ];
+  for(const pattern of rank){
+    const match = cachedVoices.find(v=>pattern.test(v.name) || pattern.test(v.lang));
+    if(match) return match;
+  }
+  return null;
+}
+function speakTerm(e, term){
+  e.stopPropagation();
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel(); // stop any overlapping speech from a previous tap
+  const utter = new SpeechSynthesisUtterance(term);
+  utter.lang = 'en-US';
+  const preferred = pickBestVoice();
+  if(preferred) utter.voice = preferred;
+  utter.rate = 0.82;
+  utter.pitch = 1.0;
+  speechSynthesis.speak(utter);
+}
+
+/* ---- states of matter simulation ---- */
+let simParticles = [];
+function initSim(){
+  const wrap = document.getElementById('simCanvas');
+  wrap.innerHTML = '';
+  simParticles = [];
+  updateSim._anchor = false; updateSim._n = null;
+  const n = 24;
+  for(let i=0;i<n;i++){
+    const p = document.createElement('div');
+    p.className = 'sim-particle';
+    wrap.appendChild(p);
+    simParticles.push({el:p, x:Math.random()*260+20, y:Math.random()*160+20, vx:0, vy:0});
+  }
+  updateSim(document.getElementById('tempSlider').value);
+}
+function updateSim(val){
+  const wrap = document.getElementById('simCanvas');
+  if(!wrap){ cancelAnimationFrame(updateSim._raf); return; } // module no longer on screen — stop the loop
+  val = Number(val);
+  const label = document.getElementById('simStateLabel');
+  const w = wrap.clientWidth || 300, h = 200;
+  let stateName, color, speed, spread;
+  if(val < 33){ stateName='SOLID (ICE)'; color='#4FB6E8'; speed=0.15; spread=0.25; }
+  else if(val < 70){ stateName='LIQUID (WATER)'; color='#2F9AD6'; speed=0.6; spread=0.6; }
+  else { stateName='GAS (WATER VAPOR)'; color='#B7E3F5'; speed=1.8; spread=1; }
+  label.innerHTML = `<span class="state-chip" style="background:${color};">${stateName}</span>`;
+  if(!updateSim._anchor || updateSim._n !== stateName){
+    updateSim._anchor = true; updateSim._n = stateName;
+    // reposition anchor points based on state
+    simParticles.forEach((p,i)=>{
+      if(stateName.startsWith('SOLID')){
+        const cols=6; const gx = (i%cols)*(w/cols)+w/cols/2; const gy=Math.floor(i/cols)*(h/4)+h/2-40;
+        p.tx=gx; p.ty=gy;
+      } else if(stateName.startsWith('LIQUID')){
+        p.tx = Math.random()*(w-30)+15; p.ty = Math.random()*(h*0.5)+h*0.45;
+      } else {
+        p.tx = Math.random()*(w-20)+10; p.ty = Math.random()*(h-20)+10;
+      }
+    });
+  }
+  simParticles.forEach(p=>{
+    p.x += (p.tx-p.x)*0.08 + (Math.random()-0.5)*speed*4;
+    p.y += (p.ty-p.y)*0.08 + (Math.random()-0.5)*speed*4;
+    p.x = Math.max(6, Math.min(w-14, p.x));
+    p.y = Math.max(6, Math.min(h-14, p.y));
+    p.el.style.left = p.x+'px'; p.el.style.top = p.y+'px';
+    p.el.style.background = color;
+  });
+  cancelAnimationFrame(updateSim._raf);
+  updateSim._raf = requestAnimationFrame(()=>updateSim(val));
+}
+
+/* =====================================================
+   QUIZ ENGINE (with Socratic hint ladder)
+===================================================== */
+let quizIndex = 0;
+let quizResults = [];
+
+function startQuiz(){
+  quizIndex = 0; quizResults = [];
+  renderQuizProgress();
+  renderQuestion();
+  showViewRaw('quiz');
+}
+function renderQuizProgress(){
+  const wrap = document.getElementById('quizProgress');
+  wrap.innerHTML='';
+  currentModule.quiz.forEach((q,i)=>{
+    const d = document.createElement('div');
+    d.className='dot'+(i===quizIndex?' active':'')+
+      (quizResults[i]===true?' correct':'')+(quizResults[i]===false?' wrong':'');
+    wrap.appendChild(d);
+  });
+}
+
+function renderQuestion(){
+  const q = currentModule.quiz[quizIndex];
+  const area = document.getElementById('quizArea');
+  let bodyHTML = '';
+  if(q.type==='mc'){
+    bodyHTML = `<div class="qtype">Multiple Choice</div><h3>${q.q}</h3>` +
+      q.choices.map((c,i)=>`<button class="choice" data-i="${i}" onclick="answerMC(${i})">${c}</button>`).join('');
+  } else if(q.type==='tf'){
+    bodyHTML = `<div class="qtype">True or False</div><h3>${q.q}</h3>
+      <div class="tf-row">
+        <button class="choice" data-b="true" onclick="answerTF(true)">✅ True</button>
+        <button class="choice" data-b="false" onclick="answerTF(false)">❌ False</button>
+      </div>`;
+  } else if(q.type==='match'){
+    bodyHTML = `<div class="qtype">Match It</div><h3>${q.q}</h3>
+      <div class="match-wrap">
+        <div class="match-col" id="matchLeft"></div>
+        <div class="match-col" id="matchRight"></div>
+      </div>`;
+  }
+  bodyHTML += `<div class="hint-box"><button class="btn ghost" style="padding:8px 14px;" onclick="giveHint()">💡 Give me a hint</button>
+    <div id="hintText"></div>
+  </div>
+  <div id="feedbackArea"></div>`;
+  area.innerHTML = `<div class="q-card">${bodyHTML}</div>`;
+
+  if(q.type==='match') setupMatch(q);
+  hintLevel = 0;
+  wrongAttempts = 0;
+  answered = false;
+  renderQuizProgress();
+}
+
+let hintLevel = 0;
+let wrongAttempts = 0;
+let answered = false;
+
+function giveHint(){
+  const q = currentModule.quiz[quizIndex];
+  if(!q.hints || hintLevel>=q.hints.length) { toast("That's all the hints Judy has — give it your best guess! 🐰"); return; }
+  sndTap();
+  const box = document.getElementById('hintText');
+  const div = document.createElement('div');
+  div.className='hint-reveal show';
+  div.textContent = q.hints[hintLevel];
+  box.appendChild(div);
+  hintLevel++;
+  maybeShowRevealButton();
+}
+
+function maybeShowRevealButton(){
+  const q = currentModule.quiz[quizIndex];
+  if(answered) return;
+  if(q.type==='match') return;
+  const box = document.getElementById('hintText');
+  if(hintLevel >= (q.hints?q.hints.length:0) && wrongAttempts >= 1 && !document.getElementById('revealBtn')){
+    const btn = document.createElement('button');
+    btn.id = 'revealBtn';
+    btn.className = 'btn ghost';
+    btn.style.cssText = 'padding:8px 14px;margin-top:8px;';
+    btn.textContent = "🐰 Judy, just show me the answer";
+    btn.onclick = revealAnswer;
+    box.appendChild(btn);
+  }
+}
+
+function revealAnswer(){
+  const q = currentModule.quiz[quizIndex];
+  answered = true;
+  if(q.type==='mc'){
+    document.querySelectorAll('.choice').forEach((b,idx)=>{
+      if(idx===q.correct) b.classList.add('reveal-correct');
+      b.setAttribute('disabled','true');
+    });
+  } else if(q.type==='tf'){
+    document.querySelectorAll('.choice').forEach(b=>{
+      const isTrueBtn = b.dataset.b==='true';
+      if((isTrueBtn && q.answer===true)||(!isTrueBtn && q.answer===false)) b.classList.add('reveal-correct');
+      b.setAttribute('disabled','true');
+    });
+  }
+  showFeedback(false, q.explain);
+}
+
+function lockChoices(){
+  document.querySelectorAll('.choice').forEach(b=>b.setAttribute('disabled','true'));
+}
+
+function answerMC(i){
+  if(answered) return;
+  const q = currentModule.quiz[quizIndex];
+  const correct = i===q.correct;
+  const btn = document.querySelector('.choice[data-i="'+i+'"]');
+  if(correct){
+    answered = true;
+    btn.classList.add('selected-correct');
+    document.querySelectorAll('.choice').forEach(b=>b.setAttribute('disabled','true'));
+    showFeedback(true, q.explain);
+  } else {
+    wrongAttempts++;
+    btn.classList.add('selected-wrong');
+    btn.setAttribute('disabled','true');
+    sndWrong();
+    showTryAgain();
+  }
+}
+function answerTF(val){
+  if(answered) return;
+  const q = currentModule.quiz[quizIndex];
+  const correct = val===q.answer;
+  const btn = document.querySelector('.choice[data-b="'+val+'"]');
+  if(correct){
+    answered = true;
+    btn.classList.add('selected-correct');
+    document.querySelectorAll('.choice').forEach(b=>b.setAttribute('disabled','true'));
+    showFeedback(true, q.explain);
+  } else {
+    wrongAttempts++;
+    btn.classList.add('selected-wrong');
+    btn.setAttribute('disabled','true');
+    sndWrong();
+    showTryAgain();
+  }
+}
+function showTryAgain(){
+  const area = document.getElementById('feedbackArea');
+  const nudge = wrongAttempts===1
+    ? "Not quite — want a hint? Or go ahead and try again 🐰"
+    : "Still not it — Judy's hints are right above if you want one.";
+  area.innerHTML = `<div class="feedback think"><div>${judySVGInline('thinking')}</div><div>${nudge}</div></div>`;
+  maybeShowRevealButton();
+}
+
+let matchState = {leftSel:null, pairs:{}, done:0};
+function setupMatch(q){
+  matchState = {leftSel:null, pairs:{}, done:0};
+  const leftCol = document.getElementById('matchLeft');
+  const rightCol = document.getElementById('matchRight');
+  leftCol.innerHTML=''; rightCol.innerHTML='';
+  q.left.forEach((txt,i)=>{
+    const el = document.createElement('div');
+    el.className='match-item'; el.textContent=txt; el.dataset.i=i;
+    el.onclick=()=>selectLeft(i, el);
+    leftCol.appendChild(el);
+  });
+  // seeded shuffle for right column (stable per module+question)
+  const seed = hashCode(currentModule.id+q.id);
+  const order = seededShuffle(q.right.map((_,i)=>i), seed);
+  order.forEach(origIdx=>{
+    const el = document.createElement('div');
+    el.className='match-item'; el.textContent=q.right[origIdx]; el.dataset.i=origIdx;
+    el.onclick=()=>selectRight(origIdx, el);
+    rightCol.appendChild(el);
+  });
+}
+function hashCode(str){ let h=0; for(let i=0;i<str.length;i++){h=(h<<5)-h+str.charCodeAt(i); h|=0;} return Math.abs(h); }
+function seededShuffle(arr, seed){
+  const a = arr.slice(); let s = seed;
+  for(let i=a.length-1;i>0;i--){
+    s = (s*9301+49297)%233280;
+    const j = Math.floor((s/233280)*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function selectLeft(i, el){
+  if(el.classList.contains('paired-correct')) return;
+  document.querySelectorAll('#matchLeft .match-item').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel'); matchState.leftSel = i;
+  sndTap();
+}
+function selectRight(i, el){
+  if(matchState.leftSel===null || el.classList.contains('paired-correct')) return;
+  const q = currentModule.quiz[quizIndex];
+  const leftIdx = matchState.leftSel;
+  const correct = leftIdx === i; // by construction, right[i] pairs with left[i]
+  const leftEl = document.querySelector('#matchLeft .match-item[data-i="'+leftIdx+'"]');
+  if(correct){
+    leftEl.classList.remove('sel'); leftEl.classList.add('paired-correct');
+    el.classList.add('paired-correct');
+    matchState.done++; sndCorrect();
+    matchState.leftSel = null;
+    if(matchState.done === q.left.length){
+      answered = true;
+      showFeedback(true, q.explain);
+    }
+  } else {
+    el.classList.add('paired-wrong'); sndWrong();
+    setTimeout(()=>el.classList.remove('paired-wrong'), 500);
+    // leftSel stays active on purpose — she can immediately try another right answer
+    // without having to re-tap the left item
+  }
+}
+
+function showFeedback(correct, explain){
+  const area = document.getElementById('feedbackArea');
+  if(correct){ sndCorrect(); }
+  else { sndWrong(); }
+  const q = currentModule.quiz[quizIndex];
+  if(!correct || wrongAttempts>0){
+    // log to notebook — either she needed the reveal, or she struggled before landing it
+    state.notebook.push({moduleId:currentModule.id, question:q.q, correct:explain});
+    if(!state.reviewQueue.includes(currentModule.id)) state.reviewQueue.push(currentModule.id);
+  }
+  saveState();
+  let headline;
+  if(correct && wrongAttempts===0) headline = "Yes! You got it. 🎉";
+  else if(correct) headline = "There you go — you worked it out! 🎉";
+  else headline = "Good thinking — here's the idea:";
+  area.innerHTML = `<div class="feedback ${correct?'good':'think'}">
+      <div>${judySVGInline(correct?'happy':'thinking')}</div>
+      <div>${headline} <br><span style="font-weight:600;">${explain}</span></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="nextQuestion()">${quizIndex < currentModule.quiz.length-1 ? 'Next Question →' : 'Finish Quick Check →'}</button>
+    </div>`;
+  quizResults[quizIndex] = correct;
+  renderQuizProgress();
+}
+function judySVGInline(mood){ return judySVG({size:40, mood, animate:false}); }
+
+function nextQuestion(){
+  if(quizIndex < currentModule.quiz.length-1){
+    quizIndex++;
+    renderQuestion();
+  } else {
+    finishModule();
+  }
+}
+
+function finishModule(){
+  const allCorrect = quizResults.every(r=>r===true);
+  const wasLandCompleteBefore = landComplete(currentLand);
+  state.completed[currentModule.id] = true;
+  state.streak += 1;
+  saveState();
+  sndComplete();
+  if(allCorrect) sndMilestone();
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <div class="q-card" style="text-align:center;">
+      ${judySVGInline('happy')}
+      <h2 style="margin:10px 0 4px;">Module Complete! 🎉</h2>
+      <p style="font-weight:700;color:var(--plum-soft);">You got ${quizResults.filter(r=>r).length} of ${quizResults.length} correct.</p>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn primary" onclick="openLand(currentLand)">Back to ${LANDS.find(l=>l.id===currentLand).name}</button>
+        <button class="btn indigo" onclick="goHome()">Home</button>
+      </div>
+    </div>`;
+  toast('Great work, Shareefah! 🌟');
+
+  const nowComplete = landComplete(currentLand);
+  if(!wasLandCompleteBefore && nowComplete){
+    const unlocked = OUTFITS.find(o=>o.unlockLand===currentLand);
+    if(unlocked) setTimeout(()=>showUnlockModal(unlocked), 900);
+  }
+}
+
+function showUnlockModal(outfit){
+  sndMilestone();
+  const land = LANDS.find(l=>l.id===outfit.unlockLand);
+  document.getElementById('unlockCardInner').innerHTML = `
+    <div>${judySVG({size:150, mood:'happy', outfit:outfit.id})}</div>
+    <div class="eyebrow" style="color:var(--indigo);font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;">New wardrobe piece earned!</div>
+    <h2>${outfit.emoji} ${outfit.name} unlocked!</h2>
+    <p>You finished every module in ${land.name} — Judy is so proud of you, Shareefah!</p>
+    <button class="btn primary" onclick="closeUnlockModal('${outfit.id}')">Dress Judy up now →</button>
+  `;
+  document.getElementById('unlockModal').classList.add('show');
+}
+function closeUnlockModal(outfitId){
+  document.getElementById('unlockModal').classList.remove('show');
+  state.outfit = outfitId; saveState(); renderAllJudys();
+  showView('wardrobe');
+}
+
+/* =====================================================
+   WARDROBE
+===================================================== */
+function renderWardrobe(){
+  document.getElementById('wardrobeJudy').innerHTML = judySVG({size:180, mood:'happy'});
+  const grid = document.getElementById('outfitGrid');
+  grid.innerHTML='';
+  OUTFITS.forEach(o=>{
+    const unlocked = isOutfitUnlocked(o);
+    const card = document.createElement('div');
+    card.className='outfit-card'+(state.outfit===o.id?' active':'')+(unlocked?'':' locked');
+    card.onclick = unlocked ? ()=>selectOutfit(o.id) : ()=>lockedOutfitTap(o);
+    let sub = '';
+    if(!unlocked){
+      const land = LANDS.find(l=>l.id===o.unlockLand);
+      const {done,total} = landDoneCount(land.id);
+      sub = `<span class="lock-tag">🔒 ${done}/${total} · ${land.name}</span>`;
+    }
+    card.innerHTML = `<div class="swatch">${unlocked?o.emoji:'🔒'}</div>${o.name}${sub}`;
+    grid.appendChild(card);
+  });
+}
+function lockedOutfitTap(o){
+  const land = LANDS.find(l=>l.id===o.unlockLand);
+  sndTap();
+  toast(`Finish ${land.name} to unlock the ${o.name}! 💪`);
+}
+function selectOutfit(id){
+  const o = OUTFITS.find(x=>x.id===id);
+  if(!o || !isOutfitUnlocked(o)) return;
+  state.outfit = id; saveState(); sndTap();
+  renderWardrobe(); renderAllJudys();
+  toast('Judy is ready! 💫');
+}
+
+/* =====================================================
+   LAB NOTEBOOK (stage-1 stub — simple alert-style view)
+===================================================== */
+function openNotebook(){
+  if(state.notebook.length===0){
+    toast("Judy's notebook is empty so far — great job! 📓");
+    return;
+  }
+  const lines = state.notebook.slice(-5).map(n=>`• ${n.question}\\n  → ${n.correct}`).join('\\n\\n');
+  alert("Judy's Lab Notebook (recent items to review):\\n\\n"+lines);
+}
+
+/* =====================================================
+   INIT
+===================================================== */
+function init(){
+  renderAllJudys();
+  renderHome();
+  if(!state.introSeen){
+    setTimeout(()=>toast("Salaam! I'm Judy 🐰 Let's explore science together!"), 500);
+    state.introSeen = true; saveState();
+  }
+  document.getElementById('muteBtn').textContent = state.muted ? '🔇' : '🔊';
+}
+window.addEventListener('load', init);
+window.addEventListener('resize', ()=>{
+  const c = document.getElementById('confetti-canvas');
+  c.width = window.innerWidth; c.height = window.innerHeight;
+});
+</script>
+</body>
+</html>
