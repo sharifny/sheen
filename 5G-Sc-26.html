@@ -265,8 +265,9 @@
   }
   .diagram-box{
     background:var(--cream-2);border-radius:18px;padding:14px;margin:14px 0;
-    display:flex;justify-content:center;
+    display:flex;flex-direction:column;justify-content:center;gap:0;width:100%;
   }
+  .diagram-box > *{width:100%;}
   .diagram-box svg{max-width:100%;height:auto;}
   .photo-diagram{border-radius:16px;overflow:hidden;background:white;}
   .photo-diagram img{width:100%;height:auto;display:block;max-height:340px;object-fit:cover;}
@@ -291,6 +292,25 @@
   }
   .photo-strip .arrow-between{align-self:center;font-size:1.3rem;color:var(--plum-soft);flex:0 0 auto;}
   .photo-credit{font-size:.7rem;color:var(--plum-soft);font-weight:700;margin-top:4px;text-align:right;}
+  .img-placeholder{
+    background:var(--cream-2);border:3px dashed #D8CFBE;border-radius:16px;
+    padding:24px 16px;text-align:center;color:var(--plum-soft);
+    background-size:cover;background-position:center;min-height:110px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  .img-placeholder.has-photo{border-style:solid;border-color:transparent;min-height:160px;}
+  .img-placeholder.has-photo .ph-icon,.img-placeholder.has-photo .ph-text{display:none;}
+  .img-placeholder .ph-icon{font-size:2rem;margin-bottom:6px;}
+  .img-placeholder .ph-text{font-weight:800;font-family:'Baloo 2';font-size:.85rem;line-height:1.5;}
+  .placeholder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;}
+  .placeholder-grid .img-placeholder{padding:14px 6px;}
+  .placeholder-grid .ph-icon{font-size:1.4rem;margin-bottom:2px;}
+  .placeholder-grid .ph-text{font-size:.72rem;}
+  .placeholder-strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
+  .placeholder-strip .img-placeholder{flex:0 0 auto;width:120px;padding:14px 6px;}
+  .placeholder-strip .ph-icon{font-size:1.4rem;margin-bottom:2px;}
+  .placeholder-strip .ph-text{font-size:.7rem;}
+  .placeholder-strip .arrow-between{align-self:center;font-size:1.3rem;color:var(--plum-soft);flex:0 0 auto;}
   .hunch-box{
     background:linear-gradient(135deg,#EDE7FB,#E2D9FA);
     border-radius:16px;padding:14px 16px;margin-bottom:14px;border:2px solid var(--indigo);
@@ -784,16 +804,17 @@ const MODULES = [
       <p>Plants are amazing — they don't eat food like we do. Instead, they make their own food inside their leaves using a process called <span class="vocab" data-term="photosynthesis">photosynthesis</span>.</p>
       <p>To make food, a plant needs three ingredients: <span class="vocab" data-term="sunlight">sunlight</span>, <span class="vocab" data-term="water">water</span> (pulled up from the soil through the roots), and <span class="vocab" data-term="carbondioxide">carbon dioxide</span> (a gas plants pull in from the air through tiny holes in their leaves). Inside the leaf, a green substance called <span class="vocab" data-term="chlorophyll">chlorophyll</span> captures the sunlight's energy and uses it to combine the water and carbon dioxide into <span class="vocab" data-term="glucose">glucose</span> (a kind of sugar — the plant's food) and <span class="vocab" data-term="oxygen">oxygen</span>, which the plant releases back into the air.</p>
       <div class="diagram-box">
-        <div class="photo-diagram">
-          <img src="images/leaf-photosynthesis.jpg" alt="Close-up of a green leaf with sunlight shining through it, showing visible veins">
-          <div class="caption-strip">☀️ Sunlight + 💧 Water + 🌬️ CO₂ → 🍃 Glucose + 💨 Oxygen</div>
+        <div class="img-placeholder" data-img="images/1.jpg">
+          <div class="ph-icon">🖼️</div>
+          <div class="ph-text">Photo: close-up leaf with sunlight shining through, showing veins<br>(coming soon)</div>
         </div>
+        <div class="caption-strip">☀️ Sunlight + 💧 Water + 🌬️ CO₂ → 🍃 Glucose + 💨 Oxygen</div>
       </div>
       <div class="fun-fact">🌟 Fun fact: Nearly all of the oxygen you just breathed in was made by a plant or ocean algae doing photosynthesis, some of it maybe years ago!</div>
       <p>This is also why plants are green — chlorophyll reflects green light and absorbs the red and blue light instead, which is why our eyes see the leaf as green.</p>
       <div class="signs-box"><span class="label">✨ Signs in creation</span>
         <div class="quran-embed-wrap">
-          <iframe src="https://quran.com/embed/v1?verses=6%3A99&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+          <iframe src="https://quran.com/embed/v1?verses=6%3A99&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
         </div>
         <p style="margin:6px 0 0;">Think about how precisely this works: a leaf silently pulls in an invisible gas, captures light from 93 million miles away, and turns both into food and the very air we breathe — all without a factory or a machine.</p>
       </div>
@@ -856,16 +877,17 @@ const MODULES = [
       <p>Every living thing — from a tiny ant to a giant sequoia tree to you — is made of <span class="vocab" data-term="cell">cells</span>. A cell is the smallest unit that can be considered "alive." Some living things, like bacteria, are made of just one cell. You are made of trillions of them, all working together.</p>
       <p>Inside every cell are tiny working parts called <span class="vocab" data-term="organelle">organelles</span> — think of them like organs, but for a cell instead of a body. The <span class="vocab" data-term="nucleus">nucleus</span> acts like the cell's control center, holding the instructions for everything the cell does. The <span class="vocab" data-term="mitochondria">mitochondria</span> are the cell's power plants, turning food into usable energy. The <span class="vocab" data-term="cellmembrane">cell membrane</span> is a thin boundary that holds everything in and controls what enters or leaves.</p>
       <div class="diagram-box">
-        <div class="photo-diagram">
-          <img src="images/cells-stained-dividing.jpg" alt="Fluorescent-stained cells dividing under a microscope, showing colorful nucleus and cytoplasm structures">
-          <div class="caption-strip">🔬 Real stained cells under a microscope — you can see the nucleus glowing in each one</div>
+        <div class="img-placeholder" data-img="images/2.jpg">
+          <div class="ph-icon">🖼️</div>
+          <div class="ph-text">Photo: fluorescent-stained cells dividing under a microscope<br>(coming soon)</div>
         </div>
+        <div class="caption-strip">🔬 Real stained cells under a microscope — you can see the nucleus glowing in each one</div>
       </div>
       <p>Plant cells have a few extra parts animal cells don't have: a rigid <span class="vocab" data-term="cellwall">cell wall</span> for extra support and shape, and <span class="vocab" data-term="chloroplast">chloroplasts</span> — the very structures that carry out photosynthesis, which you learned about earlier!</p>
       <div class="fun-fact">🌟 Fun fact: An adult human body is estimated to have around 37 trillion cells — that's more than 4,000 times the number of people on Earth!</div>
       <div class="signs-box"><span class="label">✨ Signs in creation</span>
         <div class="quran-embed-wrap">
-          <iframe src="https://quran.com/embed/v1?verses=21%3A30&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+          <iframe src="https://quran.com/embed/v1?verses=21%3A30&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
         </div>
         <p style="margin:6px 0 0;">Every single one of your cells is mostly made of water on the inside — this ayah connects directly to something true at the microscopic level of every living cell.</p>
       </div>
@@ -907,19 +929,19 @@ const MODULES = [
       <p>Your body is made of several <span class="vocab" data-term="bodysystem">body systems</span> — groups of organs that work together to do a job. None of them work alone; they constantly depend on each other.</p>
       <p>The <span class="vocab" data-term="digestive">digestive system</span> breaks the food you eat into tiny nutrients your body can use. The <span class="vocab" data-term="circulatory">circulatory system</span> — your heart and blood vessels — carries those nutrients (and oxygen) to every cell in your body. The <span class="vocab" data-term="respiratory">respiratory system</span> — your lungs — brings in oxygen from the air and removes carbon dioxide. The <span class="vocab" data-term="skeletal">skeletal system</span> (your bones) supports your body and protects organs like your brain and heart, while the <span class="vocab" data-term="muscular">muscular system</span> lets you move. The <span class="vocab" data-term="nervous">nervous system</span> — your brain, spinal cord, and nerves — sends fast messages so all these systems know what to do and when.</p>
       <div class="diagram-box">
-        <div class="photo-grid">
-          <figure><img src="images/skeleton-full-body.jpg" alt="Full body real human skeleton, standing"><figcaption>Skeletal</figcaption></figure>
-          <figure><img src="images/heart-model.jpg" alt="Realistic 2-part human heart model"><figcaption>Circulatory</figcaption></figure>
-          <figure><img src="images/lung-model.jpg" alt="Human lung model with larynx and heart"><figcaption>Respiratory</figcaption></figure>
-          <figure><img src="images/digestive-model.jpg" alt="Human digestive system anatomical model"><figcaption>Digestive</figcaption></figure>
-          <figure><img src="images/brain-model.jpg" alt="Labeled 9-part human brain model"><figcaption>Nervous</figcaption></figure>
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/3.jpg"><div class="ph-icon">🦴</div><div class="ph-text">Skeletal<br>(photo soon)</div></div>
+          <div class="img-placeholder" data-img="images/4.jpg"><div class="ph-icon">❤️</div><div class="ph-text">Circulatory<br>(photo soon)</div></div>
+          <div class="img-placeholder" data-img="images/5.jpg"><div class="ph-icon">🫁</div><div class="ph-text">Respiratory<br>(photo soon)</div></div>
+          <div class="img-placeholder" data-img="images/6.jpg"><div class="ph-icon">🍽️</div><div class="ph-text">Digestive<br>(photo soon)</div></div>
+          <div class="img-placeholder" data-img="images/7.jpg"><div class="ph-icon">🧠</div><div class="ph-text">Nervous<br>(photo soon)</div></div>
         </div>
       </div>
       <p>That's why running makes your heart and lungs work harder together: your muscles suddenly need much more oxygen and energy, so your circulatory and respiratory systems speed up to deliver it.</p>
       <div class="fun-fact">🌟 Fun fact: Your heart beats about 100,000 times a day without you ever having to think about it — your nervous system runs it automatically!</div>
       <div class="signs-box"><span class="label">✨ Signs in creation</span>
         <div class="quran-embed-wrap">
-          <iframe src="https://quran.com/embed/v1?verses=51%3A21&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+          <iframe src="https://quran.com/embed/v1?verses=51%3A21&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
         </div>
         <p style="margin:6px 0 0;">This ayah points inward, at our own bodies, as something worth pausing to really look at and think about — which is exactly what studying body systems is!</p>
       </div>
@@ -962,25 +984,25 @@ const MODULES = [
       <p>Energy flows through an ecosystem in a <span class="vocab" data-term="foodchain">food chain</span>: <span class="vocab" data-term="producer">producers</span> (plants) use sunlight to make their own food, <span class="vocab" data-term="consumer">consumers</span> (animals) eat producers or other consumers for energy, and <span class="vocab" data-term="decomposer">decomposers</span> (like mushrooms and bacteria) break down dead plants and animals, returning nutrients to the soil. Since most animals eat more than one kind of food, many overlapping food chains link together into a <span class="vocab" data-term="foodweb">food web</span>.</p>
       <div class="diagram-box">
         <p style="font-weight:800;font-family:'Baloo 2';text-align:center;margin:0 0 8px;color:var(--plum-soft);font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;">A forest food chain, real photo by real photo</p>
-        <div class="photo-strip">
-          <figure><img src="https://cdn.pixabay.com/photo/2014/03/21/15/01/oak-tree-292111_1280.jpg" alt="A large real oak tree"><figcaption>Oak tree<br>(producer)</figcaption></figure>
+        <div class="placeholder-strip">
+          <div class="img-placeholder" data-img="images/8.jpg"><div class="ph-icon">🌳</div><div class="ph-text">Oak tree<br>(producer)</div></div>
           <span class="arrow-between">→</span>
-          <figure><img src="images/foodweb-beetle.jpg" alt="A real beetle on a leaf"><figcaption>Beetle<br>(primary consumer)</figcaption></figure>
+          <div class="img-placeholder" data-img="images/9.jpg"><div class="ph-icon">🪲</div><div class="ph-text">Beetle<br>(primary consumer)</div></div>
           <span class="arrow-between">→</span>
-          <figure><img src="images/foodweb-mouse.jpg" alt="A real field mouse"><figcaption>Field mouse<br>(primary consumer)</figcaption></figure>
+          <div class="img-placeholder" data-img="images/10.jpg"><div class="ph-icon">🐭</div><div class="ph-text">Field mouse<br>(primary consumer)</div></div>
           <span class="arrow-between">→</span>
-          <figure><img src="images/foodweb-fox.jpg" alt="A real fox in a forest"><figcaption>Fox<br>(secondary consumer)</figcaption></figure>
+          <div class="img-placeholder" data-img="images/11.jpg"><div class="ph-icon">🦊</div><div class="ph-text">Fox<br>(secondary consumer)</div></div>
           <span class="arrow-between">→</span>
-          <figure><img src="https://cdn.pixabay.com/photo/2021/06/08/00/00/wolf-6319260_1280.jpg" alt="A real gray wolf"><figcaption>Wolf<br>(tertiary consumer)</figcaption></figure>
+          <div class="img-placeholder" data-img="images/12.jpg"><div class="ph-icon">🐺</div><div class="ph-text">Wolf<br>(tertiary consumer)</div></div>
           <span class="arrow-between">→</span>
-          <figure><img src="images/foodweb-mushroom.jpg" alt="Real mushrooms decomposing on a forest floor"><figcaption>Mushroom<br>(decomposer)</figcaption></figure>
+          <div class="img-placeholder" data-img="images/13.jpg"><div class="ph-icon">🍄</div><div class="ph-text">Mushroom<br>(decomposer)</div></div>
         </div>
       </div>
       <p>That's why removing even one animal — like all the foxes — can ripple through a whole ecosystem: without foxes eating them, the rabbit population could grow too large and eat too much grass, which then affects every other animal that depends on that grass.</p>
       <div class="fun-fact">🌟 Fun fact: Almost every food chain on Earth traces its energy all the way back to one source: sunlight, captured first by producers.</div>
       <div class="signs-box"><span class="label">✨ Signs in creation</span>
         <div class="quran-embed-wrap">
-          <iframe src="https://quran.com/embed/v1?verses=6%3A38&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+          <iframe src="https://quran.com/embed/v1?verses=6%3A38&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
         </div>
         <p style="margin:6px 0 0;">This ayah describes animals as organized "communities" — which is exactly how scientists describe an ecosystem: an organized community of living things depending on one another.</p>
       </div>
@@ -1022,15 +1044,15 @@ const MODULES = [
       <p>Some behaviors are <span class="vocab" data-term="instinct">instincts</span> — behaviors an animal is simply born knowing how to do, without ever being taught. A spider doesn't need lessons to spin a web, and a sea turtle hatchling doesn't need to be shown the way to the ocean.</p>
       <div class="fun-fact">🌟 Fun fact: A chameleon's ability to change color isn't mainly for camouflage — scientists have found it's mostly used to communicate mood and temperature to other chameleons!</div>
       <div class="diagram-box">
-        <div class="photo-grid">
-          <figure><img src="https://cdn.pixabay.com/photo/2013/03/21/07/42/saudi-arabia-95500_1280.jpg" alt="A real camel in the desert"><figcaption>Camel — structural adaptation (humps, wide feet)</figcaption></figure>
-          <figure><img src="images/adaptation-anteater.jpg" alt="A real pangolin or anteater feeding on ants"><figcaption>Anteater — structural adaptation (long snout, sticky tongue)</figcaption></figure>
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/14.jpg"><div class="ph-icon">🐪</div><div class="ph-text">Camel — structural adaptation (humps, wide feet)</div></div>
+          <div class="img-placeholder" data-img="images/15.jpg"><div class="ph-icon">🐜</div><div class="ph-text">Anteater — structural adaptation (long snout, sticky tongue)</div></div>
         </div>
       </div>
       <p>Camouflage (blending into surroundings), mimicry (looking like something dangerous or unappetizing), and migration (traveling long distances for food or better weather) are all common adaptation strategies you'll find across nearly every ecosystem on Earth.</p>
       <div class="signs-box"><span class="label">✨ Signs in creation</span>
         <div class="quran-embed-wrap">
-          <iframe src="https://quran.com/embed/v1?verses=16%3A68&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+          <iframe src="https://quran.com/embed/v1?verses=16%3A68&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
         </div>
         <p style="margin:6px 0 0;">The surah is even named "The Bee"! It goes on (16:69) to describe bees producing honey with healing properties. A bee is never taught hive-building or honey-making — this is a perfect real-world example of instinct, a built-in adaptation.</p>
       </div>
@@ -1068,21 +1090,21 @@ const MODULES = [
       <p>Some insects, like butterflies, go through <span class="vocab" data-term="completemeta">complete metamorphosis</span>: egg → <span class="vocab" data-term="larva">larva</span> (caterpillar) → <span class="vocab" data-term="pupa">pupa</span> (chrysalis) → adult. Each stage looks completely different from the last! Other insects, like grasshoppers, go through <span class="vocab" data-term="incompletemeta">incomplete metamorphosis</span>: egg → nymph → adult, where the nymph already looks like a small version of the adult.</p>
       <div class="diagram-box">
         <p style="font-weight:800;font-family:'Baloo 2';text-align:center;margin:0 0 8px;color:var(--plum-soft);font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;">Monarch butterfly: complete metamorphosis</p>
-        <div class="photo-strip">
-          <figure><img src="images/lifecycle-egg.jpg" alt="Real monarch butterfly egg on a leaf"><figcaption>Egg</figcaption></figure>
+        <div class="placeholder-strip">
+          <div class="img-placeholder" data-img="images/16.jpg"><div class="ph-icon">🥚</div><div class="ph-text">Egg</div></div>
           <span class="arrow-between">→</span>
-          <figure><img src="images/lifecycle-caterpillar.jpg" alt="Real monarch caterpillar instar stage"><figcaption>Caterpillar<br>(larva)</figcaption></figure>
+          <div class="img-placeholder" data-img="images/17.jpg"><div class="ph-icon">🐛</div><div class="ph-text">Caterpillar<br>(larva)</div></div>
           <span class="arrow-between">→</span>
-          <figure><img src="images/lifecycle-chrysalis.jpg" alt="Real monarch chrysalis stages"><figcaption>Chrysalis<br>(pupa)</figcaption></figure>
+          <div class="img-placeholder" data-img="images/18.jpg"><div class="ph-icon">🟢</div><div class="ph-text">Chrysalis<br>(pupa)</div></div>
           <span class="arrow-between">→</span>
-          <figure><img src="images/lifecycle-adult.jpg" alt="Real adult monarch butterfly"><figcaption>Adult<br>butterfly</figcaption></figure>
+          <div class="img-placeholder" data-img="images/19.jpg"><div class="ph-icon">🦋</div><div class="ph-text">Adult<br>butterfly</div></div>
         </div>
       </div>
       <p>Plants have life cycles too: seed → germination (sprouting) → growth → flowering → pollination → new seeds. Humans also grow through recognizable stages — including remarkable, well-documented stages of development before birth.</p>
       <div class="fun-fact">🌟 Fun fact: Inside a chrysalis, a caterpillar's body doesn't just grow wings — most of its body actually breaks down into a kind of soup and rebuilds itself into a butterfly.</div>
       <div class="signs-box"><span class="label">✨ Signs in creation</span>
         <div class="quran-embed-wrap">
-          <iframe src="https://quran.com/embed/v1?verses=23%3A13-14&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+          <iframe src="https://quran.com/embed/v1?verses=23%3A13-14&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
         </div>
         <p style="margin:6px 0 0;">This describes human development before birth in clear, ordered stages — tiny drop, clinging form, lump, bones, then flesh — matching the same idea of an orderly life cycle you just learned about in butterflies and plants.</p>
       </div>
@@ -1122,19 +1144,19 @@ const MODULES = [
       <p>With millions of known species, scientists needed a system. <span class="vocab" data-term="classification">Classification</span> means sorting living things into groups based on shared traits, making them easier to study and compare.</p>
       <p>One of the biggest splits is between <span class="vocab" data-term="vertebrate">vertebrates</span> (animals with a backbone — fish, amphibians, reptiles, birds, and mammals) and <span class="vocab" data-term="invertebrate">invertebrates</span> (animals without a backbone — insects, worms, jellyfish, and more; in fact, over 95% of all known animal species are invertebrates!).</p>
       <div class="diagram-box">
-        <div class="photo-grid">
-          <figure><img src="images/classification-lion.jpg" alt="A real lion"><figcaption>Mammal</figcaption></figure>
-          <figure><img src="images/classification-eagle.jpg" alt="A real bald eagle"><figcaption>Bird</figcaption></figure>
-          <figure><img src="images/classification-frog.jpg" alt="A real green tree frog"><figcaption>Amphibian</figcaption></figure>
-          <figure><img src="images/classification-iguana.jpg" alt="A real green iguana"><figcaption>Reptile</figcaption></figure>
-          <figure><img src="images/classification-trout.jpg" alt="A real rainbow trout"><figcaption>Fish</figcaption></figure>
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/20.jpg"><div class="ph-icon">🦁</div><div class="ph-text">Mammal</div></div>
+          <div class="img-placeholder" data-img="images/21.jpg"><div class="ph-icon">🦅</div><div class="ph-text">Bird</div></div>
+          <div class="img-placeholder" data-img="images/22.jpg"><div class="ph-icon">🐸</div><div class="ph-text">Amphibian</div></div>
+          <div class="img-placeholder" data-img="images/23.jpg"><div class="ph-icon">🦎</div><div class="ph-text">Reptile</div></div>
+          <div class="img-placeholder" data-img="images/24.jpg"><div class="ph-icon">🐟</div><div class="ph-text">Fish</div></div>
         </div>
       </div>
       <p>Scientists also classify animals by how they move (legs, wings, fins), how they breathe (lungs, gills), whether they're warm-blooded or cold-blooded, and how their young are born or hatched.</p>
       <div class="fun-fact">🌟 Fun fact: A whale is a mammal, not a fish — even though it lives in water and looks fish-like — because it's warm-blooded, breathes air with lungs, and nurses its young.</div>
       <div class="signs-box"><span class="label">✨ Signs in creation</span>
         <div class="quran-embed-wrap">
-          <iframe src="https://quran.com/embed/v1?verses=24%3A45&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+          <iframe src="https://quran.com/embed/v1?verses=24%3A45&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
         </div>
         <p style="margin:6px 0 0;">This is literally a classification by method of movement — bellies (like snakes), two legs (like humans and birds), and four legs (like most mammals) — one of the very ways scientists group animals today.</p>
       </div>
@@ -1170,16 +1192,17 @@ const MODULES = [
       <p>An <span class="vocab" data-term="inherited">inherited trait</span> is a characteristic passed down from parents to offspring — you didn't choose it or learn it, you were simply born with it. Eye color, hair type, blood type, and attached vs. unattached earlobes are all classic examples.</p>
       <p>A <span class="vocab" data-term="learned">learned (acquired) trait</span> is something you develop during your life through experience, practice, or your environment — like knowing how to ride a bike, speaking a certain language, or even a scar from an old injury.</p>
       <div class="diagram-box">
-        <div class="photo-diagram">
-          <img src="images/heredity-freckles.jpg" alt="Close-up of freckles on skin, a real inherited trait">
-          <div class="caption-strip">🧬 Freckles are an inherited trait — passed down, not learned</div>
+        <div class="img-placeholder" data-img="images/25.jpg">
+          <div class="ph-icon">🖼️</div>
+          <div class="ph-text">Photo: close-up of freckles on skin<br>(coming soon)</div>
         </div>
+        <div class="caption-strip">🧬 Freckles are an inherited trait — passed down, not learned</div>
       </div>
       <p>Some traits are trickier — height, for example, is influenced by BOTH inherited genes AND environmental factors like nutrition.</p>
       <div class="fun-fact">🌟 Fun fact: Identical twins share nearly 100% of the same inherited genes, yet they can still end up with different scars, skills, and habits — because those come from their individual life experiences, not from their genes.</div>
       <div class="signs-box"><span class="label">✨ Signs in creation</span>
         <div class="quran-embed-wrap">
-          <iframe src="https://quran.com/embed/v1?verses=30%3A22&translations=131&mushaf=kfgqpc_v2" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+          <iframe src="https://quran.com/embed/v1?verses=30%3A22&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
         </div>
         <p style="margin:6px 0 0;">Human variation — including traits passed down within families and communities, like skin tone — is named directly here as something worth reflecting on.</p>
       </div>
@@ -1260,6 +1283,1273 @@ const MODULES = [
         correct:3,
         hints:["Hint 1: Think about pouring water into different-shaped cups — does it change shape? Now think about a gas leaking into a whole room.","Hint 2: Only ONE of the three states holds its shape regardless of container. Which one is it, and does that leave one or two remaining answers?"],
         explain:'Both liquids and gases take the shape of their container — a liquid fills the bottom of a container up to its surface, while a gas spreads out to fill the entire container. Only solids keep their own shape.'
+      }
+    ]
+  },
+  {
+    id:'energy-mixtures-solutions',
+    land:'energy',
+    title:'Mixtures & Solutions',
+    hunch:"Judy's hunch: \"If I stir sand into water, then stir sugar into water, do you think both will look the same after a minute? Why might they act differently?\"",
+    lessonHTML:`
+      <h2>Mixing Without Becoming Something New</h2>
+      <p>A <span class="vocab" data-term="mixture">mixture</span> is two or more substances combined together where each one keeps its own properties — nothing new is chemically formed, and often you can still see or separate the parts. Sand and water is a mixture: the sand doesn't change into something else, and you could filter it back out.</p>
+      <p>A <span class="vocab" data-term="solution">solution</span> is a special kind of mixture where one substance (the <span class="vocab" data-term="solute">solute</span>, like sugar or salt) dissolves completely and evenly into another (the <span class="vocab" data-term="solvent">solvent</span>, usually a liquid like water) — it looks like one single substance, even though it's still two. Saltwater is a solution: the salt is still there, just spread out evenly at a tiny particle level, which is why it doesn't settle out or get filtered like sand does.</p>
+      <div class="diagram-box">
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/26.jpg"><div class="ph-icon">🏖️</div><div class="ph-text">Sand + water<br>(mixture — separable)</div></div>
+          <div class="img-placeholder" data-img="images/27.jpg"><div class="ph-icon">🧂</div><div class="ph-text">Salt + water<br>(solution — dissolved)</div></div>
+        </div>
+      </div>
+      <p>You can usually separate a mixture back into its original parts using physical methods like filtering, evaporating, or using a magnet — none of these create a new substance, they just sort what was already there.</p>
+      <div class="fun-fact">🌟 Fun fact: Ocean water is a solution — mainly water with dissolved salt — which is exactly why letting seawater evaporate leaves solid salt crystals behind.</div>
+    `,
+    diagram:null,
+    glossary:{
+      mixture:{def:'Two or more substances combined physically, where each keeps its own properties and no new substance is chemically formed.'},
+      solution:{def:'A mixture where one substance dissolves completely and evenly into another, so it looks like a single substance.'},
+      solute:{def:'The substance that gets dissolved in a solution (like sugar or salt).'},
+      solvent:{def:'The substance that does the dissolving in a solution (often a liquid, like water).'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Which of these is a SOLUTION, not just a mixture?',
+        choices:['Sand mixed into water','Salt fully dissolved into water','Oil floating on top of water','Marbles mixed with rice'],
+        correct:1,
+        hints:["Hint 1: In a true solution, the solute spreads out so evenly you can't see it separately anymore.","Hint 2: Which of these four, if you looked closely, would you NOT be able to see two separate parts in?"],
+        explain:'Dissolved salt water is a solution because the salt spreads out completely and evenly at a particle level — you can no longer see it as separate from the water, even though it\'s still there.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Once sugar dissolves into water, the sugar is chemically destroyed and no longer exists.',
+        answer:false,
+        hints:["Hint 1: If you let all the water evaporate away, what would be left behind in the container?"],
+        explain:'The sugar is still there — it\'s just spread out at a tiny, invisible scale. If the water evaporates, the sugar reappears as solid crystals, proving it never stopped existing.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'What is the BEST way to separate sand back out of a sand-and-water mixture?',
+        choices:['Wait for a chemical reaction','Filter it','Add more sand','Freeze it in sunlight'],
+        correct:1,
+        hints:["Hint 1: Since sand doesn't dissolve, it stays as solid particles — what tool physically catches solid particles while liquid passes through?"],
+        explain:'Filtering works because sand never dissolved — it stayed as solid particles the whole time, so a filter can physically catch the sand while the water passes through.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each term to its example.',
+        left:['Solute','Solvent','Mixture you can filter','Mixture that looks like one substance'],
+        right:['The sugar in sweet tea','The water in sweet tea','Sand and water','Salt fully dissolved in water'],
+        correctPairs:[0,1,2,3],
+        hints:["Hint: The solute is the smaller amount that disappears INTO the solvent."],
+        explain:'The solute (sugar) dissolves into the solvent (water). Sand-and-water can be filtered because it never truly dissolved, while dissolved salt water looks uniform.'
+      }
+    ]
+  },
+  {
+    id:'energy-forms',
+    land:'energy',
+    title:'Forms of Energy',
+    hunch:"Judy's hunch: \"A toaster gets hot, a lightbulb glows, and a speaker makes sound — they all plug into the same kind of outlet. What do you think is traveling through the cord to all three?\"",
+    lessonHTML:`
+      <h2>Energy Changes Form, It Doesn't Disappear</h2>
+      <p><span class="vocab" data-term="energy">Energy</span> is the ability to do work or cause change, and it shows up in many forms: <span class="vocab" data-term="kinetic">kinetic energy</span> (the energy of motion — a rolling ball), <span class="vocab" data-term="potential">potential energy</span> (stored energy, like a stretched rubber band or a ball held up high), thermal energy (heat), light energy, sound energy, chemical energy (stored in food or batteries), and electrical energy.</p>
+      <p>One of the most important ideas in all of science is <span class="vocab" data-term="conservation">energy conservation</span>: energy can never be created or destroyed, only changed from one form into another, or moved from one place to another. A lightbulb doesn't create energy — it changes electrical energy into light energy (and, less usefully, some heat energy too).</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/28.jpg"><div class="ph-icon">☀️</div><div class="ph-text">Photo: sunlight (radiant energy source)<br>(coming soon)</div></div>
+        <div class="caption-strip">☀️ Radiant → 🌱 Chemical (in plants) → 🍎 Chemical (in food) → 🏃 Kinetic (in you!)</div>
+      </div>
+      <p>A swinging pendulum is a great example: at the top of its swing it's all potential energy (stored, about to fall), and at the bottom of its swing it's all kinetic energy (motion) — the energy keeps converting back and forth between the two forms.</p>
+      <div class="fun-fact">🌟 Fun fact: Almost every form of energy on Earth — the food you eat, the coal and oil we burn, even the wind and water we use for power — traces back to energy that originally came from the sun.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=78%3A13&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">The sun is described here as a blazing lamp — and as this lesson's fun fact shows, that one "lamp" is really the energy source behind nearly everything you just learned about.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      energy:{def:'The ability to do work or cause a change — it comes in many forms and can move between objects.'},
+      kinetic:{def:'The energy of motion — anything moving has kinetic energy.'},
+      potential:{def:'Stored energy that has the potential to cause motion later, like a stretched spring or something held up high.'},
+      conservation:{def:'The scientific law that energy cannot be created or destroyed, only changed from one form to another.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'A ball held up high in your hand, not moving, has mostly what kind of energy?',
+        choices:['Kinetic energy','Potential energy','Sound energy','Chemical energy'],
+        correct:1,
+        hints:["Hint 1: Kinetic energy specifically means energy OF MOTION — is the ball moving right now?","Hint 2: The energy is stored, waiting to be released once you let go and it starts to fall."],
+        explain:'A still, held-up ball has potential energy — stored energy due to its position — which will convert into kinetic energy (motion) the moment it starts falling.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: A lightbulb CREATES new energy that didn\'t exist before.',
+        answer:false,
+        hints:["Hint 1: Where does the energy lighting up the bulb come from in the first place — does it come from the plug, or from nowhere?"],
+        explain:'A lightbulb never creates energy — it converts electrical energy (that already existed, flowing in from the outlet) into light and heat energy. Energy is never created or destroyed, only changed in form.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'A pendulum swinging back and forth is converting energy back and forth between which two forms?',
+        choices:['Sound and light','Kinetic and potential','Chemical and thermal','Electrical and magnetic'],
+        correct:1,
+        hints:["Hint 1: At the very top of the swing the pendulum briefly stops — what kind of energy is that?","Hint 2: At the bottom of the swing it's moving its fastest — what kind of energy is THAT?"],
+        explain:'At the top of the swing (momentarily still), the energy is potential; at the bottom (moving fastest), it\'s kinetic — the pendulum continuously converts between the two.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each energy conversion to its example.',
+        left:['Electrical → Light','Chemical → Kinetic','Radiant → Chemical','Kinetic → Sound'],
+        right:['A lightbulb turning on','Your muscles using food to run','A plant doing photosynthesis','Clapping your hands'],
+        correctPairs:[0,1,2,3],
+        hints:["Hint: Think about what form of energy goes IN, and what form comes back OUT, for each example."],
+        explain:'Lightbulbs convert electrical to light, muscles convert stored chemical energy (food) into motion, plants convert light (radiant) into stored chemical energy, and clapping converts motion into sound.'
+      }
+    ]
+  },
+  {
+    id:'energy-force-motion',
+    land:'energy',
+    title:'Force & Motion',
+    hunch:"Judy's hunch: \"If you're on a skateboard and jump off the back of it, what do you think happens to the skateboard? Does it stay put, or does something happen to it too?\"",
+    lessonHTML:`
+      <h2>Pushes, Pulls, and Newton's Big Ideas</h2>
+      <p>A <span class="vocab" data-term="force">force</span> is simply a push or a pull. Forces can start something moving, stop something moving, speed it up, slow it down, or change its direction. A scientist named Isaac Newton described three laws that explain how forces and motion work together.</p>
+      <p><span class="vocab" data-term="inertia">Newton's First Law (inertia)</span> says an object at rest stays at rest, and an object in motion stays in motion at the same speed and direction, unless a force acts on it. That's why you lurch forward in a car when it suddenly stops — your body wants to keep moving even though the car didn't.</p>
+      <p>Newton's Second Law says the more force you apply, the more an object accelerates — and heavier objects need more force to speed up by the same amount. Newton's Third Law says for every action, there's an equal and opposite <span class="vocab" data-term="reaction">reaction</span> — when you jump off a skateboard, you push backward on it, and it pushes forward on you with equal force, which is why it shoots out from under you.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/29.jpg"><div class="ph-icon">🛼</div><div class="ph-text">Photo: skateboard action/reaction demonstration<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Rockets launch into space using Newton's Third Law — they push burning gas backward out of the engine at incredible speed, and that gas pushes the rocket forward with equal force, even in the vacuum of space where there's nothing else to push against.</div>
+    `,
+    diagram:null,
+    glossary:{
+      force:{def:'A push or a pull on an object.'},
+      inertia:{def:"An object's tendency to resist a change in its motion — to keep doing what it was already doing unless a force acts on it."},
+      reaction:{def:"The equal and opposite force pushed back by an object, according to Newton's Third Law."}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'You lurch forward when a car stops suddenly. Which law explains this?',
+        choices:["Newton's First Law (inertia)","Newton's Second Law","Newton's Third Law","The law of gravity"],
+        correct:0,
+        hints:["Hint 1: Your body was already moving forward with the car — did a force act directly ON your body to stop it at the same instant as the car?","Hint 2: Inertia is about an object continuing to do what it was already doing unless something forces it to change."],
+        explain:"This is inertia (Newton's First Law): your body was already in motion, and it keeps moving forward even after the car itself has stopped, until a force (like a seatbelt) acts on you too."
+      },
+      {
+        type:'tf', id:'q2',
+        q:"True or False: According to Newton's Third Law, when you push on a wall, the wall does NOT push back on you at all.",
+        answer:false,
+        hints:["Hint 1: Newton's Third Law says EVERY action has an equal and opposite reaction — does that include walls?"],
+        explain:'The wall absolutely pushes back on you with equal force — that\'s exactly why your hand doesn\'t go through it, and why pushing hard against a wall can even move YOU backward if you\'re on something slippery.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'A rocket blasts hot gas downward out of its engine. What pushes the rocket upward?',
+        choices:['The air pushing on the rocket from below','The equal and opposite reaction force from the gas','Gravity pulling it up','Magnetism'],
+        correct:1,
+        hints:["Hint 1: This is the same idea as the skateboard example — the rocket pushes the gas one way, and the gas pushes back...","Hint 2: This works even in space, where there's no air at all — so it can't be air pressure."],
+        explain:"The rocket pushes gas downward, and by Newton's Third Law, the gas pushes the rocket upward with equal force — this works even in the vacuum of space, proving it isn't air pressure."
+      },
+      {
+        type:'tf', id:'q3b',
+        q:"True or False: A heavier object needs MORE force to speed it up by the same amount as a lighter object.",
+        answer:true,
+        hints:["Hint 1: Think about pushing an empty shopping cart versus one loaded with heavy bags — which takes more effort to speed up the same amount?"],
+        explain:"This is Newton's Second Law — heavier (more massive) objects require more force to achieve the same acceleration as lighter objects."
+      }
+    ]
+  },
+  {
+    id:'energy-simple-machines',
+    land:'energy',
+    title:'Simple Machines',
+    hunch:"Judy's hunch: \"A see-saw lets a small kid lift a much bigger grown-up off the ground. That seems almost like magic — but what do you think is actually going on?\"",
+    lessonHTML:`
+      <h2>Making Work Easier</h2>
+      <p>A <span class="vocab" data-term="simplemachine">simple machine</span> is a basic tool with few or no moving parts that makes work easier — usually by changing the size or direction of a force, not by reducing the total amount of work needed. There are six classic simple machines: the lever, wheel and axle, pulley, inclined plane, wedge, and screw.</p>
+      <p>A <span class="vocab" data-term="lever">lever</span> (like a see-saw or a crowbar) uses a rigid bar and a fixed point called a <span class="vocab" data-term="fulcrum">fulcrum</span> to multiply force — the farther you push from the fulcrum, the less force you need. An <span class="vocab" data-term="inclinedplane">inclined plane</span> (a ramp) lets you move something up to a height using less force spread over a longer distance, instead of lifting it straight up all at once.</p>
+      <div class="diagram-box">
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/30.jpg"><div class="ph-icon">⚖️</div><div class="ph-text">Lever<br>(see-saw)</div></div>
+          <div class="img-placeholder" data-img="images/31.jpg"><div class="ph-icon">🛞</div><div class="ph-text">Wheel & axle</div></div>
+          <div class="img-placeholder" data-img="images/32.jpg"><div class="ph-icon">🪢</div><div class="ph-text">Pulley</div></div>
+          <div class="img-placeholder" data-img="images/33.jpg"><div class="ph-icon">🛹</div><div class="ph-text">Inclined plane<br>(ramp)</div></div>
+        </div>
+      </div>
+      <p>A pulley (a wheel with a rope or cable) lets you change the direction of your pulling force — pulling down on a rope to lift something up, which is often much easier than lifting straight up with your arms.</p>
+      <div class="fun-fact">🌟 Fun fact: Ancient builders combined simple machines — ramps, levers, and pulleys — to move stone blocks weighing many tons to build structures like the pyramids, without any motors or engines at all.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=18%3A96&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">This ayah describes Dhul-Qarnayn using iron blocks and molten metal to build a massive barrier — real engineering, using tools and materials, described in the Quran long before modern machines existed.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      simplemachine:{def:'A basic tool with few or no moving parts that makes work easier by changing the size or direction of a force.'},
+      lever:{def:'A rigid bar that pivots on a fulcrum to multiply force, like a see-saw or crowbar.'},
+      fulcrum:{def:'The fixed point a lever pivots around.'},
+      inclinedplane:{def:'A ramp — a flat surface set at an angle that makes it easier to move something up to a height.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'A see-saw is an example of which simple machine?',
+        choices:['Pulley','Lever','Screw','Wedge'],
+        correct:1,
+        hints:["Hint 1: What does a see-saw pivot around in the middle?","Hint 2: That pivot point is called a fulcrum — which simple machine uses a fulcrum?"],
+        explain:'A see-saw is a lever — it pivots around a fixed fulcrum in the middle, letting force applied on one side lift weight on the other.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: A ramp lets you lift something to the same height using LESS total work than lifting it straight up.',
+        answer:false,
+        hints:["Hint 1: A ramp reduces the FORCE needed at any one moment, but you push over a much longer distance — does that change the total work done?"],
+        explain:'A ramp doesn\'t reduce total work — it trades less force for a longer distance, which feels easier, but the overall amount of work to reach the same height stays about the same.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'What does a pulley mainly let you do?',
+        choices:['Change the direction of a pulling force','Create new energy','Eliminate friction completely','Make an object weigh less'],
+        correct:0,
+        hints:["Hint 1: Think about pulling DOWN on a rope over a pulley to lift something UP — what changed about your force?"],
+        explain:'A pulley changes the direction of your force — pulling down on a rope to lift something up — which is often more convenient, even though it doesn\'t create energy or change the object\'s actual weight.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each simple machine to a real example.',
+        left:['Lever','Inclined plane','Wedge','Screw'],
+        right:['A crowbar prying open a lid','A wheelchair ramp','An axe blade splitting wood','A spiral staircase or jar lid'],
+        correctPairs:[0,1,2,3],
+        hints:["Hint: Think about the shape each tool relies on — a bar that pivots, a slanted surface, a thin sharp edge, or a spiral."],
+        explain:'A crowbar is a lever, a wheelchair ramp is an inclined plane, an axe blade is a wedge (two inclined planes back to back), and a screw is essentially an inclined plane wrapped around a cylinder.'
+      }
+    ]
+  },
+  {
+    id:'energy-sound',
+    land:'energy',
+    title:'Sound Waves',
+    hunch:"Judy's hunch: \"If you shout in outer space, with no helmet, do you think anyone floating nearby would hear you? Why or why not?\"",
+    lessonHTML:`
+      <h2>Sound Needs Something to Travel Through</h2>
+      <p><span class="vocab" data-term="sound">Sound</span> is a form of energy made by vibrations — something vibrating back and forth pushes on the particles of matter around it, creating a <span class="vocab" data-term="soundwave">sound wave</span> that travels outward, like ripples spreading across a pond. Sound waves need a medium — solid, liquid, or gas — to travel through; that's why sound can't travel through the vacuum of space, where there's no matter at all to vibrate.</p>
+      <p>Two important properties of sound are <span class="vocab" data-term="pitch">pitch</span> (how high or low a sound is, caused by how fast something vibrates — called frequency) and <span class="vocab" data-term="volume">volume</span> (how loud or soft a sound is, caused by how big the vibrations are — called amplitude). A fast-vibrating object makes a high-pitched sound; a big vibration makes a loud sound.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/34.jpg"><div class="ph-icon">🔊</div><div class="ph-text">Photo/diagram: sound waves rippling from a vibrating source<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Sound actually travels faster through water than through air, and even faster through solids like steel — because the particles are packed closer together and can pass the vibration along more quickly.</div>
+    `,
+    diagram:null,
+    glossary:{
+      sound:{def:'A form of energy made by vibrations that travels as a wave through matter.'},
+      soundwave:{def:'The ripple-like pattern of vibration that carries sound energy outward through a medium.'},
+      pitch:{def:'How high or low a sound is, determined by how fast the source vibrates (frequency).'},
+      volume:{def:'How loud or soft a sound is, determined by the size of the vibrations (amplitude).'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Why can\'t sound travel through the vacuum of outer space?',
+        choices:['Space is too cold','There is no matter (particles) for the vibration to travel through','Sound waves are afraid of the dark','Gravity blocks sound waves'],
+        correct:1,
+        hints:["Hint 1: Sound needs a medium to travel — solid, liquid, or gas. What does a true vacuum have almost none of?"],
+        explain:'Sound is a vibration that travels through matter\'s particles. A vacuum has essentially no particles, so there\'s nothing for the vibration to pass through — sound simply can\'t travel there.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: A fast-vibrating object produces a LOWER pitch than a slow-vibrating object.',
+        answer:false,
+        hints:["Hint 1: Think of a tiny hummingbird's fast wingbeats (high buzzing pitch) versus a slow-flapping large bird (does it sound high or low?)."],
+        explain:'It\'s the opposite: faster vibrations (higher frequency) produce a HIGHER pitch, while slower vibrations produce a lower pitch.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Sound generally travels FASTEST through which of these?',
+        choices:['Air','Water','Steel (a solid)','A vacuum'],
+        correct:2,
+        hints:["Hint 1: The more tightly packed the particles are, the faster a vibration can pass from one to the next.","Hint 2: Which state of matter has the most tightly packed particles: gas, liquid, or solid?"],
+        explain:'Sound travels fastest through solids like steel, because their particles are packed most tightly together, letting vibrations pass from particle to particle very quickly.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: Volume (loudness) is caused by how big the vibrations are, not how fast they are.',
+        answer:true,
+        hints:["Hint 1: A gentle tap versus a hard bang on the same drum — same speed of vibration, but very different size of vibration. Which one is louder?"],
+        explain:'Volume depends on the amplitude (size) of the vibration — bigger vibrations push more energy outward, creating a louder sound, regardless of pitch.'
+      }
+    ]
+  },
+  {
+    id:'energy-light',
+    land:'energy',
+    title:'Light & How We See',
+    hunch:"Judy's hunch: \"A red apple looks red in the daylight. If you looked at it under only a blue light, in a totally dark room, what color do you think it would look like?\"",
+    lessonHTML:`
+      <h2>Light Travels in Straight Lines — Until It Doesn't</h2>
+      <p>Light is a form of energy that travels in straight lines called <span class="vocab" data-term="lightray">light rays</span>, and unlike sound, light CAN travel through the vacuum of space (that's how sunlight reaches Earth!). We see objects because light bounces (<span class="vocab" data-term="reflection">reflects</span>) off them and into our eyes — an object's color is actually the color of light it reflects back, while it absorbs all the other colors.</p>
+      <p>When light passes from one material into another — like from air into water — it can bend, a process called <span class="vocab" data-term="refraction">refraction</span>. This is why a straw in a glass of water looks like it's "broken" at the surface. Some materials are <span class="vocab" data-term="transparent">transparent</span> (let light pass straight through, like clear glass), some are <span class="vocab" data-term="translucent">translucent</span> (let some light through but scatter it, like frosted glass), and some are <span class="vocab" data-term="opaque">opaque</span> (block light completely, like wood), creating a shadow.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/35.jpg"><div class="ph-icon">🌈</div><div class="ph-text">Photo/diagram: light refracting through a prism into colors<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: White light (like sunlight) is actually made of every color of the rainbow mixed together — a prism (or raindrops, making a rainbow!) simply bends each color by a slightly different amount, splitting them apart so you can see them separately.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=24%3A35&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">This is one of the most famous ayat in the Quran, describing light through the image of a lamp inside glass — a beautiful reminder of just how central light is, both physically and spiritually.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      lightray:{def:'A straight line that light travels along.'},
+      reflection:{def:'Light bouncing off a surface — this is how we see most objects around us.'},
+      refraction:{def:'Light bending as it passes from one material into another, like from air into water.'},
+      transparent:{def:'A material that lets light pass straight through it, like clear glass.'},
+      translucent:{def:'A material that lets some light through but scatters it, like frosted glass.'},
+      opaque:{def:'A material that blocks light completely, creating a shadow, like wood or metal.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Why does a red apple look red?',
+        choices:['It absorbs red light and reflects every other color','It reflects red light back to your eyes and absorbs other colors','It creates its own red light','Apples are not actually red at all'],
+        correct:1,
+        hints:["Hint 1: The color you SEE is the color of light that bounces OFF the object into your eye, not the color it soaks up.","Hint 2: This is the same idea as why leaves look green — remember chlorophyll from Life Land?"],
+        explain:'The apple reflects red light back to your eyes while absorbing the other colors — the color you see is always the color being reflected, not absorbed.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Unlike sound, light CAN travel through the empty vacuum of space.',
+        answer:true,
+        hints:["Hint 1: Sunlight travels about 93 million miles through mostly empty space to reach Earth — if light needed matter to travel through like sound does, would that even be possible?"],
+        explain:'Light doesn\'t need a medium to travel — it can move through empty space, which is exactly how sunlight reaches Earth across millions of miles of vacuum.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'A straw looks "bent" where it enters a glass of water because of what?',
+        choices:['Reflection','Refraction (light bending)','Absorption','Magnetism'],
+        correct:1,
+        hints:["Hint 1: The light traveling from the underwater part of the straw has to pass from water into air before reaching your eye — what happens to light crossing between two different materials?"],
+        explain:'This is refraction — light bends as it crosses from water into air, which shifts where the underwater part of the straw appears to be, making it look bent or broken at the surface.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each material type to an example.',
+        left:['Transparent','Translucent','Opaque'],
+        right:['Clear window glass','Frosted shower glass','A wooden door'],
+        correctPairs:[0,1,2],
+        hints:["Hint: Think about which one you could read a book through clearly, which one is fuzzy/blurry, and which one blocks light entirely."],
+        explain:'Transparent materials (clear glass) let light pass straight through; translucent materials (frosted glass) scatter light so you see blurry shapes; opaque materials (wood) block light completely.'
+      }
+    ]
+  },
+  {
+    id:'energy-magnetism-circuits',
+    land:'energy',
+    title:'Magnetism & Circuits',
+    hunch:"Judy's hunch: \"A flashlight has a battery, a switch, wires, and a bulb. If even ONE of those parts is missing or broken, do you think the light will still turn on?\"",
+    lessonHTML:`
+      <h2>Invisible Forces and Flowing Electricity</h2>
+      <p>A <span class="vocab" data-term="magnet">magnet</span> creates an invisible <span class="vocab" data-term="magneticfield">magnetic field</span> around itself that can push or pull certain materials (mainly iron, nickel, and cobalt) without even touching them. Every magnet has two ends called poles — a north pole and a south pole. Opposite poles attract each other, and like poles repel (push apart).</p>
+      <p><span class="vocab" data-term="electricity">Electricity</span> is the flow of tiny charged particles called electrons. For electricity to flow and do something useful — like light a bulb — it needs a complete, unbroken loop called a <span class="vocab" data-term="circuit">circuit</span>: a power source (like a battery), wires to carry the flow, and something using the electricity (like a bulb), all connected in a full loop with no gaps. If the loop breaks anywhere — even one tiny gap — the electricity stops flowing entirely, which is exactly how a switch works.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/36.jpg"><div class="ph-icon">🔋</div><div class="ph-text">Diagram: simple circuit with battery, wire, switch, and bulb<br>(coming soon)</div></div>
+      </div>
+      <p>Magnetism and electricity are actually deeply connected — running electricity through a coiled wire creates a magnetic field (called an electromagnet), which is how electric motors, doorbells, and even some junkyard cranes work.</p>
+      <div class="fun-fact">🌟 Fun fact: The Earth itself acts like a giant magnet, with a magnetic field stretching out into space — that's exactly why a compass needle always points north!</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=57%3A25&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Iron is specifically named here as something sent down with great strength and benefits for people — and iron happens to be exactly the metal at the heart of both magnetism and most electrical wiring.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      magnet:{def:'An object that produces a magnetic field, able to attract materials like iron without touching them.'},
+      magneticfield:{def:'The invisible area around a magnet where its magnetic force can act.'},
+      electricity:{def:'The flow of tiny charged particles called electrons.'},
+      circuit:{def:'A complete, unbroken loop that allows electricity to flow from a power source, through wires, to something that uses it.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'What happens to a circuit if there is even one small gap or break in the loop?',
+        choices:['Nothing changes at all','Electricity flows even faster','Electricity stops flowing completely','The battery explodes'],
+        correct:2,
+        hints:["Hint 1: Think about what a light switch actually does when you flip it \"off\" — what is it physically doing to the wire loop?"],
+        explain:'A circuit must be a complete, unbroken loop for electricity to flow. Even one small gap stops the flow entirely — this is exactly how a switch works, by opening or closing that gap.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Two magnets with their north poles facing each other will attract (pull together).',
+        answer:false,
+        hints:["Hint 1: Remember the rule: like poles do what, and opposite poles do what?"],
+        explain:'Like poles (north-north or south-south) repel each other, pushing apart. Only opposite poles (north-south) attract.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'What are the three basic parts every simple circuit needs?',
+        choices:['A magnet, a wire, and a switch','A power source, wires, and something using the electricity','A battery, a compass, and iron','Light, heat, and sound'],
+        correct:1,
+        hints:["Hint 1: Think of a flashlight — what three kinds of parts does it absolutely need to work?"],
+        explain:'A working circuit needs a power source (like a battery), wires forming a complete loop, and a device using the electricity (like a bulb or motor).'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: Running electricity through a coiled wire can create a magnetic field.',
+        answer:true,
+        hints:["Hint 1: This connection between electricity and magnetism is exactly what makes an electromagnet work."],
+        explain:'This is true — it\'s called an electromagnet, and it\'s the basis for electric motors, doorbells, and many other everyday devices.'
+      }
+    ]
+  },
+  {
+    id:'earth-rock-cycle',
+    land:'earth',
+    title:'Rocks & the Rock Cycle',
+    hunch:"Judy's hunch: \"A rock sitting on a mountain seems totally still and unchanging. But if you could watch it for millions of years, do you think it would stay exactly the same forever?\"",
+    lessonHTML:`
+      <h2>Rocks Are Always (Slowly) Changing</h2>
+      <p>There are three main types of rock, sorted by how they form. <span class="vocab" data-term="igneous">Igneous rock</span> forms when melted rock (magma underground, or lava above ground) cools and hardens — granite and basalt are examples. <span class="vocab" data-term="sedimentary">Sedimentary rock</span> forms when layers of sediment (sand, mud, shell fragments) get pressed and cemented together over long periods of time — sandstone and limestone are examples, and they often contain fossils. <span class="vocab" data-term="metamorphic">Metamorphic rock</span> forms when an existing rock is changed by intense heat and pressure underground, without fully melting — marble (changed from limestone) and slate (changed from shale) are examples.</p>
+      <p>The <span class="vocab" data-term="rockcycle">rock cycle</span> describes how these three types can transform into one another over time: igneous rock can weather into sediment that becomes sedimentary rock; any rock can be buried and heated into metamorphic rock; and any rock can melt completely and cool again as new igneous rock. It's a slow, ongoing cycle with no true beginning or end.</p>
+      <div class="diagram-box">
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/37.jpg"><div class="ph-icon">🌋</div><div class="ph-text">Igneous<br>(cooled magma/lava)</div></div>
+          <div class="img-placeholder" data-img="images/38.jpg"><div class="ph-icon">🏜️</div><div class="ph-text">Sedimentary<br>(pressed layers)</div></div>
+          <div class="img-placeholder" data-img="images/39.jpg"><div class="ph-icon">💎</div><div class="ph-text">Metamorphic<br>(heat + pressure)</div></div>
+        </div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Diamonds are a form of metamorphic-style change too — they're pure carbon transformed by extreme heat and pressure deep underground, over a billion years or more.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=78%3A6-7&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Mountains — huge formations of the very rock types you just learned about — are described here as stabilizing "pegs" for the earth, a picture worth sitting with as you study what they're made of.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      igneous:{def:'Rock formed when melted rock (magma or lava) cools and hardens.'},
+      sedimentary:{def:'Rock formed when layers of sediment are pressed and cemented together over time; often contains fossils.'},
+      metamorphic:{def:'Rock changed from an existing rock by intense heat and pressure, without fully melting.'},
+      rockcycle:{def:'The slow, ongoing process by which rocks transform between igneous, sedimentary, and metamorphic forms.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Which type of rock is most likely to contain fossils?',
+        choices:['Igneous','Sedimentary','Metamorphic','None of them ever contain fossils'],
+        correct:1,
+        hints:["Hint 1: Fossils need gentle, gradual burial in layers — not melting, and not extreme heat that would destroy them.","Hint 2: Which rock type forms from layers of sediment settling and pressing together over time?"],
+        explain:'Sedimentary rock forms from gradually pressed layers of sediment, gently enough that shells, bones, and imprints can be preserved as fossils. Igneous rock is far too hot when it forms, and metamorphic rock\'s heat and pressure would usually destroy fossils.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Once a rock is one type (say, igneous), it can never become a different type.',
+        answer:false,
+        hints:["Hint 1: That's the whole idea of the rock CYCLE — does a cycle ever have a true permanent endpoint?"],
+        explain:'The rock cycle means any rock type can eventually transform into another — igneous rock can weather into sediment, get buried and heated into metamorphic rock, or even melt and re-form as new igneous rock.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Marble forms when limestone (a sedimentary rock) is changed by heat and pressure without melting. What type of rock is marble?',
+        choices:['Igneous','Sedimentary','Metamorphic','Marble is not a rock'],
+        correct:2,
+        hints:["Hint 1: The definition just given says \"changed by heat and pressure, without fully melting\" — which of the three rock categories does that describe exactly?"],
+        explain:'Marble is metamorphic rock — it started as limestone (sedimentary) and was transformed by intense heat and pressure underground, without ever fully melting into magma.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each rock type to how it forms.',
+        left:['Igneous','Sedimentary','Metamorphic'],
+        right:['Cooled, hardened magma or lava','Layers of sediment pressed together','Existing rock changed by heat and pressure'],
+        correctPairs:[0,1,2],
+        hints:["Hint: One involves melting and cooling, one involves layers building up, and one involves transforming without melting."],
+        explain:'Igneous forms from cooling molten rock, sedimentary forms from compacted layers of sediment, and metamorphic forms when heat and pressure transform existing rock without melting it.'
+      }
+    ]
+  },
+  {
+    id:'earth-weathering-erosion',
+    land:'earth',
+    title:'Weathering & Erosion',
+    hunch:"Judy's hunch: \"The Grand Canyon is a mile deep, carved mostly by a single river. That river isn't sharp like a knife — so how do you think plain water carved something that huge?\"",
+    lessonHTML:`
+      <h2>Breaking Down and Carrying Away</h2>
+      <p><span class="vocab" data-term="weathering">Weathering</span> is the breaking down of rock into smaller pieces, right where it is, without moving it anywhere. It can be mechanical (physical breaking, like water freezing and expanding inside a crack, splitting the rock apart) or chemical (a substance reacting with and dissolving part of the rock, like acidic rainwater slowly dissolving limestone).</p>
+      <p><span class="vocab" data-term="erosion">Erosion</span> is different — it's the process of moving those weathered pieces (called sediment) from one place to another, carried by wind, water, ice, or gravity. Weathering breaks it down; erosion carries it away. Together, over long periods of time, they can reshape entire landscapes — carving canyons, building sand dunes, and wearing mountains down.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/40.jpg"><div class="ph-icon">🏞️</div><div class="ph-text">Photo: canyon or river-carved landscape showing erosion<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: The Grand Canyon, about a mile deep and 277 miles long, was carved almost entirely by the Colorado River — combined with weathering — over roughly 5 to 6 million years.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=15%3A22&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Wind is named here as a specific, purposeful force — and wind is also one of the main forces that carries out erosion, slowly shaping deserts, canyons, and coastlines over time.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      weathering:{def:'The breaking down of rock into smaller pieces in place, without being moved anywhere.'},
+      erosion:{def:'The process of moving weathered rock pieces (sediment) from one location to another, carried by wind, water, ice, or gravity.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'What is the key difference between weathering and erosion?',
+        choices:['They are exactly the same thing','Weathering breaks rock down in place; erosion carries the pieces away','Weathering only happens underwater; erosion only happens on land','Erosion happens instantly; weathering takes millions of years'],
+        correct:1,
+        hints:["Hint 1: One of these two processes involves MOVEMENT to a new location, and one does not.","Hint 2: Water freezing in a crack and splitting a rock apart — has that rock actually traveled anywhere?"],
+        explain:'Weathering breaks rock into smaller pieces right where it is, while erosion is the separate process of carrying those broken pieces somewhere else.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Water freezing inside a crack in a rock and expanding is an example of CHEMICAL weathering.',
+        answer:false,
+        hints:["Hint 1: Chemical weathering involves a substance reacting with and dissolving the rock. Is freezing water reacting chemically, or just physically expanding?"],
+        explain:'This is mechanical (physical) weathering — the ice is physically expanding and splitting the rock apart, not chemically reacting with or dissolving it.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Which of these is the best real-world example of erosion?',
+        choices:['A rock splitting apart from frost','A river carrying sand and mud downstream','Rust forming on an old nail','A rock dissolving slowly in acidic rain'],
+        correct:1,
+        hints:["Hint 1: Erosion specifically means CARRYING sediment somewhere else — which of these four involves actual movement to a new place?"],
+        explain:'A river carrying sand and mud downstream is erosion — the sediment is physically being transported from one location to another, which is the defining feature of erosion.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: Weathering and erosion working together, over long enough time, can carve out features as large as canyons.',
+        answer:true,
+        hints:["Hint 1: Think of the Grand Canyon fun fact — how long did it take, and what carved it?"],
+        explain:'Given millions of years, weathering and erosion together can reshape entire landscapes, including carving mile-deep canyons like the Grand Canyon.'
+      }
+    ]
+  },
+  {
+    id:'earth-water-cycle',
+    land:'earth',
+    title:'The Water Cycle',
+    hunch:"Judy's hunch: \"The water you drank today might contain the exact same water molecules a dinosaur once drank millions of years ago. How could that possibly be true?\"",
+    lessonHTML:`
+      <h2>The Same Water, Recycled Forever</h2>
+      <p>Earth's water is constantly recycled through the <span class="vocab" data-term="watercycle">water cycle</span>, powered by energy from the sun. During <span class="vocab" data-term="evaporation">evaporation</span>, heat from the sun turns liquid water from oceans, lakes, and rivers into invisible water vapor (a gas), which rises into the sky. Plants also release water vapor through a related process called transpiration.</p>
+      <p>As water vapor rises and cools, it undergoes <span class="vocab" data-term="condensation">condensation</span> — turning back into tiny liquid droplets that cluster together to form clouds. When those droplets combine and get heavy enough, they fall back to Earth as <span class="vocab" data-term="precipitation">precipitation</span> (rain, snow, sleet, or hail). Water that lands on the ground either soaks into the soil (<span class="vocab" data-term="collection">collection</span> as groundwater) or flows across the surface as runoff back into rivers, lakes, and oceans — where the whole cycle starts again.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/41.jpg"><div class="ph-icon">☁️</div><div class="ph-text">Diagram: water cycle — evaporation, condensation, precipitation, collection<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Earth's water has been recycling for billions of years — scientists estimate the water molecules on Earth today are essentially the same ones that have existed since very early in the planet's history, just constantly changing form and location.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=25%3A48-49&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Winds arriving before rain, and pure water sent down from the sky — this ayah describes the water cycle's rhythm centuries before it was explained scientifically.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      watercycle:{def:"The continuous movement of Earth's water between the ocean, atmosphere, and land, powered by the sun."},
+      evaporation:{def:'Liquid water turning into water vapor (a gas) due to heat, usually from the sun.'},
+      condensation:{def:'Water vapor cooling and turning back into liquid droplets, forming clouds.'},
+      precipitation:{def:'Water falling from clouds back to Earth as rain, snow, sleet, or hail.'},
+      collection:{def:'Water gathering back into oceans, lakes, rivers, or soaking into the ground as groundwater.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'What provides the ENERGY that powers the entire water cycle?',
+        choices:['The moon','The sun','Wind alone','Ocean currents alone'],
+        correct:1,
+        hints:["Hint 1: What causes liquid water to evaporate into vapor in the first place?"],
+        explain:'The sun\'s heat is what causes evaporation, which kicks off the entire water cycle — without solar energy, water would never rise into the sky to begin with.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Condensation is water vapor turning back into liquid droplets, forming clouds.',
+        answer:true,
+        hints:["Hint 1: This is literally the definition — think about what happens on the OUTSIDE of a cold glass of water on a hot day."],
+        explain:'Correct — condensation is water vapor cooling and turning back into liquid droplets, which is exactly how clouds form high in the sky.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each water cycle stage to what happens during it.',
+        left:['Evaporation','Condensation','Precipitation','Collection'],
+        right:['Liquid water turns into vapor','Vapor turns back into liquid droplets','Water falls back to Earth','Water gathers in oceans, lakes, or ground'],
+        correctPairs:[0,1,2,3],
+        hints:["Hint: Follow the cycle in order — rising up as gas, forming clouds, falling as rain, and finally settling somewhere."],
+        explain:'The cycle flows in order: evaporation (liquid to vapor), condensation (vapor to droplets/clouds), precipitation (falling back down), and collection (gathering in bodies of water or soil).'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: The water cycle has a clear beginning and a final ending point.',
+        answer:false,
+        hints:["Hint 1: The word \"cycle\" is a big clue here — does a cycle ever truly stop?"],
+        explain:'The water cycle is continuous with no true starting or ending point — water just keeps moving through evaporation, condensation, precipitation, and collection, over and over, forever.'
+      }
+    ]
+  },
+  {
+    id:'earth-weather-climate',
+    land:'earth',
+    title:'Weather vs. Climate',
+    hunch:"Judy's hunch: \"It could be freezing cold in the desert tonight, even though deserts are famous for being hot. Does one cold night mean the desert isn't really a hot climate after all?\"",
+    lessonHTML:`
+      <h2>Right Now vs. Over Time</h2>
+      <p><span class="vocab" data-term="weather">Weather</span> is the short-term condition of the atmosphere in a specific place at a specific time — is it raining today, is it hot this afternoon, is it windy right now? Weather can change hour to hour and day to day, and it's what you check before deciding whether to bring an umbrella.</p>
+      <p><span class="vocab" data-term="climate">Climate</span> is the average pattern of weather in a region over a long period of time — usually 30 years or more. A desert has a hot, dry CLIMATE overall, even if it has one unusually cold or rainy day of WEATHER. A simple way to remember it: climate is what you expect, weather is what you actually get on a given day.</p>
+      <div class="diagram-box">
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/42.jpg"><div class="ph-icon">🌦️</div><div class="ph-text">Weather<br>(today, right now)</div></div>
+          <div class="img-placeholder" data-img="images/43.jpg"><div class="ph-icon">🗺️</div><div class="ph-text">Climate<br>(long-term average pattern)</div></div>
+        </div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Antarctica is technically classified as a desert — not because it's hot, but because "desert" is a climate classification based on very low average precipitation, and Antarctica receives extremely little snowfall for its size.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=30%3A48&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Winds stirring clouds and clouds turning into rain — this describes actual day-to-day weather patterns, the very thing meteorologists study and forecast.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      weather:{def:'The short-term condition of the atmosphere in a specific place at a specific time.'},
+      climate:{def:'The average pattern of weather in a region over a long period of time, typically 30+ years.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Which of these is an example of WEATHER, not climate?',
+        choices:['The Amazon rainforest is generally hot and humid year-round','It is raining outside right now','The Sahara Desert has a hot, dry climate overall','Antarctica has an extremely cold climate overall'],
+        correct:1,
+        hints:["Hint 1: Weather is about a SPECIFIC moment in time — which of these four is describing something happening right now, rather than a long-term average pattern?"],
+        explain:'"It is raining right now" describes the current, short-term atmospheric condition — that\'s weather. The others describe long-term average patterns, which is climate.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: One unusually cold day in a desert proves the desert doesn\'t really have a hot climate.',
+        answer:false,
+        hints:["Hint 1: Climate is about the long-term AVERAGE pattern — does a single day of unusual weather change a 30-year average?"],
+        explain:'A single cold day is just weather — a short-term event. It doesn\'t change the desert\'s overall climate, which is based on long-term average conditions over many years.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Which of these best summarizes the difference between weather and climate?',
+        choices:['Weather is what you expect; climate is what you get today','Climate is what you expect; weather is what you actually get on a given day','They mean exactly the same thing','Weather only applies to oceans; climate only applies to land'],
+        correct:1,
+        hints:["Hint 1: Which one is the long-term expectation, and which one is the day-to-day reality?"],
+        explain:'Climate is the long-term expected pattern for a region, while weather is what actually happens on any given day — which can sometimes differ from the climate\'s typical pattern.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: Climate is typically measured using averages over at least 30 years.',
+        answer:true,
+        hints:["Hint 1: This was stated directly in the lesson — climate needs a LONG timeframe to be meaningful, not just a few days or weeks."],
+        explain:'Scientists typically use at least 30 years of data to establish a region\'s climate, since that\'s long enough to smooth out normal year-to-year weather variation.'
+      }
+    ]
+  },
+  {
+    id:'earth-layers',
+    land:'earth',
+    title:'Layers of the Earth',
+    hunch:"Judy's hunch: \"If you could dig a hole straight down through the Earth, do you think it would just be solid rock the whole way down to the very center?\"",
+    lessonHTML:`
+      <h2>Earth Is Built Like an Onion</h2>
+      <p>Earth is made of several distinct layers. The <span class="vocab" data-term="crust">crust</span> is the thin, rocky outer layer we live on — it's actually the thinnest layer, like the skin of an apple compared to the whole fruit. Below that is the <span class="vocab" data-term="mantle">mantle</span>, a thick layer of hot, slowly flowing rock that makes up most of Earth's volume.</p>
+      <p>Below the mantle is the <span class="vocab" data-term="outercore">outer core</span>, made of liquid, molten metal (mostly iron and nickel) — its slow swirling motion actually generates Earth's magnetic field! At the very center is the <span class="vocab" data-term="innercore">inner core</span>, a solid ball of iron and nickel — even hotter than the outer core, but squeezed solid by immense pressure.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/44.jpg"><div class="ph-icon">🌍</div><div class="ph-text">Diagram: cross-section of Earth's layers (crust, mantle, outer core, inner core)<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: The inner core is estimated to be almost as hot as the surface of the sun (around 5,400°C / 9,800°F), but the crushing pressure at Earth's center keeps that iron solid instead of melting it.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=15%3A19&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">The earth being "spread out" with mountains "firmly set" is a description of the very crust and structure you're learning about — the solid layer that everything we know stands on.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      crust:{def:"Earth's thin, rocky outer layer, where we live — the thinnest of all Earth's layers."},
+      mantle:{def:"The thick layer of hot, slowly flowing rock beneath the crust, making up most of Earth's volume."},
+      outercore:{def:"The layer of liquid, molten iron and nickel beneath the mantle; its motion generates Earth's magnetic field."},
+      innercore:{def:"The solid ball of iron and nickel at Earth's very center, kept solid by extreme pressure despite intense heat."}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Which layer of Earth is the thinnest, even though we live directly on it?',
+        choices:['The crust','The mantle','The outer core','The inner core'],
+        correct:0,
+        hints:["Hint 1: Think of the apple-skin comparison from the lesson — the layer we live on is actually the smallest slice of the whole planet."],
+        explain:'The crust — the layer we live on — is actually Earth\'s thinnest layer by far, similar to how thin an apple\'s skin is compared to the whole apple.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Earth\'s outer core is solid, while the inner core is liquid.',
+        answer:false,
+        hints:["Hint 1: This is backwards from what the lesson described — check which one is described as \"liquid, molten metal\" and which is \"a solid ball.\""],
+        explain:'It\'s the opposite: the outer core is liquid molten metal, while the inner core — despite being even hotter — is squeezed solid by extreme pressure.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'What generates Earth\'s magnetic field?',
+        choices:['The solid crust','The slow swirling motion of the liquid outer core','Sunlight hitting the atmosphere','The mantle cooling down'],
+        correct:1,
+        hints:["Hint 1: The lesson specifically connects one particular layer's motion to the magnetic field — which layer was described as \"swirling\"?"],
+        explain:'The slow swirling motion of the liquid, metal outer core generates Earth\'s magnetic field — the same field that makes a compass needle point north.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each layer to its description.',
+        left:['Crust','Mantle','Outer core','Inner core'],
+        right:['Thin rocky surface layer','Thick layer of slowly flowing hot rock','Liquid molten iron and nickel','Solid ball of iron and nickel at the center'],
+        correctPairs:[0,1,2,3],
+        hints:["Hint: Go from the outside in — thin rock, thick flowing rock, liquid metal, then solid metal center."],
+        explain:'From outside to center: crust (thin rock), mantle (thick flowing rock), outer core (liquid metal), and inner core (solid metal at the very center).'
+      }
+    ]
+  },
+  {
+    id:'earth-resources',
+    land:'earth',
+    title:'Natural Resources & Conservation',
+    hunch:"Judy's hunch: \"Sunlight keeps shining every single day no matter how much we use it, but a lump of coal, once burned, is gone forever. What do you think is different between these two?\"",
+    lessonHTML:`
+      <h2>Resources That Run Out, and Resources That Don't</h2>
+      <p>A <span class="vocab" data-term="naturalresource">natural resource</span> is anything from nature that people use — water, air, soil, trees, minerals, and fuels like oil and coal. <span class="vocab" data-term="renewable">Renewable resources</span> can be replaced naturally within a fairly short time, or they simply don't run out at all — like sunlight, wind, and trees (if replanted). <span class="vocab" data-term="nonrenewable">Nonrenewable resources</span> take millions of years to form and are being used up much faster than nature can replace them — like coal, oil, and natural gas, which formed from ancient buried organisms under heat and pressure over vast stretches of time.</p>
+      <p><span class="vocab" data-term="conservation">Conservation</span> means using resources wisely and avoiding waste, so they last longer and cause less harm to ecosystems — actions like recycling, reducing water waste, and using renewable energy sources all help conserve resources for the future.</p>
+      <div class="diagram-box">
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/45.jpg"><div class="ph-icon">☀️</div><div class="ph-text">Renewable<br>(sunlight, wind, trees)</div></div>
+          <div class="img-placeholder" data-img="images/46.jpg"><div class="ph-icon">⛽</div><div class="ph-text">Nonrenewable<br>(coal, oil, gas)</div></div>
+        </div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: The coal and oil we use today started forming from swamps and ancient sea life hundreds of millions of years ago — long before dinosaurs even existed — which is why once we use it up, there's no realistic way to quickly make more.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=7%3A56&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">A direct instruction not to cause corruption on the earth after it has been set right — a value that lines up closely with what conservation is all about.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      naturalresource:{def:'Anything from nature that people use, like water, air, trees, minerals, and fuels.'},
+      renewable:{def:'A resource that can be replaced naturally within a short time, or doesn\'t run out, like sunlight or wind.'},
+      nonrenewable:{def:'A resource that takes millions of years to form and is being used up faster than nature can replace it, like coal or oil.'},
+      conservation:{def:'Using resources wisely and avoiding waste so they last longer and cause less environmental harm.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Which of these is a RENEWABLE resource?',
+        choices:['Coal','Natural gas','Sunlight','Oil'],
+        correct:2,
+        hints:["Hint 1: Which of these four keeps arriving every single day no matter how much of it gets used?"],
+        explain:'Sunlight is renewable — it keeps arriving every day and never runs out from us using it, unlike coal, oil, and natural gas, which took millions of years to form.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Nonrenewable resources form and replenish themselves within a few years.',
+        answer:false,
+        hints:["Hint 1: Coal and oil formed from ancient buried organisms — how long did the lesson say that process takes?"],
+        explain:'Nonrenewable resources like coal and oil take millions of years to form — far too slow to be replaced at the rate we currently use them.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Which action is the best example of conservation?',
+        choices:['Leaving the water running while brushing your teeth','Recycling paper and using less water','Using as much coal as possible', 'Cutting down trees without replanting any'],
+        correct:1,
+        hints:["Hint 1: Conservation means using resources wisely and reducing waste — which option does that, and which options waste resources instead?"],
+        explain:'Recycling and reducing water waste are direct examples of conservation — using resources thoughtfully so they last longer and cause less environmental harm.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: Trees can be considered a renewable resource IF they are replanted responsibly.',
+        answer:true,
+        hints:["Hint 1: The key word from the lesson was \"if replanted\" — does that make trees more like sunlight, or more like coal?"],
+        explain:'Trees can regrow within a human lifetime if they are responsibly replanted, which makes them renewable — unlike coal or oil, which can\'t realistically be replaced on any human timescale.'
+      }
+    ]
+  },
+  {
+    id:'earth-fossils',
+    land:'earth',
+    title:'Fossils & Earth\'s History',
+    hunch:"Judy's hunch: \"Scientists have never seen a living dinosaur, yet they can describe in detail what dinosaurs looked like, ate, and how they moved. How do you think they know all that?\"",
+    lessonHTML:`
+      <h2>Reading the Story Written in Rock</h2>
+      <p>A <span class="vocab" data-term="fossil">fossil</span> is the preserved remains or trace of a once-living organism, usually formed when an organism is buried quickly (often in sediment near water) before it can fully decompose, and minerals slowly replace its original material over a very long time. Fossils can be actual body parts (bones, shells, teeth) or trace fossils — evidence of activity, like footprints, burrows, or even fossilized droppings.</p>
+      <p>Fossils are almost always found in sedimentary rock, since that's the only rock type that forms gently enough (from settling layers) to preserve delicate remains rather than destroying them with heat or melting. By studying the order of rock layers (deeper layers are generally older) and the fossils within them, scientists can piece together a timeline of how life on Earth has changed over hundreds of millions of years.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/47.jpg"><div class="ph-icon">🦴</div><div class="ph-text">Photo: real fossil embedded in sedimentary rock<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Amber (hardened, fossilized tree sap) has preserved entire insects — sometimes so perfectly detailed that scientists can see individual hairs on their legs — from tens of millions of years ago.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=29%3A20&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">A direct instruction to travel the earth and observe how creation began — which is essentially what paleontologists and geologists do every time they study a fossil-bearing rock layer.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      fossil:{def:'The preserved remains or trace of a once-living organism, usually formed over a very long time in sedimentary rock.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Why are fossils almost always found in sedimentary rock rather than igneous or metamorphic rock?',
+        choices:['Sedimentary rock is the only rock type that exists underground','Sedimentary rock forms gently through settling layers, without heat that would destroy remains','Fossils prefer sedimentary rock','Igneous rock is too soft to hold fossils'],
+        correct:1,
+        hints:["Hint 1: Think about what forms igneous rock (melting) and metamorphic rock (intense heat) — would delicate remains survive either of those processes?"],
+        explain:'Sedimentary rock forms gently, through layers of sediment settling and pressing together — gentle enough to preserve delicate remains, unlike the melting or intense heat involved in forming igneous or metamorphic rock.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: A dinosaur footprint preserved in rock counts as a fossil, even though it isn\'t a body part.',
+        answer:true,
+        hints:["Hint 1: The lesson specifically mentioned a category called \"trace fossils\" — what kinds of things count as those?"],
+        explain:'Footprints, burrows, and other traces of activity are called trace fossils — they count as fossils just as much as preserved bones or shells do.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'When looking at layers of sedimentary rock stacked on top of each other, which layer is generally the OLDEST?',
+        choices:['The top layer','The deepest (bottom) layer','They are all the same age','It\'s impossible to tell'],
+        correct:1,
+        hints:["Hint 1: Layers of sediment build up over time, with new layers settling on top of older ones — so which end of the stack formed first?"],
+        explain:'Since sediment layers build up over time with new layers settling on top, the deepest layers were laid down first and are generally the oldest — a principle geologists use to build a timeline of Earth\'s history.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: Fossils can only form from bones — soft materials like tree sap can never become fossils.',
+        answer:false,
+        hints:["Hint 1: Remember the fun fact about amber — what was preserved inside it?"],
+        explain:'Fossils can form in surprising ways — amber (hardened, fossilized tree sap) has preserved entire insects in remarkable detail, showing that fossils aren\'t limited to just bones and shells.'
+      }
+    ]
+  },
+  {
+    id:'space-solar-system',
+    land:'space',
+    title:'The Solar System',
+    hunch:"Judy's hunch: \"Every planet in our solar system is moving at incredible speed, right now, without any engine or fuel pushing it. What do you think keeps them all moving in their paths instead of flying off into space?\"",
+    lessonHTML:`
+      <h2>Our Cosmic Neighborhood</h2>
+      <p>Our <span class="vocab" data-term="solarsystem">solar system</span> consists of the Sun and everything that orbits it: eight planets, dwarf planets, moons, asteroids, and comets. In order from the Sun, the eight planets are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. The four closest to the Sun (Mercury, Venus, Earth, Mars) are small, rocky <span class="vocab" data-term="terrestrial">terrestrial planets</span>. The four farthest out (Jupiter, Saturn, Uranus, Neptune) are much larger <span class="vocab" data-term="gasgiant">gas giants</span>, made mostly of thick gas and liquid rather than solid rock.</p>
+      <p>Every planet <span class="vocab" data-term="orbit">orbits</span> the Sun in a roughly oval-shaped path, held in place by the Sun's enormous gravity constantly pulling on it — the same invisible force you'll learn more about soon. The Sun itself is a star, an enormous ball of superheated gas, and it holds over 99.8% of all the mass in the entire solar system.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/48.jpg"><div class="ph-icon">🪐</div><div class="ph-text">Photo: real NASA image of the solar system / planets<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: If the Sun were the size of a basketball, Earth would be about the size of a grain of sand, orbiting roughly 26 yards away — and Jupiter, the largest planet, would still only be about the size of a golf ball.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=36%3A38&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">The sun is described here as moving along a determined course — a striking match with the precise orbital paths you just learned every object in the solar system follows.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      solarsystem:{def:'The Sun and everything that orbits it, including planets, moons, asteroids, and comets.'},
+      terrestrial:{def:'A small, rocky planet close to the Sun (Mercury, Venus, Earth, Mars).'},
+      gasgiant:{def:'A large planet made mostly of thick gas and liquid, far from the Sun (Jupiter, Saturn, Uranus, Neptune).'},
+      orbit:{def:"A roughly oval-shaped path an object follows around another object, like a planet around the Sun."}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Which of these is a "terrestrial" (small, rocky) planet?',
+        choices:['Jupiter','Saturn','Mars','Neptune'],
+        correct:2,
+        hints:["Hint 1: Terrestrial planets are the four CLOSEST to the sun, and they're rocky, not gas-based.","Hint 2: Mercury, Venus, Earth, and this one are the four terrestrial planets — which of the choices matches?"],
+        explain:'Mars is one of the four terrestrial (small, rocky) planets, along with Mercury, Venus, and Earth. Jupiter, Saturn, and Neptune are all gas giants.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: The Sun makes up less than half of all the mass in the entire solar system.',
+        answer:false,
+        hints:["Hint 1: The lesson gave a specific, very large percentage for how much of the solar system's mass the sun holds."],
+        explain:'The Sun actually holds over 99.8% of all the mass in the solar system — planets, moons, and everything else combined make up less than 0.2%.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'What force keeps every planet moving in its orbit instead of flying off into space?',
+        choices:["The planet's own engine","The Sun's gravity constantly pulling on it","Magnetism from the other planets","Solar wind pushing it in a circle"],
+        correct:1,
+        hints:["Hint 1: This is the same invisible force that pulls a dropped ball to the ground — just acting across a much greater distance."],
+        explain:"The Sun's gravity constantly pulls on every planet, bending its path into a curved orbit instead of letting it travel off in a straight line into space."
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each planet group to its description.',
+        left:['Terrestrial planets','Gas giants'],
+        right:['Small, rocky, closest to the sun','Large, made of thick gas and liquid, farthest from the sun'],
+        correctPairs:[0,1],
+        hints:["Hint: One group is small and solid; the other is enormous and not solid at all."],
+        explain:'Terrestrial planets (Mercury, Venus, Earth, Mars) are small and rocky, closest to the sun. Gas giants (Jupiter, Saturn, Uranus, Neptune) are much larger and made mostly of gas and liquid.'
+      }
+    ]
+  },
+  {
+    id:'space-moon-phases',
+    land:'space',
+    title:'Moon Phases',
+    hunch:"Judy's hunch: \"The moon doesn't create its own light, yet some nights it looks like a full glowing circle, and other nights it's barely a sliver. If it's not actually changing shape, what do you think IS changing?\"",
+    lessonHTML:`
+      <h2>Why the Moon Seems to Change Shape</h2>
+      <p>The Moon doesn't produce its own light — it only reflects sunlight, like a giant mirror in the sky. As the Moon <span class="vocab" data-term="revolve">revolves</span> around Earth (taking about 29.5 days for one full trip), we see different amounts of its sunlit half from our position on Earth, creating what we call <span class="vocab" data-term="moonphase">moon phases</span>.</p>
+      <p>At a <span class="vocab" data-term="newmoon">new moon</span>, the Moon is between Earth and the Sun, so its sunlit side faces completely away from us — it looks invisible. As it moves through its orbit, we gradually see more of the lit half (waxing), reaching a <span class="vocab" data-term="fullmoon">full moon</span> when Earth is between the Moon and Sun, and we see the Moon's entire sunlit face. Then it gradually shows less (waning) until it disappears again at the next new moon — and the whole cycle repeats.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/49.jpg"><div class="ph-icon">🌙</div><div class="ph-text">Diagram: moon phases (new, crescent, quarter, gibbous, full) around Earth<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: We always see the same side of the Moon from Earth — the Moon's "far side" was completely unseen by humans until spacecraft photographed it in 1959, because the Moon rotates once on its axis in exactly the same time it takes to orbit Earth once.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=36%3A39&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">The moon's changing phases — going from thin and small back to full each cycle — are described here using the image of an old, curved date stalk, a very precise and vivid picture of exactly what you just learned.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      revolve:{def:'To travel in an orbit around another object — the Moon revolves around Earth roughly every 29.5 days.'},
+      moonphase:{def:"The changing appearance of the Moon's sunlit portion as seen from Earth, caused by its position in orbit."},
+      newmoon:{def:'The phase when the Moon is between Earth and the Sun, with its sunlit side facing away from us, making it appear invisible.'},
+      fullmoon:{def:"The phase when Earth is between the Moon and Sun, so we see the Moon's entire sunlit face."}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Why does the Moon appear to change shape throughout the month?',
+        choices:['The Moon actually changes its physical shape','Clouds cover different parts of it each night','We see different amounts of its sunlit half depending on its position in orbit','The Moon creates different amounts of its own light'],
+        correct:2,
+        hints:["Hint 1: The Moon's actual physical shape (a sphere) never changes — so what's really varying from our point of view?","Hint 2: The Moon doesn't make its own light at all — it only reflects light from somewhere else."],
+        explain:"The Moon's physical shape never changes — what changes is how much of its sunlit half we can see from Earth, depending on where the Moon is in its orbit around us."
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: The Moon produces its own light, the same way the Sun does.',
+        answer:false,
+        hints:["Hint 1: If you turned off the Sun, would the Moon still glow on its own?"],
+        explain:'The Moon does not produce its own light — it only reflects sunlight, acting like a giant mirror in the sky.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'During a FULL moon, where is Earth positioned?',
+        choices:['Between the Moon and the Sun','On the far side of the Moon','The Moon is between Earth and the Sun','Earth\'s position doesn\'t matter for moon phases'],
+        correct:0,
+        hints:["Hint 1: For us to see the Moon's ENTIRE sunlit face, sunlight needs a clear path to light up the side facing us — think about where Earth would need to be for that."],
+        explain:'During a full moon, Earth is between the Moon and the Sun, allowing us to see the Moon\'s entire sunlit face.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: We always see the same side of the Moon from Earth.',
+        answer:true,
+        hints:["Hint 1: Remember the fun fact — the Moon's \"far side\" wasn't seen by humans until spacecraft photographed it."],
+        explain:'The Moon rotates once on its axis in the same time it takes to orbit Earth once, so we always see the same side — the far side was a total mystery until spacecraft imaged it in 1959.'
+      }
+    ]
+  },
+  {
+    id:'space-seasons',
+    land:'space',
+    title:'Seasons',
+    hunch:"Judy's hunch: \"A lot of people think summer happens because Earth gets physically closer to the sun. Actually, Earth is at its closest to the sun in early January — the middle of winter in the US! So what do you think REALLY causes the seasons?\"",
+    lessonHTML:`
+      <h2>It's All About the Tilt</h2>
+      <p>Earth's seasons are caused by its <span class="vocab" data-term="axialtilt">axial tilt</span> — Earth spins on an imaginary axis that is tilted about 23.5 degrees, and that tilt stays pointed in the same direction as Earth orbits the Sun over the year. This means different parts of Earth receive more or less direct sunlight at different points in the orbit, NOT because of changing distance from the Sun.</p>
+      <p>When the Northern Hemisphere is tilted toward the Sun, it receives more direct, concentrated sunlight and experiences summer, while the Southern Hemisphere (tilted away) experiences winter at the very same time. Six months later, as Earth continues its orbit, the tilt directions relative to the Sun reverse, flipping the seasons in each hemisphere.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/50.jpg"><div class="ph-icon">🌍</div><div class="ph-text">Diagram: Earth's tilted axis and orbit causing seasons<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Earth is actually about 3 million miles CLOSER to the Sun in early January than in early July — proving distance isn't what drives the seasons; it's really all about the tilt and angle of sunlight.</div>
+    `,
+    diagram:null,
+    glossary:{
+      axialtilt:{def:"The roughly 23.5-degree tilt of Earth's spin axis, which causes the seasons as Earth orbits the sun."}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'What actually causes Earth\'s seasons?',
+        choices:["Earth's changing distance from the Sun throughout the year","Earth's axial tilt, which changes how directly sunlight hits each hemisphere","The Moon blocking sunlight during certain months","Clouds forming differently depending on the month"],
+        correct:1,
+        hints:["Hint 1: The hunch already gave away a big clue — Earth is actually closest to the sun during winter in the Northern Hemisphere!","Hint 2: If it's not distance, what characteristic of Earth's spin was described as staying pointed the same direction all year?"],
+        explain:"Earth's 23.5-degree axial tilt causes the seasons — as Earth orbits the sun with its tilt pointed the same direction, different hemispheres receive more or less direct sunlight at different times of year."
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: Earth is actually closer to the Sun during Northern Hemisphere summer than during winter.',
+        answer:false,
+        hints:["Hint 1: The fun fact specifically stated which month Earth is closest to the sun — was that a summer month or a winter month in the Northern Hemisphere?"],
+        explain:'It\'s actually the opposite — Earth is closest to the sun in early January (Northern Hemisphere winter) and farther away in July (Northern Hemisphere summer), which proves distance isn\'t the cause of seasons.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'When it is summer in the Northern Hemisphere, what season is it in the Southern Hemisphere?',
+        choices:['Summer, at the exact same time','Winter','Spring','It depends on the year'],
+        correct:1,
+        hints:["Hint 1: If the Northern Hemisphere is tilted TOWARD the sun, which direction is the Southern Hemisphere tilted at that same moment?"],
+        explain:'When the Northern Hemisphere is tilted toward the sun (summer), the Southern Hemisphere is simultaneously tilted away from it, experiencing winter at the very same time.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:"True or False: Earth's axial tilt stays pointed in the same direction all year as it orbits the sun.",
+        answer:true,
+        hints:["Hint 1: This constant direction is exactly why different points in the orbit lead to different hemispheres facing the sun more directly."],
+        explain:"Earth's tilt stays pointed the same direction in space throughout its orbit, which is exactly why different hemispheres end up facing the sun more or less directly at different points in the year."
+      }
+    ]
+  },
+  {
+    id:'space-gravity',
+    land:'space',
+    title:'Gravity',
+    hunch:"Judy's hunch: \"If you dropped a heavy bowling ball and a light tennis ball from the same height at the exact same time, with no air resistance, which one do you think would hit the ground first?\"",
+    lessonHTML:`
+      <h2>The Invisible Force That Pulls Everything Together</h2>
+      <p><span class="vocab" data-term="gravity">Gravity</span> is a force of attraction between any two objects that have mass — and the more mass an object has, the stronger its gravitational pull. Earth's gravity is what pulls you (and everything else) toward the ground, and it's also what keeps the Moon orbiting Earth and every planet orbiting the Sun.</p>
+      <p>A common misconception is that heavier objects fall faster than lighter ones — but ignoring air resistance, gravity actually accelerates ALL objects at the exact same rate, regardless of their mass. A famous story tells of Galileo dropping objects of different weights from the Leaning Tower of Pisa, showing they landed at essentially the same time. Air resistance is the real reason a feather appears to fall slower than a rock — on the airless Moon, astronauts have actually dropped a hammer and a feather together, and they hit the ground at the exact same instant.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/51.jpg"><div class="ph-icon">🌕</div><div class="ph-text">Photo/diagram: hammer and feather falling together on the moon<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Astronaut David Scott performed the hammer-and-feather experiment live on the Moon during Apollo 15 in 1971 — without air resistance, both objects hit the lunar surface at exactly the same moment, just as gravity theory predicts.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=13%3A2&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">The heavens held up without any visible supporting pillars is a striking image to reflect on right after learning about an invisible force that holds entire planets in place without any physical structure at all.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      gravity:{def:'A force of attraction between any two objects with mass; stronger objects with more mass pull harder.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Ignoring air resistance, which falls faster: a heavy bowling ball or a light tennis ball dropped from the same height?',
+        choices:['The bowling ball falls faster','The tennis ball falls faster','They fall at the same rate','Neither one falls at all'],
+        correct:2,
+        hints:["Hint 1: This is a very common misconception — remember the hammer-and-feather story on the Moon.","Hint 2: Without air resistance in the way, does an object's weight actually change how fast gravity accelerates it?"],
+        explain:'Without air resistance, gravity accelerates all objects at the same rate regardless of mass — a heavy and light object dropped together will land at the same time, as proven on the airless Moon.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: On Earth, a feather usually falls slower than a rock because gravity pulls on it less.',
+        answer:false,
+        hints:["Hint 1: The real reason involves something in Earth's atmosphere pushing back against the falling feather — what could that be?"],
+        explain:'Gravity pulls on the feather with the same acceleration as the rock — it falls slower on Earth because of AIR RESISTANCE pushing back against its light, spread-out shape, not because gravity is weaker on it.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'What determines how strong an object\'s gravitational pull is?',
+        choices:['Its color','Its temperature','Its mass — more mass means stronger gravity','Its shape only'],
+        correct:2,
+        hints:["Hint 1: This is why the Sun's gravity is so much stronger than Earth's, and Earth's is stronger than the Moon's."],
+        explain:"An object's mass determines the strength of its gravitational pull — more massive objects (like the Sun) exert much stronger gravity than less massive objects (like the Moon)."
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: The hammer-and-feather experiment was actually performed for real on the Moon during an Apollo mission.',
+        answer:true,
+        hints:["Hint 1: Check the fun fact — which astronaut and which mission was mentioned?"],
+        explain:'Astronaut David Scott performed this exact experiment live on the Moon during Apollo 15 in 1971, and both objects landed at the same instant, confirming the physics.'
+      }
+    ]
+  },
+  {
+    id:'space-scientific-method',
+    land:'space',
+    title:'The Scientific Method',
+    hunch:"Judy's hunch: \"Imagine your houseplant suddenly starts wilting. Before you decide WHY, what do you think a good scientist would do first — guess immediately, or something else?\"",
+    lessonHTML:`
+      <h2>How Scientists Figure Things Out</h2>
+      <p>The <span class="vocab" data-term="scientificmethod">scientific method</span> is a step-by-step process scientists use to ask questions and find reliable answers. It generally starts with an <span class="vocab" data-term="observation">observation</span> (noticing something, like a wilting plant) and a question, followed by forming a <span class="vocab" data-term="hypothesis">hypothesis</span> — an educated guess or testable explanation, often written as "If... then..." (for example, "If the plant isn't getting enough water, then giving it more water will make it recover").</p>
+      <p>Next comes an <span class="vocab" data-term="experiment">experiment</span> — a carefully designed test of the hypothesis, where scientists collect data (measurements and observations) and analyze whether the results support or don't support the hypothesis. Finally, they form a <span class="vocab" data-term="conclusion">conclusion</span> based on the evidence. Importantly, a hypothesis that turns out to be wrong isn't a failure — it's still valuable information, and good scientists often repeat and adjust their experiments based on what they learn.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/52.jpg"><div class="ph-icon">🔬</div><div class="ph-text">Diagram: scientific method steps (observe → hypothesize → test → conclude)<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Many major scientific discoveries — including penicillin and X-rays — happened partly by accident, when scientists carefully observed something unexpected instead of ignoring it, and then tested what they noticed.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=3%3A191&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Reflecting deeply and giving real thought to the creation around us is described here as a valued act — which is really the heart of what science, at its best, is trying to do.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      scientificmethod:{def:'A step-by-step process scientists use to ask questions, test ideas, and find reliable answers.'},
+      observation:{def:'Something noticed using your senses or tools, often the starting point for a scientific question.'},
+      hypothesis:{def:'An educated guess or testable explanation, often written as an "If... then..." statement.'},
+      experiment:{def:'A carefully designed test used to check whether a hypothesis is supported by evidence.'},
+      conclusion:{def:'A decision about what the evidence from an experiment shows, based on the data collected.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'What is a hypothesis?',
+        choices:['A proven scientific fact','An educated, testable guess or explanation','The final answer to an experiment','A random guess with no reasoning behind it'],
+        correct:1,
+        hints:["Hint 1: A hypothesis comes BEFORE the experiment — it's a guess you're about to go test, not a proven fact.","Hint 2: The lesson gave a specific sentence format for writing one — what were the two key words?"],
+        explain:'A hypothesis is an educated, testable guess or explanation — often phrased as "If... then..." — that a scientist then designs an experiment to test.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: If an experiment shows a hypothesis was wrong, that means the scientist failed.',
+        answer:false,
+        hints:["Hint 1: The lesson specifically addressed this — is a wrong hypothesis truly worthless information?"],
+        explain:'A wrong hypothesis isn\'t a failure — it\'s still valuable information that helps scientists learn and adjust their next experiment. Being wrong is a normal, expected part of real science.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Which of these correctly puts the scientific method steps in order?',
+        choices:['Experiment → Observation → Hypothesis → Conclusion','Observation → Hypothesis → Experiment → Conclusion','Conclusion → Hypothesis → Observation → Experiment','Hypothesis → Conclusion → Observation → Experiment'],
+        correct:1,
+        hints:["Hint 1: You have to notice something is worth studying before you can guess why — and you have to guess before you can test that guess."],
+        explain:'The general order is: observe something interesting, form a hypothesis (testable guess) about it, run an experiment to test that guess, then draw a conclusion based on the results.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: Some major scientific discoveries happened partly by accident, when scientists noticed something unexpected.',
+        answer:true,
+        hints:["Hint 1: Check the fun fact — which two famous discoveries were mentioned as happening partly by accident?"],
+        explain:'This is true — discoveries like penicillin and X-rays happened partly by accident, when careful scientists noticed something unexpected and decided to investigate it further instead of ignoring it.'
+      }
+    ]
+  },
+  {
+    id:'space-variables',
+    land:'space',
+    title:'Variables & Fair Tests',
+    hunch:"Judy's hunch: \"To test if a new fertilizer helps plants grow taller, you give one plant fertilizer and put it in a sunny window, then leave a second plant with no fertilizer in a shady corner. If the fertilized plant grows taller, can you really be sure the fertilizer gets the credit?\"",
+    lessonHTML:`
+      <h2>Making Sure a Test Is Actually Fair</h2>
+      <p>In an experiment, a <span class="vocab" data-term="variable">variable</span> is anything that can change or be changed. The <span class="vocab" data-term="independentvariable">independent variable</span> is the one thing the scientist deliberately changes on purpose (like whether or not a plant gets fertilizer). The <span class="vocab" data-term="dependentvariable">dependent variable</span> is what the scientist measures to see the effect (like the plant's height) — it "depends" on the independent variable.</p>
+      <p>For an experiment to be a truly <span class="vocab" data-term="fairtest">fair test</span>, every OTHER variable that could affect the results (called <span class="vocab" data-term="controlledvariable">controlled variables</span>) must be kept exactly the same between groups — same amount of sunlight, same water, same type of pot, same starting plant size. In the hunch above, sunlight was accidentally changed too, alongside the fertilizer — so if the fertilized plant grows taller, you genuinely can't tell whether it was the fertilizer, the extra sunlight, or both.</p>
+      <div class="diagram-box">
+        <div class="img-placeholder" data-img="images/53.jpg"><div class="ph-icon">🌱</div><div class="ph-text">Diagram: fair test setup — one changed variable, everything else controlled<br>(coming soon)</div></div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Scientists often include a "control group" — a group that gets NO change at all — specifically so they have something to compare their results against and know the change really came from the variable they tested.</div>
+      <div class="signs-box"><span class="label">✨ Signs in creation</span>
+        <div class="quran-embed-wrap">
+          <iframe src="https://quran.com/embed/v1?verses=20%3A114&translations=131&reciter=7&wbw=true&showTranslationName=true&tafsir=false&reflections=false&lessons=false&answers=false" width="100%" data-quran-embed="true" allow="clipboard-write" frameborder="0"></iframe>
+        </div>
+        <p style="margin:6px 0 0;">Asking to be increased in knowledge is a request that fits perfectly with the careful, honest process of testing and re-testing that real scientific inquiry demands.</p>
+      </div>
+    `,
+    diagram:null,
+    glossary:{
+      variable:{def:'Anything in an experiment that can change or be changed.'},
+      independentvariable:{def:'The one variable a scientist deliberately changes on purpose in an experiment.'},
+      dependentvariable:{def:'What a scientist measures to see the effect of the independent variable.'},
+      fairtest:{def:'An experiment where only the independent variable is changed, and every other variable is kept the same.'},
+      controlledvariable:{def:'A variable that is deliberately kept the same across all groups in an experiment, so it doesn\'t affect the results.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'In the plant-fertilizer hunch, why couldn\'t the scientist be sure the fertilizer caused the taller growth?',
+        choices:['Fertilizer never affects plant growth','Sunlight was also changed at the same time, so it wasn\'t a fair test','The plant heights weren\'t measured','There is no way to ever test plant growth'],
+        correct:1,
+        hints:["Hint 1: A fair test only changes ONE thing at a time — how many things were different between the two plants in the hunch?"],
+        explain:'Both fertilizer AND sunlight were changed between the two plants, so it isn\'t a fair test — there\'s no way to know whether the fertilizer, the extra sunlight, or both caused the difference in growth.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: The independent variable is what a scientist MEASURES to see the result.',
+        answer:false,
+        hints:["Hint 1: That description actually matches the DEPENDENT variable — what does the independent variable involve instead?"],
+        explain:'It\'s the opposite: the independent variable is what the scientist deliberately CHANGES on purpose; the dependent variable is what gets MEASURED as a result.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'In a fair test on whether more sunlight helps a plant grow taller, which variable should be kept exactly the same (controlled) between groups?',
+        choices:['The amount of sunlight — that should change on purpose','The plant height at the end — that should be measured','The amount of water each plant gets','Nothing needs to be kept the same'],
+        correct:2,
+        hints:["Hint 1: Sunlight is the one variable meant to change on purpose here (the independent variable) — so what ELSE needs to be identical between the groups?"],
+        explain:'To make it a fair test of sunlight specifically, water amount (and every other factor) should be kept identical between groups, so sunlight is the only thing that\'s actually different.'
+      },
+      {
+        type:'tf', id:'q3b',
+        q:'True or False: A "control group" in an experiment is a group that receives no change at all, used for comparison.',
+        answer:true,
+        hints:["Hint 1: This was stated directly in the fun fact — what is the purpose of having a group with no change?"],
+        explain:'A control group gets no change at all, giving scientists something to compare their results against, to confirm the effect really came from the variable being tested.'
+      }
+    ]
+  },
+  {
+    id:'space-lab-safety',
+    land:'space',
+    title:'Lab Safety & Science Tools',
+    hunch:"Judy's hunch: \"Before you even start an experiment, a real scientist spends time reading labels, putting on goggles, and checking equipment — none of which is the 'fun' experiment part. Why do you think they bother?\"",
+    lessonHTML:`
+      <h2>Working Safely and Using the Right Tools</h2>
+      <p>Good scientists follow important <span class="vocab" data-term="labsafety">lab safety</span> rules to protect themselves and others: wearing safety goggles to protect your eyes, tying back long hair, never tasting or smelling unknown substances directly, washing hands after handling materials, and always following an adult's or teacher's instructions carefully during any experiment involving heat, chemicals, or sharp tools.</p>
+      <p>Scientists also rely on specific tools to make accurate <span class="vocab" data-term="measurement">measurements</span>: a <span class="vocab" data-term="graduatedcylinder">graduated cylinder</span> measures liquid volume precisely, a <span class="vocab" data-term="thermometer">thermometer</span> measures temperature, a balance or scale measures mass, and a metric ruler or meter stick measures length or distance. Using the correct tool — and reading it correctly, at eye level for liquids — helps ensure the data collected is accurate and trustworthy.</p>
+      <div class="diagram-box">
+        <div class="placeholder-grid">
+          <div class="img-placeholder" data-img="images/54.jpg"><div class="ph-icon">🥽</div><div class="ph-text">Safety goggles</div></div>
+          <div class="img-placeholder" data-img="images/55.jpg"><div class="ph-icon">🧪</div><div class="ph-text">Graduated cylinder</div></div>
+          <div class="img-placeholder" data-img="images/56.jpg"><div class="ph-icon">🌡️</div><div class="ph-text">Thermometer</div></div>
+          <div class="img-placeholder" data-img="images/57.jpg"><div class="ph-icon">⚖️</div><div class="ph-text">Balance/scale</div></div>
+        </div>
+      </div>
+      <div class="fun-fact">🌟 Fun fact: Scientists read the volume of a liquid in a graduated cylinder at the bottom of its slightly curved surface (called the meniscus), and they do it at eye level — reading it from above or below can throw off the measurement.</div>
+    `,
+    diagram:null,
+    glossary:{
+      labsafety:{def:'Rules and practices that protect people while working in a laboratory or during experiments.'},
+      measurement:{def:'A precise, quantified observation, like length, volume, mass, or temperature.'},
+      graduatedcylinder:{def:'A tool used to measure the precise volume of a liquid.'},
+      thermometer:{def:'A tool used to measure temperature.'}
+    },
+    quiz:[
+      {
+        type:'mc', id:'q1',
+        q:'Which tool would you use to measure the exact volume of a liquid?',
+        choices:['A thermometer','A graduated cylinder','A balance','A meter stick'],
+        correct:1,
+        hints:["Hint 1: This tool has measurement lines marked along a tall, narrow container specifically designed for liquids."],
+        explain:'A graduated cylinder is specifically designed to measure liquid volume precisely, using the marked lines along its side.'
+      },
+      {
+        type:'tf', id:'q2',
+        q:'True or False: You should read a liquid\'s level in a graduated cylinder from above, looking down into it.',
+        answer:false,
+        hints:["Hint 1: The fun fact specifically described the correct way to read it — at what level should your eye be?"],
+        explain:'You should read the measurement at eye level, looking directly at the bottom of the curved liquid surface (the meniscus) — reading it from above or below gives an inaccurate result.'
+      },
+      {
+        type:'mc', id:'q3',
+        q:'Why do scientists wear safety goggles during many experiments, even ones that seem harmless?',
+        choices:['To look more professional','To protect their eyes from unexpected splashes or particles','Goggles help you see tiny objects better','It is only a school rule with no real safety purpose'],
+        correct:1,
+        hints:["Hint 1: Even experiments that seem safe can have an unexpected splash, spark, or particle — goggles are about protecting a very sensitive body part."],
+        explain:'Safety goggles protect your eyes from unexpected splashes, particles, or reactions — even in experiments that seem harmless, since accidents can happen unpredictably.'
+      },
+      {
+        type:'match', id:'q4',
+        q:'Match each science tool to what it measures.',
+        left:['Graduated cylinder','Thermometer','Balance','Meter stick'],
+        right:['Liquid volume','Temperature','Mass','Length or distance'],
+        correctPairs:[0,1,2,3],
+        hints:["Hint: Each tool is built for exactly one type of measurement — match the tool's design to its purpose."],
+        explain:'Graduated cylinders measure liquid volume, thermometers measure temperature, balances measure mass, and meter sticks measure length or distance.'
       }
     ]
   }
@@ -1396,6 +2686,7 @@ function openModule(modId){
   wireVocab();
   if(currentModule.diagram==='states') initSim();
   if(currentModule.lessonHTML.includes('data-quran-embed')) loadQuranWidget();
+  tryLoadPlaceholderPhotos(document.getElementById('lessonCard'));
 }
 
 /* ---- Peek at the lesson (in-quiz drawer, preserves quiz progress) ---- */
@@ -1406,6 +2697,7 @@ function openPeek(){
   document.getElementById('peekModal').classList.add('show');
   wireVocab();
   if(content.includes('data-quran-embed')) loadQuranWidget();
+  tryLoadPlaceholderPhotos(document.getElementById('peekBody'));
 }
 function closePeek(){
   document.getElementById('peekModal').classList.remove('show');
@@ -1419,6 +2711,18 @@ function loadQuranWidget(){
   s.defer = true;
   document.body.appendChild(s);
 }
+/* ---- Auto-load numbered photos once they exist in images/, no code changes needed ---- */
+function tryLoadPlaceholderPhotos(container){
+  container.querySelectorAll('.img-placeholder[data-img]').forEach(el=>{
+    const src = el.dataset.img;
+    if(el.dataset.tried) return;
+    el.dataset.tried = '1';
+    const img = new Image();
+    img.onload = ()=>{ el.style.backgroundImage = `url('${src}')`; el.classList.add('has-photo'); };
+    img.src = src;
+  });
+}
+
 /* ---- vocab popovers ---- */
 function wireVocab(){
   document.querySelectorAll('.vocab').forEach(el=>{
