@@ -110,6 +110,7 @@
   .badge.done{background:#e0f2e6;color:var(--green);}
   .badge.progress{background:#eaf3f4;color:var(--teal-dark);}
   .lesson-block{background:#faf5e8;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px;}
+  .lesson-block.preteach{border-left:5px solid var(--teal);background:#eef7f6;}
   .lesson-block h3{margin-top:0;}
   .lesson-block ul{margin:0 0 8px;padding-left:20px;}
   .lesson-block li{margin-bottom:6px;}
@@ -195,18 +196,53 @@ var MODULES = [
     <div class="mistake-item">For TYPE, you picked <span class="yours">Subordinating</span> most often, even for FANBOYS words like "but" and "and" (which are <span class="fix">Coordinating</span>) and for matched pairs like "both...and" (which are <span class="fix">Correlative</span>). Run through the FANBOYS list and the pair-words list FIRST before defaulting to subordinating.</div>
   `,
   practice:[
-    {id:"1a", type:"text", prompt:"Type the conjunction: \"Sam wanted pizza, so he ordered a large one.\"", accept:["so"], explanation:"\"So\" is one of the FANBOYS words — always coordinating."},
+    {id:"1a", type:"text", preTeach:`<h3>🔗 Sub-topic 1 of 3: Coordinating Conjunctions</h3>
+      <p>These join two <strong>equal</strong> parts of a sentence — two nouns, two verbs, or two full sentences. Memory trick: <strong>FANBOYS</strong> — <strong>F</strong>or, <strong>A</strong>nd, <strong>N</strong>or, <strong>B</strong>ut, <strong>O</strong>r, <strong>Y</strong>et, <strong>S</strong>o. If the word is one of these seven, it is <em>always</em> Coordinating.</p>
+      <p><em>Worked examples (not questions — just to show you the pattern):</em></p>
+      <ul>
+        <li>"Jenna likes apples <strong>and</strong> oranges." — joins two nouns.</li>
+        <li>"I wanted to go, <strong>but</strong> it was raining." — joins two full sentences.</li>
+        <li>"She was tired, <strong>so</strong> she went to bed early." — joins two full sentences.</li>
+      </ul>
+      <p>Now you try it with two new sentences:</p>`,
+      prompt:"Type the conjunction: \"Sam wanted pizza, so he ordered a large one.\"", accept:["so"], explanation:"\"So\" is one of the FANBOYS words — always coordinating."},
     {id:"1b", type:"mc", prompt:"What type of conjunction is \"so\" here?", options:["Coordinating","Subordinating","Correlative"], correct:0, explanation:"FANBOYS (for, and, nor, but, or, yet, so) are always Coordinating."},
-    {id:"2a", type:"text", prompt:"Type the conjunction: \"Because the rain started, the game was canceled.\"", accept:["because"], explanation:"\"Because\" introduces the reason — the clause \"the rain started\" can't fully stand alone as the point of the sentence."},
-    {id:"2b", type:"mc", prompt:"What type of conjunction is \"because\" here?", options:["Coordinating","Subordinating","Correlative"], correct:1, explanation:"Because, although, unless, since, when — these all introduce a dependent clause, so they're Subordinating."},
-    {id:"3a", type:"text", prompt:"Type the conjunction pair: \"Neither the cat nor the dog wanted to go outside.\"", accept:["neither nor"], explanation:"Remember to include BOTH words of the pair: neither...nor."},
-    {id:"3b", type:"mc", prompt:"What type of conjunction is \"neither...nor\"?", options:["Coordinating","Subordinating","Correlative"], correct:2, explanation:"Matched pairs (neither/nor, either/or, both/and, not only/but also) are Correlative."},
-    {id:"4a", type:"text", prompt:"Type the conjunction: \"Maria will call you when she gets home.\"", accept:["when"], explanation:"\"When\" sets up a time condition — the clause depends on the main sentence."},
-    {id:"4b", type:"mc", prompt:"What type of conjunction is \"when\" here?", options:["Coordinating","Subordinating","Correlative"], correct:1, explanation:"Time/condition words like \"when\" are Subordinating."},
-    {id:"5a", type:"text", prompt:"Type the conjunction pair: \"Not only did he finish his homework, but he also cleaned his room.\"", accept:["not only but also"], explanation:"Both parts of the pair matter: not only...but also."},
-    {id:"5b", type:"mc", prompt:"What type of conjunction is \"not only...but also\"?", options:["Coordinating","Subordinating","Correlative"], correct:2, explanation:"It's a matched pair working as a team, so Correlative."},
     {id:"6a", type:"text", prompt:"Type the conjunction: \"I wanted to go to the park, yet it started raining.\"", accept:["yet"], explanation:"\"Yet\" is a FANBOYS word."},
     {id:"6b", type:"mc", prompt:"What type of conjunction is \"yet\" here?", options:["Coordinating","Subordinating","Correlative"], correct:0, explanation:"FANBOYS = always Coordinating, even though \"yet\" can feel like it's contrasting ideas."},
+
+    {id:"2a", type:"text", preTeach:`<h3>🔗 Sub-topic 2 of 3: Subordinating Conjunctions</h3>
+      <p>These start a clause that <strong>can't stand alone</strong> — it needs the rest of the sentence to make sense. Common ones: <strong>because, although, unless, since, when, while, if, after, before</strong>.</p>
+      <p><em>Worked examples:</em></p>
+      <ul>
+        <li>"<strong>Because</strong> it was cold, she wore a coat." — "Because it was cold" can't stand alone as a full thought.</li>
+        <li>"He left <strong>before</strong> the movie ended." — "before the movie ended" depends on the first part.</li>
+        <li>"We'll go outside <strong>if</strong> it stops raining." — "if it stops raining" is a condition, not a complete idea by itself.</li>
+      </ul>
+      <p><strong>Quick test:</strong> cover up the clause with the conjunction. If it sounds incomplete by itself, that's your sign it's Subordinating.</p>
+      <p>Now you try it:</p>`,
+      prompt:"Type the conjunction: \"Because the rain started, the game was canceled.\"", accept:["because"], explanation:"\"Because\" introduces the reason — the clause \"the rain started\" can't fully stand alone as the point of the sentence."},
+    {id:"2b", type:"mc", prompt:"What type of conjunction is \"because\" here?", options:["Coordinating","Subordinating","Correlative"], correct:1, explanation:"Because, although, unless, since, when — these all introduce a dependent clause, so they're Subordinating."},
+    {id:"4a", type:"text", prompt:"Type the conjunction: \"Maria will call you when she gets home.\"", accept:["when"], explanation:"\"When\" sets up a time condition — the clause depends on the main sentence."},
+    {id:"4b", type:"mc", prompt:"What type of conjunction is \"when\" here?", options:["Coordinating","Subordinating","Correlative"], correct:1, explanation:"Time/condition words like \"when\" are Subordinating."},
+
+    {id:"3a", type:"text", preTeach:`<h3>🔗 Sub-topic 3 of 3: Correlative Conjunctions</h3>
+      <p>These always come in a <strong>matched pair</strong>, working as a team — even when the two words are far apart in the sentence. The four common pairs:</p>
+      <ul>
+        <li><strong>both...and</strong></li>
+        <li><strong>either...or</strong></li>
+        <li><strong>neither...nor</strong></li>
+        <li><strong>not only...but also</strong></li>
+      </ul>
+      <p><em>Worked examples:</em></p>
+      <ul>
+        <li>"<strong>Both</strong> the cat <strong>and</strong> the dog were hungry."</li>
+        <li>"You can have <strong>either</strong> juice <strong>or</strong> milk."</li>
+      </ul>
+      <p><strong>Important:</strong> when asked to identify a correlative conjunction, write the WHOLE pair, not just one half. Now you try it:</p>`,
+      prompt:"Type the conjunction pair: \"Neither the cat nor the dog wanted to go outside.\"", accept:["neither nor"], explanation:"Remember to include BOTH words of the pair: neither...nor."},
+    {id:"3b", type:"mc", prompt:"What type of conjunction is \"neither...nor\"?", options:["Coordinating","Subordinating","Correlative"], correct:2, explanation:"Matched pairs (neither/nor, either/or, both/and, not only/but also) are Correlative."},
+    {id:"5a", type:"text", prompt:"Type the conjunction pair: \"Not only did he finish his homework, but he also cleaned his room.\"", accept:["not only but also"], explanation:"Both parts of the pair matter: not only...but also."},
+    {id:"5b", type:"mc", prompt:"What type of conjunction is \"not only...but also\"?", options:["Coordinating","Subordinating","Correlative"], correct:2, explanation:"It's a matched pair working as a team, so Correlative."},
     {id:"7a", type:"text", prompt:"Type the conjunction pair: \"Both the teacher and the principal praised the students.\"", accept:["both and"], explanation:"The full pair is both...and."},
     {id:"7b", type:"mc", prompt:"What type of conjunction is \"both...and\"?", options:["Coordinating","Subordinating","Correlative"], correct:2, explanation:"A matched pair = Correlative, not Coordinating, even though \"and\" alone would be coordinating."}
   ]
@@ -229,7 +265,11 @@ var MODULES = [
     <div class="mistake-item">Song title — you left off quotes entirely. Correct: <span class="fix">"What Sarah Said,"</span> (double quotes, since songs are short works).</div>
   `,
   practice:[
-    {id:"1", type:"mc", prompt:"Poem — choose the correct version:", options:["Emily Dickinson wrote \"Hope is the Thing with Feathers.\"","Emily Dickinson wrote 'Hope is the Thing with Feathers.'","Emily Dickinson wrote <u>Hope is the Thing with Feathers</u>.","Emily Dickinson wrote Hope is the Thing with Feathers."], correct:0, explanation:"A poem is a short work, so it needs double quotation marks."},
+    {id:"1", type:"mc", preTeach:`<h3>📚 Quick reminder before you start</h3>
+      <p><strong>Short works</strong> (songs, poems, short stories, magazine articles) → <strong>"double quotation marks."</strong><br>
+      <strong>Long/whole works</strong> (books, movies, TV series, albums) → <u>underlined</u> (or italics).</p>
+      <p>Watch out: a single quote mark ( ' ) is <em>not</em> the same as double quotation marks ( " ). Titles never use the single kind.</p>`,
+      prompt:"Poem — choose the correct version:", options:["Emily Dickinson wrote \"Hope is the Thing with Feathers.\"","Emily Dickinson wrote 'Hope is the Thing with Feathers.'","Emily Dickinson wrote <u>Hope is the Thing with Feathers</u>.","Emily Dickinson wrote Hope is the Thing with Feathers."], correct:0, explanation:"A poem is a short work, so it needs double quotation marks."},
     {id:"2", type:"mc", prompt:"TV show — choose the correct version:", options:["Have you seen \"Stranger Things\"?","Have you seen 'Stranger Things'?","Have you seen <u>Stranger Things</u>?","Have you seen Stranger Things?"], correct:2, explanation:"A TV series is a long work, so it should be underlined (or italicized)."},
     {id:"3", type:"mc", prompt:"Magazine article — choose the correct version:", options:["The article \"How Bees Make Honey\" explained a lot.","The article 'How Bees Make Honey' explained a lot.","The article <u>How Bees Make Honey</u> explained a lot.","The article How Bees Make Honey explained a lot."], correct:0, explanation:"A magazine article is a short work — double quotation marks."},
     {id:"4", type:"mc", prompt:"Novel — choose the correct version:", options:["I just finished reading \"Charlotte's Web.\"","I just finished reading 'Charlotte's Web.'","I just finished reading <u>Charlotte's Web</u>.","I just finished reading Charlotte's Web."], correct:2, explanation:"A novel is a long work — underline it."},
@@ -255,7 +295,14 @@ var MODULES = [
     <div class="mistake-item">"Nate ran ___ the slides" — you wrote <span class="yours">up</span>. Correct: <span class="fix">toward</span> (he was heading in that direction, not necessarily climbing anything).</div>
   `,
   practice:[
-    {id:"1", type:"text", prompt:"The dog ran ___ the two children.", accept:["between"], explanation:"The dog was in the middle of the two — \"between.\""},
+    {id:"1", type:"text", preTeach:`<h3>🧭 Quick reminder before you start</h3>
+      <ul>
+        <li><strong>Between</strong> = in the middle of two things. <strong>With</strong> = alongside, not necessarily in the middle.</li>
+        <li><strong>Across</strong> = from one side to the other. <strong>Over</strong> = above and beyond something.</li>
+        <li><strong>Toward</strong> = moving in the direction of. <strong>Up</strong> = a specific vertical direction — only use it if the motion is truly upward.</li>
+      </ul>
+      <p>Type only the exact missing word — not a whole rewritten sentence.</p>`,
+      prompt:"The dog ran ___ the two children.", accept:["between"], explanation:"The dog was in the middle of the two — \"between.\""},
     {id:"2", type:"text", prompt:"She swam ___ the pool from one side to the other.", accept:["across"], explanation:"Moving from one side to the other = \"across.\""},
     {id:"3", type:"text", prompt:"He walked ___ the store to buy milk.", accept:["toward","towards"], explanation:"Heading in the direction of the store = \"toward.\""},
     {id:"4", type:"text", prompt:"The cat jumped ___ the fence.", accept:["over"], explanation:"Going above and beyond the fence = \"over.\""},
@@ -281,7 +328,15 @@ var MODULES = [
     <div class="mistake-item">"The dog barked and howled all night." — you said <span class="yours">Metaphor</span>. Correct: <span class="fix">Onomatopoeia</span> — "barked" and "howled" are the actual sounds the dog makes.</div>
   `,
   practice:[
-    {id:"1", type:"mc", prompt:"\"She ran as fast as lightning.\"", options:["Simile","Metaphor","Onomatopoeia","Idiom","Alliteration"], correct:0, explanation:"The word \"as\" signals a simile."},
+    {id:"1", type:"mc", preTeach:`<h3>🎭 Quick reminder before you start</h3>
+      <ul>
+        <li><strong>Simile</strong> — compares using "like" or "as." Check for these words FIRST.</li>
+        <li><strong>Metaphor</strong> — compares directly, without "like" or "as" ("His heart is ice").</li>
+        <li><strong>Onomatopoeia</strong> — a word that IS a sound (buzz, bang, howl, crash).</li>
+        <li><strong>Idiom</strong> — a phrase that doesn't mean what it literally says ("it's raining cats and dogs").</li>
+        <li><strong>Alliteration</strong> — repeated beginning sounds ("Betty bought bananas").</li>
+      </ul>`,
+      prompt:"\"She ran as fast as lightning.\"", options:["Simile","Metaphor","Onomatopoeia","Idiom","Alliteration"], correct:0, explanation:"The word \"as\" signals a simile."},
     {id:"2", type:"mc", prompt:"\"The bees buzzed around the flowers.\"", options:["Simile","Metaphor","Onomatopoeia","Idiom","Alliteration"], correct:2, explanation:"\"Buzzed\" is the sound itself — onomatopoeia."},
     {id:"3", type:"mc", prompt:"\"His heart is a block of ice.\"", options:["Simile","Metaphor","Onomatopoeia","Idiom","Alliteration"], correct:1, explanation:"A direct comparison with no \"like\"/\"as\" — metaphor."},
     {id:"4", type:"mc", prompt:"\"It's raining cats and dogs.\"", options:["Simile","Metaphor","Onomatopoeia","Idiom","Alliteration"], correct:3, explanation:"This doesn't literally mean animals are falling — it's an idiom meaning \"raining hard.\""},
@@ -309,9 +364,15 @@ var MODULES = [
   `,
   practice:[
     {id:"1", type:"mc", passageHtml:`<p><strong>Maya's Garden</strong></p><p>Maya loves spending Saturday mornings in her grandmother's garden in Austin, Texas. Every week, she waters the tomato plants, pulls weeds from the flower beds, and helps her grandmother pick ripe strawberries. Maya's grandmother taught her how to tell when a tomato is ready to pick: it should be bright red and slightly soft when you squeeze it gently. Maya's little brother, Diego, likes to help too, but he mostly just chases the garden's friendly orange cat, Mango, around the yard. By the time they finish, Maya's hands are covered in dirt, and she always feels proud of the fresh vegetables they've gathered together.</p>`, passageStartIndex:0,
+      preTeach:`<h3>📍 Sub-skill 1 of 3: Finding an Exact Detail</h3>
+      <p>Detail questions ask for a fact that's stated directly in the passage. Go back and check the EXACT wording — don't mix it up with a similar-sounding name mentioned nearby (that's exactly what happened with "Laramie, Wyoming" vs. "The Laramie Mountains" on your test).</p>`,
       prompt:"Where is Maya's grandmother's garden?", options:["Austin, Texas","Houston, Texas","San Antonio, Texas","Dallas, Texas"], correct:0, explanation:"The passage states it directly: Austin, Texas."},
-    {id:"2", type:"mc", prompt:"Which best summarizes what Diego does in the garden?", options:["He mostly plays with the cat instead of gardening.","He waters the tomato plants carefully.","He teaches Maya how to garden.","He picks all the strawberries."], correct:0, explanation:"The passage says he \"mostly just chases the garden's friendly orange cat\" — that's the main idea about Diego, not a small detail."},
-    {id:"3", type:"mc", prompt:"From the passage, what does \"ripe\" most likely mean?", options:["Green and hard","Ready to pick and eat","Rotten","Small"], correct:1, explanation:"The next sentence explains: bright red and slightly soft = ready to pick — that's what \"ripe\" means here."}
+    {id:"2", type:"mc", preTeach:`<h3>📍 Sub-skill 2 of 3: Best Summary</h3>
+      <p>The right answer to a "best summary" question covers the WHOLE idea, not just one small piece. Ask yourself: "does this describe most of what happened, or just a tiny detail?" Pick the broader answer.</p>`,
+      prompt:"Which best summarizes what Diego does in the garden?", options:["He mostly plays with the cat instead of gardening.","He waters the tomato plants carefully.","He teaches Maya how to garden.","He picks all the strawberries."], correct:0, explanation:"The passage says he \"mostly just chases the garden's friendly orange cat\" — that's the main idea about Diego, not a small detail."},
+    {id:"3", type:"mc", preTeach:`<h3>📍 Sub-skill 3 of 3: Word Meaning in Context</h3>
+      <p>To figure out what a word means in a passage, read the sentences AROUND it for clues about how it's actually being used — don't just guess from how the word sounds on its own.</p>`,
+      prompt:"From the passage, what does \"ripe\" most likely mean?", options:["Green and hard","Ready to pick and eat","Rotten","Small"], correct:1, explanation:"The next sentence explains: bright red and slightly soft = ready to pick — that's what \"ripe\" means here."}
   ]
 },
 {
@@ -359,10 +420,14 @@ var MODULES = [
     <div class="mistake-item">Capitalization — "My friend got a new nintendo for his Birthday." You picked "for his Birthday." as the error, but the real mistake is <span class="fix">nintendo</span> — it's a brand name and needs a capital N.</div>
   `,
   practice:[
-    {id:"1", type:"mc", prompt:"Item — choose the misspelled word, or NO MISTAKES:", options:["envelope","calendar","February","NO MISTAKES"], correct:3, explanation:"All four words are spelled correctly — trust yourself and pick NO MISTAKES."},
+    {id:"1", type:"mc", preTeach:`<h3>✅ Sub-topic 1 of 2: Trust "NO MISTAKES"</h3>
+      <p>Both of your spelling misses on the practice test were items where all 4 words were actually spelled correctly, but you picked one anyway. If you read all 4 words carefully and truly can't find an error, it's okay to confidently choose <strong>NO MISTAKES</strong>.</p>`,
+      prompt:"Item — choose the misspelled word, or NO MISTAKES:", options:["envelope","calendar","February","NO MISTAKES"], correct:3, explanation:"All four words are spelled correctly — trust yourself and pick NO MISTAKES."},
     {id:"2", type:"mc", prompt:"Item — choose the misspelled word, or NO MISTAKES:", options:["restaurant","beautiful","sincerely","NO MISTAKES"], correct:3, explanation:"All correct — NO MISTAKES is right here too."},
     {id:"3", type:"mc", prompt:"Item — choose the misspelled word, or NO MISTAKES:", options:["definately","October","another","NO MISTAKES"], correct:0, explanation:"\"Definately\" is misspelled — it should be \"definitely.\" Reading carefully still matters even after building NO MISTAKES confidence!"},
-    {id:"4", type:"mc", prompt:"\"I got a new ipad for my birthday.\" Choose the part with the mistake:", options:["I got a new","ipad for","my birthday.","NO MISTAKES"], correct:1, explanation:"\"ipad\" should be \"iPad\" — it's a brand name."},
+    {id:"4", type:"mc", preTeach:`<h3>✅ Sub-topic 2 of 2: Capitalize Brand Names</h3>
+      <p>Brand and product names (Nintendo, iPad, Coke, Kleenex) are proper nouns and need a capital letter — even though they might not immediately look like "special" words the way a person's name does.</p>`,
+      prompt:"\"I got a new ipad for my birthday.\" Choose the part with the mistake:", options:["I got a new","ipad for","my birthday.","NO MISTAKES"], correct:1, explanation:"\"ipad\" should be \"iPad\" — it's a brand name."},
     {id:"5", type:"mc", prompt:"\"She drinks coke every morning.\" Choose the part with the mistake:", options:["She drinks","coke every","morning.","NO MISTAKES"], correct:1, explanation:"\"coke\" should be \"Coke\" — it's a brand name."}
   ]
 },
@@ -741,6 +806,10 @@ function renderPractice(m){
 
   if(q.passageHtml && mp.practiceIndex === (q.passageStartIndex || 0)){
     html += '<div class="lesson-block">' + q.passageHtml + '</div>';
+  }
+
+  if(q.preTeach){
+    html += '<div class="lesson-block preteach">' + q.preTeach + '</div>';
   }
 
   html += '<div class="q-prompt">' + q.prompt + '</div>';
