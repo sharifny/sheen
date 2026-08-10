@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Countdown to Tuesday — Shareefah's Final Review</title>
+<style>
+:root{
+  --bg:#eaf4ff;
+  --card:#ffffff;
+  --ink:#0b2545;
+  --sub:#4b6a8a;
+  --blue1:#0ea5e9;
+  --blue2:#2563eb;
+  --blue3:#1d4ed8;
+  --blue-pale:#dbeefe;
+  --blue-paler:#f0f8ff;
+  --sky:#38bdf8;
+  --good:#16a34a;
+  --good-light:#dcfce7;
+  --bad:#f59e0b;
+  --bad-light:#fef3c7;
+  --border:#bfe0fb;
+  --shadow: 0 4px 16px rgba(14,116,233,0.12), 0 1px 4px rgba(14,116,233,0.10);
+  --radius: 20px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(circle at 10% 8%, #d3ecff 0%, transparent 40%),
+    radial-gradient(circle at 90% 15%, #cfe8ff 0%, transparent 35%),
+    linear-gradient(180deg, #eaf4ff 0%, #f4faff 100%);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  padding-bottom:100px;
+  min-height:100vh;
+}
+.wrap{max-width:760px;margin:0 auto;padding:14px 16px 50px;}
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(234,244,255,0.92); backdrop-filter:blur(8px);
+  border-bottom:2px solid var(--border);
+}
+.topbar-inner{max-width:760px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;}
+.backbtn{
+  border:none;background:white;border:2px solid var(--border);
+  border-radius:14px;padding:8px 14px;font-size:15px;font-weight:800;color:var(--blue3);
+  cursor:pointer;
+}
+.topbar-title{font-weight:900;font-size:16px;flex:1;text-align:center;color:var(--blue3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;}
+.savepill{font-size:11px;color:var(--sub);white-space:nowrap;font-weight:700;}
+
+h1.hero{font-size:27px;margin:8px 0 2px;letter-spacing:-0.3px;color:var(--blue3);font-weight:900;}
+.bismillah{font-size:14px;color:var(--sub);margin:0 0 16px;font-style:italic;}
+
+.savebar{display:flex; gap:10px; margin:14px 0 18px;}
+.btn{
+  border:none;border-radius:16px;padding:13px 16px;font-size:15px;font-weight:800;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+  flex:1; box-shadow:var(--shadow);
+}
+.btn-save{background:linear-gradient(135deg,var(--blue2),var(--blue3));color:white;}
+.btn-open{background:white;color:var(--blue3);border:2px solid var(--border);}
+.btn-secondary{background:white;color:var(--blue3);border:2px solid var(--border);}
+.btn-full{width:100%;}
+.btn:active{transform:scale(0.97);}
+
+.warnbanner{background:var(--bad-light);border:2px solid var(--bad);color:#92400e;border-radius:16px;padding:12px 16px;font-size:13px;margin-bottom:14px;font-weight:700;}
+
+.overall-summary{display:flex;gap:10px;margin-bottom:18px;}
+.stat-box{flex:1;background:white;border:2px solid var(--border);border-radius:18px;padding:14px 8px;text-align:center;box-shadow:var(--shadow);}
+.stat-box .num{font-size:22px;font-weight:900;color:var(--blue2);}
+.stat-box .lab{font-size:10.5px;color:var(--sub);font-weight:800;letter-spacing:0.3px;}
+
+.day-cards{display:flex;flex-direction:column;gap:16px;margin-bottom:20px;}
+.day-card{
+  border-radius:24px; padding:22px; color:white; cursor:pointer;
+  box-shadow:0 8px 24px rgba(37,99,235,0.28);
+  position:relative; overflow:hidden;
+}
+.day-card.day1{background:linear-gradient(135deg,#38bdf8,#0ea5e9,#2563eb);}
+.day-card.day2{background:linear-gradient(135deg,#2563eb,#1d4ed8,#1e3a8a);}
+.day-card::after{
+  content:"✨"; position:absolute; font-size:70px; opacity:0.18; right:-6px; bottom:-18px;
+}
+.day-card .day-label{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1.2px;opacity:0.85;}
+.day-card .day-title{font-size:23px;font-weight:900;margin:4px 0 6px;}
+.day-card .day-desc{font-size:13.5px;opacity:0.94;line-height:1.4;}
+.day-progress-track{background:rgba(255,255,255,0.3);border-radius:10px;height:10px;overflow:hidden;margin-top:12px;}
+.day-progress-fill{height:100%;background:white;border-radius:10px;}
+.day-progress-label{font-size:11.5px;margin-top:5px;font-weight:800;opacity:0.9;}
+
+.section-banner{border-radius:var(--radius); padding:18px 20px; margin-bottom:16px; color:white;
+  background:linear-gradient(135deg,var(--blue1),var(--blue2));}
+.section-banner .b-title{font-size:21px;font-weight:900;margin-bottom:4px;}
+.section-banner .b-sub{font-size:13px;opacity:0.94;}
+
+.unit-list{display:flex;flex-direction:column;gap:11px;}
+.unit-row{
+  background:white; border:2px solid var(--border); border-radius:18px;
+  padding:15px 16px; display:flex; align-items:center; gap:13px; cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.unit-row .uicon{width:42px;height:42px;border-radius:50%;background:var(--blue-pale);
+  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.unit-row .info{flex:1;min-width:0;}
+.unit-row .u-title{font-weight:800;font-size:15px;color:var(--ink);}
+.unit-row .u-sub{font-size:12px;color:var(--sub);font-weight:600;}
+.unit-row .chev{color:var(--blue2);font-size:22px;font-weight:900;}
+.badge-mastered{background:var(--good-light);color:var(--good);font-size:11px;font-weight:900;padding:4px 10px;border-radius:20px;}
+.badge-fixme{background:var(--bad-light);color:#b45309;font-size:11px;font-weight:900;padding:4px 10px;border-radius:20px;}
+.badge-progress{background:var(--blue-pale);color:var(--blue3);font-size:11px;font-weight:900;padding:4px 10px;border-radius:20px;}
+
+.assumption-note{
+  background:#fff7ed; border:2px dashed #fdba74; border-radius:14px; padding:10px 14px;
+  font-size:12.5px; color:#9a3412; margin-bottom:14px; font-weight:600;
+}
+
+/* mistake / cheatsheet / quiz cards */
+.review-card{background:white;border:2px solid var(--border);border-radius:20px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow);}
+.review-card h3{margin-top:0;color:var(--blue3);font-size:17px;}
+.mistake-item{border-left:5px solid var(--bad);background:var(--bad-light);border-radius:0 14px 14px 0;padding:12px 14px;margin-bottom:12px;}
+.mistake-item .m-q{font-weight:800;font-size:14px;margin-bottom:6px;color:var(--ink);}
+.mistake-item .m-compare{font-size:13px;margin-bottom:8px;}
+.mistake-item .m-picked{color:#b45309;}
+.mistake-item .m-correct{color:var(--good);font-weight:800;}
+.mistake-item .m-explain{font-size:13px;line-height:1.55;color:#374151;background:white;border-radius:10px;padding:10px 12px;}
+.mistake-item.fixed{border-left-color:var(--good);background:var(--good-light);}
+
+.cheat-section{margin-bottom:12px;}
+.cheat-section h4{margin:0 0 4px;font-size:13.5px;color:var(--blue3);font-weight:900;}
+.cheat-section p{margin:0;font-size:13.5px;line-height:1.6;color:#1e3a5f;}
+.cheat-section b{color:var(--blue3);}
+
+.quiz-item{border:2px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;background:var(--blue-paler);}
+.quiz-item .q-text{font-weight:800;font-size:14.5px;margin-bottom:10px;color:var(--ink);}
+.quiz-item input{width:100%;max-width:220px;border:2px solid var(--border);border-radius:12px;padding:9px 12px;font-size:15px;margin-right:8px;}
+.quiz-item .checkbtn{background:linear-gradient(135deg,var(--blue2),var(--blue3));color:white;border:none;border-radius:12px;padding:9px 16px;font-weight:800;font-size:14px;cursor:pointer;}
+.quiz-item .feedback{font-weight:900;font-size:14px;margin-left:8px;}
+.quiz-item .feedback.good{color:var(--good);}
+.quiz-item .feedback.bad{color:#b45309;}
+.quiz-item .reveal{font-size:13px;margin-top:8px;background:white;border-radius:10px;padding:8px 10px;color:#374151;}
+
+.worked-example{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid var(--blue1);border-radius:18px;padding:16px;margin-bottom:16px;}
+.worked-example .we-title{font-weight:900;color:var(--blue3);font-size:15px;margin-bottom:10px;}
+.we-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed var(--border);}
+.we-step:last-child{border-bottom:none;}
+.we-digit{
+  min-width:36px;height:36px;border-radius:10px;background:white;border:2px solid var(--blue2);
+  display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:var(--blue3);flex-shrink:0;
+}
+.we-step .we-text{font-size:13.5px;line-height:1.5;color:#1e3a5f;}
+.we-step .we-detail{font-size:12px;color:var(--sub);margin-top:2px;}
+.we-final{background:var(--good-light);border-radius:12px;padding:10px 14px;font-weight:800;color:var(--good);text-align:center;margin-top:6px;}
+.we-warning{background:var(--bad-light);border-radius:12px;padding:10px 14px;font-size:12.5px;color:#92400e;margin-top:8px;}
+
+/* bunny mascot */
+#bunnyFab{
+  position:fixed; right:16px; bottom:20px; z-index:150;
+  width:64px; height:64px; border-radius:50%; background:white; border:3px solid var(--blue2);
+  box-shadow:0 6px 18px rgba(37,99,235,0.35); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  animation: bunnyBob 2.4s ease-in-out infinite;
+}
+@keyframes bunnyBob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+#bunnyFab svg{width:46px;height:46px;}
+.bunny-bubble{
+  position:fixed; right:16px; bottom:92px; z-index:150; max-width:280px;
+  background:white; border:3px solid var(--blue2); border-radius:20px 20px 4px 20px;
+  padding:14px 16px; box-shadow:0 10px 28px rgba(37,99,235,0.3);
+  font-size:13.5px; line-height:1.5; color:var(--ink); font-weight:600;
+  animation: popIn 0.25s ease-out;
+}
+@keyframes popIn{ from{opacity:0; transform:scale(0.85) translateY(8px);} to{opacity:1; transform:scale(1) translateY(0);} }
+.bunny-bubble .bb-close{position:absolute; top:6px; right:10px; cursor:pointer; font-weight:900; color:var(--sub); font-size:14px;}
+.bunny-bubble-wrap{position:relative;}
+
+.mute-toggle{
+  position:fixed; left:16px; bottom:20px; z-index:150;
+  width:48px;height:48px;border-radius:50%;background:white;border:2px solid var(--border);
+  box-shadow:var(--shadow); display:flex;align-items:center;justify-content:center; cursor:pointer; font-size:20px;
+}
+
+.toast{
+  position:fixed; bottom:96px; left:50%; transform:translateX(-50%);
+  background:var(--blue3); color:white; padding:12px 18px; border-radius:16px; font-size:13.5px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.25); z-index:200; max-width:88vw; text-align:center; font-weight:700;
+}
+
+.footer-nav{display:flex;gap:10px;margin-top:18px;}
+
+.progress-track{background:var(--blue-pale);border-radius:8px;height:9px;overflow:hidden;margin-top:6px;}
+.progress-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--blue1),var(--blue2));}
+.progress-label{font-size:11px;color:var(--sub);font-weight:800;margin-top:3px;}
+
+.celebrate-banner{
+  background:linear-gradient(135deg,#34d399,#10b981); color:white; border-radius:18px;
+  padding:14px 18px; margin-bottom:16px; font-weight:800; font-size:14px; text-align:center;
+  box-shadow:0 6px 18px rgba(16,185,129,0.35);
+}
+
+.toptips-box{background:white;border:2px solid var(--border);border-radius:20px;padding:16px 18px;margin-bottom:18px;box-shadow:var(--shadow);}
+.toptips-box h3{color:var(--blue3);margin-top:0;}
+.toptips-box ul{padding-left:20px;margin:0;}
+.toptips-box li{margin-bottom:8px;font-size:13.5px;line-height:1.5;}
+
+.plan-timeline{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.plan-row{display:flex;gap:12px;align-items:flex-start;background:white;border:2px solid var(--border);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);}
+.plan-row .plan-icon{font-size:22px;flex-shrink:0;}
+.plan-row .plan-text{font-size:13.5px;line-height:1.5;}
+.plan-row .plan-text b{color:var(--blue3);}
+
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <button class="backbtn" id="backBtn" style="visibility:hidden;">‹ Back</button>
+      <div class="topbar-title" id="topbarTitle">Countdown to Tuesday!</div>
+      <div class="savepill" id="savedPill">●</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div id="app"></div>
+  </div>
+<script>
+/* ===================== DATA ===================== */
+const DATA = {"english": [{"id": "conjunctions", "title": "Conjunctions", "icon": "\ud83d\udd17", "mistakes": [], "cheatsheet": {"intro": "\u2705 You got <b>14 for 14</b> here \u2014 perfect score! Quick refresh to keep it sharp:", "sections": [{"h": "Coordinating Conjunctions \u2014 FANBOYS", "body": "<b>F</b>or, <b>A</b>nd, <b>N</b>or, <b>B</b>ut, <b>O</b>r, <b>Y</b>et, <b>S</b>o \u2014 join two equal, complete ideas."}, {"h": "Subordinating Conjunctions", "body": "Because, since, although, when, if, while, unless \u2014 join a main idea to a dependent (incomplete-on-its-own) idea."}, {"h": "Correlative Conjunctions \u2014 Come in Pairs", "body": "Both...and, either...or, neither...nor, not only...but also, whether...or."}]}, "quiz": [{"id": "cjq1", "q": "I wanted to go outside, ___ it was raining. (but/so/or)", "answer": "but", "type": "text"}, {"id": "cjq2", "q": "___ she studied hard, she passed the test. (Because/And/Or)", "answer": "Because", "type": "text"}, {"id": "cjq3", "q": "He wanted ___ pizza ___ tacos for dinner. (fill both blanks, e.g. 'either...or')", "answer": "either or", "type": "text"}], "mastered": true}, {"id": "titles", "title": "Titles & Capitalization of Titles", "icon": "\ud83d\udcd6", "mistakes": [], "cheatsheet": {"intro": "\u2705 <b>5 for 5</b> \u2014 perfect! Fast refresh:", "sections": [{"h": "Capitalize the First, Last, and All Important Words", "body": "In a title, capitalize the first word, the last word, and every important word in between. Skip small words like <i>a, an, the, and, of, in</i> \u2014 UNLESS they're the first or last word."}, {"h": "Italics/Underline vs. Quotation Marks", "body": "Long/whole works (books, movies, albums) \u2192 <i>italicize or underline</i>. Short works (poems, songs, chapters, articles) \u2192 \"quotation marks.\""}]}, "quiz": [{"id": "tq1", "q": "Which is correctly capitalized? (a: 'the lion, the witch and the wardrobe' / b: 'The Lion, the Witch and the Wardrobe')", "answer": "b", "type": "text"}, {"id": "tq2", "q": "Should a chapter title use quotation marks or italics?", "answer": "quotation marks", "type": "text"}], "mastered": true}, {"id": "prepositions", "title": "Prepositions", "icon": "\ud83d\udccd", "mistakes": [], "cheatsheet": {"intro": "\u2705 <b>5 for 5</b> \u2014 perfect! Quick refresh:", "sections": [{"h": "What They Do", "body": "Prepositions show the relationship between a noun and something else \u2014 usually location, direction, or time (in, on, at, under, over, between, across, towards, during, before, after)."}, {"h": "The 'Mouse Trick'", "body": "If a mouse can do it to a box, it's probably a preposition: <i>in</i> the box, <i>on</i> the box, <i>under</i> the box, <i>beside</i> the box, <i>through</i> the box."}]}, "quiz": [{"id": "pjq1", "q": "The cat jumped ___ the fence. (across/is/quickly)", "answer": "across", "type": "text"}, {"id": "pjq2", "q": "She placed the book ___ the table and the lamp. (between/happy/run)", "answer": "between", "type": "text"}], "mastered": true}, {"id": "figurative", "title": "Figurative Language", "icon": "\ud83c\udfad", "mistakes": [], "cheatsheet": {"intro": "\u2705 <b>5 for 5</b> \u2014 perfect! The full toolkit:", "sections": [{"h": "Simile", "body": "Compares using <b>like</b> or <b>as</b>: \"brave as a lion.\""}, {"h": "Metaphor", "body": "Says one thing IS another (no like/as): \"the classroom was a zoo.\""}, {"h": "Personification", "body": "Gives human traits to non-human things: \"the wind whispered.\""}, {"h": "Hyperbole", "body": "Extreme exaggeration: \"I've told you a million times.\""}, {"h": "Idiom", "body": "A phrase that doesn't mean its literal words: \"it's raining cats and dogs.\""}, {"h": "Onomatopoeia & Alliteration", "body": "Onomatopoeia = words that sound like their meaning (buzz, crash). Alliteration = repeating starting sounds (sally sells seashells)."}]}, "quiz": [{"id": "fgq1", "q": "\"The stars danced in the sky\" is an example of ___ (simile/personification/hyperbole)", "answer": "personification", "type": "text"}, {"id": "fgq2", "q": "\"Busy as a bee\" is an example of ___ (metaphor/simile/idiom)", "answer": "simile", "type": "text"}, {"id": "fgq3", "q": "\"My backpack weighs a million pounds\" is an example of ___ (hyperbole/onomatopoeia)", "answer": "hyperbole", "type": "text"}], "mastered": true}, {"id": "reading", "title": "Reading Comprehension", "icon": "\ud83d\udcda", "mistakes": [], "cheatsheet": {"intro": "\u2705 <b>3 for 3</b> \u2014 perfect! Strategy refresh for passage questions:", "sections": [{"h": "Before You Read the Passage", "body": "Skim the QUESTIONS first (not the answer choices) so you know what to look for while reading."}, {"h": "Main Idea vs. Detail Questions", "body": "Main idea = what's the passage MOSTLY about (usually needs the whole passage). Detail = one specific fact (go back and find the exact line)."}, {"h": "Inference Questions", "body": "The answer isn't stated directly \u2014 combine a clue from the text with your own knowledge. Look for the choice that's a small, reasonable step from the text, not a big leap."}, {"h": "Always Go Back to the Text", "body": "Don't answer from memory of the passage \u2014 quickly re-scan the relevant part before choosing."}]}, "quiz": [{"id": "rq1", "q": "For a 'main idea' question, should you focus on one sentence or the whole passage?", "answer": "whole passage", "type": "text"}, {"id": "rq2", "q": "True or False: you should always go back and re-check the text before answering a detail question.", "answer": "true", "type": "text"}], "mastered": true}, {"id": "vocab", "title": "Vocabulary in Context", "icon": "\ud83d\udd24", "mistakes": [], "cheatsheet": {"intro": "\u2705 <b>10 for 10</b> \u2014 perfect! Context-clue strategies:", "sections": [{"h": "Look at the Sentence Around It", "body": "Even without knowing a word, the rest of the sentence often hints at its meaning \u2014 look for a definition, example, contrast, or synonym nearby."}, {"h": "Break the Word Apart", "body": "Prefixes (un-, re-, pre-), suffixes (-ful, -less, -able), and roots (like 'bio' = life, 'tele' = far) can unlock meaning even for unfamiliar words."}, {"h": "Try Each Answer Choice in the Sentence", "body": "Swap each choice into the original sentence \u2014 does it make sense with the tone and the rest of the paragraph?"}]}, "quiz": [{"id": "vq1", "q": "The word 'unhappy' \u2014 what does the prefix 'un-' mean?", "answer": "not", "type": "text"}, {"id": "vq2", "q": "If a word has the root 'tele' (like telephone, television), it likely relates to what idea?", "answer": "far/distance", "type": "text"}], "mastered": true}, {"id": "conventions", "title": "Conventions of Writing: Punctuation, Capitalization & Spelling", "icon": "\u270d\ufe0f", "mistakes": [], "cheatsheet": {"intro": "This is brand-new practice, built specifically because fast readers often skim right past these small details. The real Iowa test has a whole section on exactly this \u2014 slowing down here is worth real points.", "sections": [{"h": "Commas \u2014 the 3 Big Uses", "body": "1) Separating items in a list: apples, oranges, and bananas.<br>2) Before a coordinating conjunction joining two complete sentences: I studied hard, so I felt ready.<br>3) After an introductory word/phrase: After the game, we went home."}, {"h": "Apostrophes", "body": "<b>Contractions</b> (combine words): don't, it's, they're.<br><b>Possession</b> (shows ownership): the dog's bone (one dog), the dogs' bones (more than one dog)."}, {"h": "Commonly Confused Homophones", "body": "<b>their</b> (belongs to them) / <b>there</b> (a place) / <b>they're</b> (they are).<br><b>your</b> (belongs to you) / <b>you're</b> (you are).<br><b>its</b> (belongs to it) / <b>it's</b> (it is).<br><b>to</b> (direction) / <b>too</b> (also/excessive) / <b>two</b> (the number)."}, {"h": "Capitalization Rules", "body": "Capitalize: the first word of a sentence, proper nouns (names of specific people/places), days/months, and the pronoun 'I'. Do NOT capitalize seasons (winter, summer) or general nouns (the dog, a school)."}, {"h": "Run-ons & Fragments", "body": "<b>Run-on:</b> two complete sentences jammed together with no punctuation \u2014 fix with a period, comma+conjunction, or semicolon.<br><b>Fragment:</b> an incomplete thought missing a subject or verb \u2014 needs to be combined with another sentence or completed."}, {"h": "The #1 Fast-Reader Fix", "body": "On editing/proofreading questions specifically, read the sentence <b>one more time than feels necessary</b>, out loud in your head, before picking an answer. Errors in punctuation are easy to skip right past when reading fast for meaning."}]}, "quiz": [{"id": "cvq1", "q": "Fix the sentence: \"Its raining outside so bring you're umbrella\" \u2014 what should replace 'Its'?", "answer": "It's", "type": "text"}, {"id": "cvq2", "q": "Which is correct: \"The dogs bone\" or \"The dog's bone\" (for ONE dog)?", "answer": "The dog's bone", "type": "text"}, {"id": "cvq3", "q": "Is this a run-on, fragment, or correct? \"I went to the store I bought milk.\"", "answer": "run-on", "type": "text"}, {"id": "cvq4", "q": "Should 'summer' be capitalized in the middle of a sentence?", "answer": "no", "type": "text"}, {"id": "cvq5", "q": "Fill in: I can't decide if I want ___ go ___ the park or stay home. (to/too/two, both blanks)", "answer": "to too", "type": "text"}], "mastered": false}], "math": [{"id": "decimals", "title": "Decimal Multiplication", "icon": "\ud83d\udd22", "mistakes": [{"q": "7.863 \u00d7 45.5", "picked": "317.7665", "correct": "357.7665", "explain": "The decimal PLACEMENT was right \u2014 this was a pure multiplication slip somewhere in the middle of the problem. <b>Fix:</b> after multiplying, estimate first (8 \u00d7 46 \u2248 368) so a typo like 317 jumps out as too far off."}, {"q": "4.977 \u00d7 0.368", "picked": "1.910536", "correct": "1.831536", "explain": "Same pattern \u2014 decimal point in the right spot, but a digit got flipped mid-calculation. <b>Fix:</b> redo the multiplication one line at a time on paper, lining up each partial product carefully."}, {"q": "369.9 \u00d7 15.4", "picked": "4036.46", "correct": "5696.46", "explain": "The <b>.46</b> ending is exactly right \u2014 the whole-number part is off. This usually means one partial product (like 369.9 \u00d7 5) was added in the wrong column. <b>Fix:</b> estimate first \u2014 370 \u00d7 15 \u2248 5,550, which should have flagged 4,036 as too small."}, {"q": "0.7269 \u00d7 342", "picked": "234.5998", "correct": "248.5998", "explain": "Again the decimal digits (.5998) are perfect \u2014 a whole-number addition slip changed 248 to 234. <b>Fix:</b> add your partial products from the bottom up as a double-check."}, {"q": "465.7 \u00d7 59.9", "picked": "278.9543", "correct": "27,895.43", "explain": "\u26a0\ufe0f <b>This one IS a decimal-placement error</b> \u2014 same digits, decimal point shifted 2 places! Count decimal places in BOTH numbers first: 465.7 has 1, 59.9 has 1, so the answer needs exactly <b>2</b> decimal places total \u2014 never more."}, {"q": "22.42 \u00d7 8.29", "picked": "187.8618", "correct": "185.8618", "explain": "Decimal spot-on, small arithmetic slip in the whole-number part. <b>Fix:</b> estimate first \u2014 22 \u00d7 8 \u2248 176, so 187 and 185 both look plausible; a careful re-multiply catches the real one."}], "cheatsheet": {"intro": "Your decimal PLACEMENT understanding is actually solid \u2014 5 of your 6 misses were plain arithmetic slips, not decimal errors. Here's the full method plus the habit that fixes slips.", "sections": [{"h": "The 3-Step Method", "body": "1) Multiply the numbers as if there were <b>no decimal points at all</b>.<br>2) Count the total decimal places in BOTH original numbers.<br>3) Put that many decimal places in your answer, counting from the right."}, {"h": "Example", "body": "<b>3.4 \u00d7 2.15</b> \u2192 ignore decimals: 34 \u00d7 215 = 7,310 \u2192 count decimal places: 3.4 has 1, 2.15 has 2, total = 3 \u2192 answer: <b>7.310</b>"}, {"h": "The Habit That Catches Slips", "body": "<b>Estimate BEFORE you multiply exactly.</b> Round each number to one easy digit: 7.863 \u00d7 45.5 \u2248 8 \u00d7 46 \u2248 368. If your exact answer isn't close to your estimate, redo it \u2014 this alone would have caught 5 of your 6 misses here."}, {"h": "\u26a0\ufe0f You never finished questions 16\u201320", "body": "Nothing wrong with your math \u2014 you just ran out of time or skipped ahead. On test day: if a section has 20 problems, don't spend more than about a minute each on the first few, or the last few become rushed or skipped."}]}, "quiz": [{"id": "dq1", "q": "6.2 \u00d7 3.4", "answer": 21.08}, {"id": "dq2", "q": "8.15 \u00d7 4.4", "answer": 35.86}, {"id": "dq3", "q": "126.3 \u00d7 2.6", "answer": 328.38}, {"id": "dq4", "q": "9.05 \u00d7 12.2", "answer": 110.41}, {"id": "dq5", "q": "0.84 \u00d7 215", "answer": 180.6}]}, {"id": "longdiv", "title": "Long Division: Zeros in the Quotient", "icon": "\u2797", "special": "longdiv", "intro": "You mentioned the tricky part is when the answer (the number on <b>top</b>) ends up with zeros in it. Here's exactly what's happening \u2014 and a rule that makes it foolproof.", "goldenRule": "Every time you bring down a digit, you must write <b>something</b> above it in the quotient \u2014 even if that something is a <b>0</b>. Skipping this spot is the #1 reason long-division answers come out wrong (usually too small, missing a digit).", "worked": {"problem": "927 \u00f7 3", "steps": [{"text": "3 into 9 goes 3 times exactly.", "quotientDigit": "3", "detail": "Write 3 on top. Remainder 0."}, {"text": "Bring down the 2. Does 3 go into 2? No \u2014 2 is smaller than 3.", "quotientDigit": "0", "detail": "Write 0 on top (don't skip this!). Remainder stays 2."}, {"text": "Bring down the 7, making 27. 3 into 27 goes 9 times exactly.", "quotientDigit": "9", "detail": "Write 9 on top. Remainder 0."}], "answer": "309", "wrongIfSkipped": "39", "warning": "If you skip writing that middle 0, your digits slide over and you get 39 instead of 309 \u2014 off by a factor of 10!"}, "quiz": [{"id": "ld1", "q": "4,236 \u00f7 4 = ?", "answer": 1059, "explain": "4\u00f74=1. Bring down 2: 4 doesn't go into 2 \u2192 write 0, bring down 3 \u2192 23. 23\u00f74=5 r3. Bring down 6 \u2192 36\u00f74=9. Quotient: 1-0-5-9 = 1,059."}, {"id": "ld2", "q": "8,100 \u00f7 27 = ?", "answer": 300, "explain": "27 into 81 = 3 exactly. Bring down 0: 27 doesn't go into 0 \u2192 write 0. Bring down the next 0: still doesn't go in \u2192 write 0 again. Quotient: 3-0-0 = 300."}, {"id": "ld3", "q": "3,216 \u00f7 3 = ?", "answer": 1072, "explain": "3\u00f73=1. Bring down 2: 3 doesn't go into 2 \u2192 write 0, bring down 1 \u2192 21. 21\u00f73=7. Bring down 6 \u2192 6\u00f73=2. Quotient: 1-0-7-2 = 1,072."}, {"id": "ld4", "q": "4,800 \u00f7 60 = ?", "answer": 80, "explain": "Trailing-zero shortcut: both numbers end in a zero, so cancel one zero from each first \u2192 480 \u00f7 6 = 80. Much faster than long-dividing the full numbers!"}], "mistakes": []}, {"id": "trapezoids", "title": "Trapezoid Area", "icon": "\ud83d\udcd0", "mistakes": [{"q": "Bases 24 ft, 16 ft, height 8 ft", "picked": "220", "correct": "160", "explain": "Formula: Area = (b1 + b2) \u00d7 h \u00f7 2 = (24+16) \u00d7 8 \u00f7 2 = 40 \u00d7 8 \u00f7 2 = 320 \u00f7 2 = <b>160</b>. Write out each step separately instead of doing it in your head \u2014 that's exactly where a slip like this sneaks in."}], "cheatsheet": {"intro": "You nailed 4 of 5 here \u2014 this is one of your strongest math topics. Quick refresh:", "sections": [{"h": "The Formula", "body": "Area = <b>\u00bd \u00d7 (base 1 + base 2) \u00d7 height</b><br>Or written as steps: add the two bases \u2192 multiply by height \u2192 divide by 2."}, {"h": "Order Matters Less Than You Think", "body": "(b1+b2)\u00d7h\u00f72 and \u00bd\u00d7(b1+b2)\u00d7h give the same answer \u2014 just do it in an order that's easy for you, one step at a time, writing down each result."}]}, "quiz": [{"id": "tq1", "q": "Bases 10 in and 14 in, height 6 in \u2014 find the area (in\u00b2)", "answer": 72}, {"id": "tq2", "q": "Bases 30 ft and 20 ft, height 12 ft \u2014 find the area (ft\u00b2)", "answer": 300}, {"id": "tq3", "q": "Bases 18 cm and 22 cm, height 5 cm \u2014 find the area (cm\u00b2)", "answer": 100}]}, {"id": "circles", "title": "Circumference", "icon": "\u2b55", "mistakes": [{"q": "Diameter = 72 cm", "picked": "22609 (missing decimal)", "correct": "226.08 cm", "explain": "The digits are almost right \u2014 this looks like the decimal point got dropped while typing/writing the final answer. <b>Fix:</b> always write your answer with the decimal BEFORE moving on, don't leave it for the end."}, {"q": "Radius = 531.4 in", "picked": "16,685.96", "correct": "3,337.19 in", "explain": "\u26a0\ufe0f <b>This is a real formula mix-up, not a slip.</b> For a RADIUS, circumference = radius \u00d7 2 \u00d7 \u03c0. Your answer is exactly 10\u00d7 too big \u2014 it looks like \u00d710 was used instead of \u00d72 somewhere. <b>Memory trick:</b> radius needs doubling to become a diameter first \u2014 'radius \u00d7 2 = diameter' \u2014 then diameter \u00d7 \u03c0."}, {"q": "Diameter = 6.894 cm", "picked": "21.54716", "correct": "21.64716 cm", "explain": "You were EXTREMELY close \u2014 off by one digit in the hundredths place (21.5... vs 21.6...). This is real mastery with a tiny copy slip. Just double-check your last digit before finalizing."}], "cheatsheet": {"intro": "One real gap to fix (radius formula) and two near-perfect answers. Here's the full picture:", "sections": [{"h": "Two Formulas \u2014 Know Which to Use", "body": "If you're given the <b>diameter</b>: Circumference = \u03c0 \u00d7 diameter<br>If you're given the <b>radius</b>: Circumference = \u03c0 \u00d7 radius \u00d7 <b>2</b> (because diameter = radius \u00d7 2)"}, {"h": "\u03c0 (pi)", "body": "Use <b>3.14</b> unless told otherwise."}, {"h": "Quick Check", "body": "Circumference should always be a bit more than <b>3 times</b> the diameter (since \u03c0 \u2248 3.14). If your answer is way more or less than 3\u00d7 the diameter, you made an error somewhere."}]}, "quiz": [{"id": "cq1", "q": "Diameter = 10 in \u2014 find the circumference", "answer": 31.4}, {"id": "cq2", "q": "Radius = 4 cm \u2014 find the circumference", "answer": 25.12}, {"id": "cq3", "q": "Radius = 20 ft \u2014 find the circumference", "answer": 125.6}, {"id": "cq4", "q": "Diameter = 15.5 in \u2014 find the circumference", "answer": 48.67}]}, {"id": "placevalue", "title": "Place Value, Rounding & Order of Operations", "icon": "\ud83d\udd1f", "mistakes": [{"q": "{5 \u00d7 [9 \u2212 (4 \u00f7 2) \u2212 5]} + 11", "picked": "21 \u2014 wait, that's actually CORRECT!", "correct": "21", "explain": "\u2705 Good news \u2014 while double-checking every answer for this review, we found the practice app had this one WRONG. You got it right! 4\u00f72=2, 9\u22122\u22125=2, 5\u00d72=10, 10+11=<b>21</b>. Nice work with order of operations \u2014 parentheses and brackets first, innermost first."}, {"q": "Which place is the 5 in, in a number 100 times 50?", "picked": "ones place", "correct": "thousands place", "explain": "50 \u00d7 100 = 5,000. Multiplying by 100 shifts every digit <b>2 places</b> to the left. <b>Trick:</b> \u00d710 shifts 1 place, \u00d7100 shifts 2 places, \u00d71000 shifts 3 places \u2014 count the zeros in the multiplier."}, {"q": "2\u00d710,000+4\u00d71,000+6\u00d7100+0\u00d710+3\u00d71+7\u00d7(1/10)+9\u00d7(1/100)", "picked": "2,463.79", "correct": "24,603.79", "explain": "Build it piece by piece: 20,000 + 4,000 + 600 + 0 + 3 + 0.7 + 0.09 = <b>24,603.79</b>. Add the whole-number parts first left to right, then tack on the decimal part."}, {"q": "Round 514,684.51 to the thousands place", "picked": "515,000.00 \u2014 wait, that's actually CORRECT!", "correct": "515,000.00", "explain": "\u2705 Another one where the practice app graded you wrong by mistake \u2014 you got this right! The thousands digit is 4; look one digit to the right (6, in the hundreds place) \u2014 since 6\u22655, round the thousands digit up: 514,000 \u2192 <b>515,000</b>."}], "cheatsheet": {"intro": "Two of your four 'misses' here were actually app errors \u2014 you understand this better than the score showed! Here's the full refresher:", "sections": [{"h": "Order of Operations (PEMDAS)", "body": "<b>P</b>arentheses/brackets \u2192 <b>E</b>xponents \u2192 <b>M</b>ultiply/<b>D</b>ivide (left to right) \u2192 <b>A</b>dd/<b>S</b>ubtract (left to right). Always work from the <b>innermost</b> parentheses outward."}, {"h": "Multiplying/Dividing by 10, 100, 1000", "body": "\u00d710 \u2192 shift digits 1 place left. \u00d7100 \u2192 shift 2 places. \u00f710 \u2192 shift 1 place right. Count the zeros to know how far to shift."}, {"h": "Rounding Rule", "body": "Look at the digit immediately to the right of the place you're rounding to. <b>5 or more \u2192 round up. 4 or less \u2192 round down (stays the same).</b> Everything after that digit becomes zero."}]}, "quiz": [{"id": "pq1", "q": "{4 \u00d7 [10 \u2212 (6 \u00f7 2) \u2212 3]} + 5 = ?", "answer": 21}, {"id": "pq2", "q": "Which place is the 7 in, in a number that is 1,000 times 70? (Type: ones/tens/hundreds/thousands/ten thousands)", "answer": "ten thousands", "type": "text"}, {"id": "pq3", "q": "Round 328,451.20 to the thousands place", "answer": "328,000.00", "type": "text"}, {"id": "pq4", "q": "Round 673,500 to the thousands place", "answer": "674,000", "type": "text"}]}, {"id": "fractions", "title": "Fractions & Mixed Numbers", "icon": "\ud83c\udf55", "mistakes": [{"q": "3/5 + 8/11", "picked": "11/16", "correct": "1 18/55", "explain": "You can only add fractions once they share the SAME denominator. Common denominator of 5 and 11 is 55: 3/5 = 33/55, 8/11 = 40/55. 33/55+40/55 = 73/55 = <b>1 18/55</b>. (Adding the tops and bottoms straight across \u2014 like 11/16 \u2014 never works for addition!)"}, {"q": "5 pizzas, several eaten \u2014 how much was left?", "picked": "2 pizzas", "correct": "1 5/6 pizzas", "explain": "Add up the LEFTOVER fraction from each pizza separately, using a common denominator, then add them together: 1/4 + 1/4 + 0 + 1/2 + 5/6 = 3/12+3/12+0+6/12+10/12 = 22/12 = <b>1 10/12 = 1 5/6</b>. Multi-part word problems: solve one piece at a time, then combine."}, {"q": "7 girls share 4 quarts of ice cream equally", "picked": "1 3/4 quarts", "correct": "4/7 a quart", "explain": "'Share equally' means <b>divide</b>: 4 quarts \u00f7 7 girls = 4/7 of a quart each. (1 3/4 is what you'd get if you divided 7 by 4 instead \u2014 always double check which number is being split among what.)"}, {"q": "Rectangle 3 in \u00d7 3/8 in, using 3/8\u00d73/8 tiles", "picked": "3 tiles; 3 in\u00b2", "correct": "8 tiles; 1 1/8 in\u00b2", "explain": "How many 3/8-inch tiles fit along the 3-inch side? 3 \u00f7 3/8 = 3 \u00d7 8/3 = <b>8 tiles</b>. Since the other side is exactly one tile-width, total = 8 tiles, each 3/8\u00d73/8 = 9/64 in\u00b2, so 8\u00d79/64 = 72/64 = <b>1 1/8 in\u00b2</b>."}, {"q": "TV screen 20 1/2 in \u00d7 36 1/2 in \u2014 area?", "picked": "720 in\u00b2", "correct": "748 1/4 in\u00b2", "explain": "Multiply mixed numbers by converting to improper fractions first: 20 1/2 = 41/2, 36 1/2 = 73/2. (41/2)\u00d7(73/2) = 2993/4 = <b>748 1/4 in\u00b2</b>. Multiplying the whole-number parts alone (20\u00d736=720) skips the extra area from the halves \u2014 always convert to improper fractions for mixed-number multiplication."}, {"q": "1/5 \u00f7 3", "picked": "3/15", "correct": "1/15", "explain": "Dividing by 3 means the fraction gets split into 3 equal, smaller pieces: 1/5 \u00f7 3 = 1/5 \u00d7 1/3 = <b>1/15</b>. Rule: dividing a fraction by a whole number = multiply the denominator by that number (numerator stays the same)."}], "cheatsheet": {"intro": "Fractions were your biggest cluster of misses \u2014 but every single one traces back to just 3 rules. Master these 3 and this whole topic locks in:", "sections": [{"h": "Rule 1 \u2014 Adding/Subtracting: Same Bottom Number First", "body": "Find a common denominator BEFORE adding or subtracting. Never add numerators and denominators straight across."}, {"h": "Rule 2 \u2014 Multiplying: Convert Mixed Numbers First", "body": "Turn mixed numbers into improper fractions (like 20 1/2 \u2192 41/2), THEN multiply straight across (tops \u00d7 tops, bottoms \u00d7 bottoms)."}, {"h": "Rule 3 \u2014 Dividing: Flip and Multiply", "body": "Dividing BY a fraction/whole number = multiply by its reciprocal (flip it upside down). 1/5 \u00f7 3 = 1/5 \u00d7 1/3. 2 \u00f7 1/3 = 2 \u00d7 3/1 = 6."}, {"h": "Word Problems", "body": "Read twice. Underline what's being shared/split (\u00f7) vs. combined (+) vs. scaled (\u00d7). 'Share equally among' almost always means <b>divide</b>."}]}, "quiz": [{"id": "fq1", "q": "2/3 + 5/6 (as a mixed number, e.g. 1 1/2)", "answer": "1 1/2", "type": "text"}, {"id": "fq2", "q": "3/4 \u00f7 2 (as a fraction, e.g. 1/2)", "answer": "3/8", "type": "text"}, {"id": "fq3", "q": "6 girls share 3 pies equally \u2014 how much pie does each girl get? (as a fraction)", "answer": "1/2", "type": "text"}, {"id": "fq4", "q": "A rug is 4 1/2 ft by 3 1/2 ft. What is its area? (as a mixed number, e.g. 15 3/4)", "answer": "15 3/4", "type": "text"}]}, {"id": "geometry", "title": "Geometry & Volume", "icon": "\ud83d\udce6", "mistakes": [{"q": "Which is NOT a correct way to find volume?", "picked": "Multiply the edge lengths: V=l\u00d7w\u00d7h", "correct": "Add the edge lengths: V=l+w+h", "explain": "V=l\u00d7w\u00d7h IS correct (it's one of the standard formulas!) \u2014 the one that's NEVER right is <b>adding</b> the edges. Volume always involves multiplying three dimensions together, never adding them."}, {"q": "Volume of a solid, base area 50 cm\u00b2, height 3 cm", "picked": "200 cubic cm", "correct": "150 cubic cm", "explain": "When you're given the BASE AREA directly, the formula is simply Volume = Base area \u00d7 height = 50 \u00d7 3 = <b>150 cubic cm</b>. No need to find length and width separately \u2014 the base area is already the l\u00d7w part done for you."}, {"q": "All ___ triangles must be ___ triangles", "picked": "obtuse, isosceles", "correct": "equilateral, acute", "explain": "Every equilateral triangle has three 60\u00b0 angles \u2014 and 60\u00b0 is always acute (under 90\u00b0) \u2014 so 'all equilateral triangles must be acute triangles' is always true. An obtuse triangle does NOT have to be isosceles (its three sides can all be different lengths)."}, {"q": "All of the following are parallelograms EXCEPT?", "picked": "square", "correct": "trapezoid", "explain": "A square IS a parallelogram (opposite sides parallel, and it happens to also have 4 right angles + 4 equal sides). A trapezoid only has ONE pair of parallel sides, so it does NOT qualify as a parallelogram."}], "cheatsheet": {"intro": "Your volume misses were about picking the right formula for what's given \u2014 here's the full toolkit:", "sections": [{"h": "Volume Formulas", "body": "<b>V = length \u00d7 width \u00d7 height</b> (when you have all 3 dimensions)<br><b>V = Base area \u00d7 height</b> (when the base area is already given \u2014 don't re-derive length/width)"}, {"h": "Shape Family Tree", "body": "<b>Parallelogram</b> = 2 pairs of parallel sides. Squares, rectangles, and rhombuses are ALL parallelograms (they're special cases). A <b>trapezoid</b> has only 1 pair of parallel sides \u2014 it is never a parallelogram."}, {"h": "Triangle Types by Angle", "body": "<b>Acute</b> = all angles under 90\u00b0. <b>Right</b> = one 90\u00b0 angle. <b>Obtuse</b> = one angle over 90\u00b0. An equilateral triangle (all 60\u00b0) is always acute."}]}, "quiz": [{"id": "gq1", "q": "Volume of a solid with base area 40 in\u00b2 and height 6 in?", "answer": 240}, {"id": "gq2", "q": "Box with length 5cm, width 4cm, height 2cm \u2014 volume?", "answer": 40}, {"id": "gq3", "q": "Which shape has only ONE pair of parallel sides? (trapezoid/rhombus/square)", "answer": "trapezoid", "type": "text"}]}, {"id": "coordgraphs", "title": "Coordinates & Graphs", "icon": "\ud83d\udcca", "mistakes": [{"q": "Which ordered pair represents the school's location on the map?", "picked": "(1,4) \u2014 that's actually HOME's location", "correct": "(6,4)", "explain": "You read the coordinates correctly, just matched them to the wrong landmark on a busy map. <b>Fix:</b> before answering, trace your finger from the point back to its label to double-confirm which dot you're reading."}], "cheatsheet": {"intro": "You self-flagged 2 coordinate-plotting shapes as needing practice too (the square and parallelogram ones) \u2014 here's the core skill refreshed:", "sections": [{"h": "Reading Coordinates (x, y)", "body": "The FIRST number tells you how far to go <b>right</b> (\u2192). The SECOND number tells you how far to go <b>up</b> (\u2191). Always x first, then y."}, {"h": "On a Busy Map", "body": "When several landmarks are close together, trace from the dot to its label with your finger before answering \u2014 don't just glance."}, {"h": "Plotting Shapes", "body": "When given several points, plot them all first, THEN figure out how to connect them into a sensible closed shape (the order they're listed isn't always the order you connect them in!)."}]}, "quiz": [{"id": "cgq1", "q": "A point is 5 right and 3 up from the origin. Write its coordinates as (x,y)", "answer": "(5,3)", "type": "text"}, {"id": "cgq2", "q": "Points A(2,2), B(6,2), C(6,5), D(2,5) \u2014 what shape do they make?", "answer": "rectangle", "type": "text"}]}], "science": [{"id": "astronomy", "title": "Space & Astronomy", "icon": "\ud83c\udf0c", "mistakes": [{"q": "What causes stars to appear to move across the sky in a long-exposure photo?", "picked": "The Sun moving around the galaxy", "correct": "The rotation of the Earth around its axis", "explain": "The stars aren't really moving \u2014 WE are! Earth spins on its axis once every 24 hours, so the whole sky appears to slowly wheel around a fixed point (near the North Star). This is called <b>apparent motion</b>."}, {"q": "A star's streak forms a semicircle (half circle) in the photo \u2014 how much time passed?", "picked": "Four hours", "correct": "Twelve hours", "explain": "A FULL circle = 360\u00b0 = one full 24-hour rotation. A <b>semicircle = half a circle = 180\u00b0 = half of 24 hours = 12 hours</b>. Trick: whatever fraction of a circle you see, that same fraction of 24 hours has passed."}, {"q": "Why does the Sun look so much bigger/brighter than other stars?", "picked": "The Sun is much larger than other stars", "correct": "The Sun is much closer to the Earth than other stars", "explain": "Many stars are actually far bigger than the Sun \u2014 it just LOOKS biggest and brightest because it's dramatically closer to us than any other star. Distance affects apparent brightness more than actual size does."}], "cheatsheet": {"intro": "All three misses here connect to ONE big idea: Earth's spin. Master this and all three click into place:", "sections": [{"h": "Earth's Rotation", "body": "Earth spins on its axis once every <b>24 hours</b>. This spin causes day/night AND makes the stars/Sun/Moon appear to move across our sky (they're not really moving relative to us nearly as much as it looks)."}, {"h": "Fraction of a Circle = Fraction of a Day", "body": "Full circle (360\u00b0) = 24 hours. Half circle (180\u00b0) = 12 hours. Quarter circle (90\u00b0) = 6 hours."}, {"h": "Orbit vs. Rotation", "body": "<b>Rotation</b> = spinning in place (Earth on its axis, once per day). <b>Orbit</b> = traveling around another object (Earth around the Sun, once per year; Moon around Earth, once per month)."}, {"h": "Why the Sun Looks Special", "body": "It's a totally ordinary star \u2014 it just happens to be <b>close</b> (93 million miles vs. trillions of miles for other stars). Closer = bigger and brighter looking, even if the actual star is smaller."}]}, "quiz": [{"id": "aq1", "q": "A star trail forms a QUARTER circle. How many hours passed?", "answer": "6", "type": "text"}, {"id": "aq2", "q": "Earth traveling all the way around the Sun is called Earth's ___ (rotation/orbit)", "answer": "orbit", "type": "text"}, {"id": "aq3", "q": "True or False: the Sun is the largest star in the universe.", "answer": "false", "type": "text"}]}, {"id": "ecosystems", "title": "Ecosystems & Life Science", "icon": "\ud83c\udf31", "mistakes": [{"q": "Term for all living things on Earth", "picked": "Geosphere", "correct": "Biosphere", "explain": "Bio- means 'life' (think biology). <b>Biosphere</b> = every living thing on Earth. Geosphere is the rocky/mineral part of Earth (geo- = earth/rock)."}, {"q": "Where do most animals get the nitrogen they need?", "picked": "From the soil", "correct": "From other organisms", "explain": "Plants pull nitrogen from the soil \u2014 but animals get it by <b>eating plants or other animals</b>. Nitrogen moves: air \u2192 soil (via bacteria) \u2192 plants \u2192 animals \u2192 back to soil when things die and decompose."}, {"q": "Is importing a foreign frog species to eat flies a good idea?", "picked": "Yes, more variety is always good", "correct": "No \u2014 introducing a foreign species can damage the balance of an ecosystem", "explain": "'More variety is always good' is a trap answer \u2014 in real ecosystems, a new species with no natural predators can multiply out of control and wipe out native species. This is called an <b>invasive species</b> problem."}, {"q": "Deep-sea niche most similar to plants on land (hydrothermal vents)", "picked": "The snails and fish", "correct": "The bacteria", "explain": "Plants make their OWN food from sunlight (photosynthesis) \u2014 that makes them <b>producers</b>. Deep-sea bacteria make their own food from chemicals instead of sunlight (called chemosynthesis) \u2014 so they fill the same 'producer' role. Snails and fish are consumers, just like animals on land."}], "cheatsheet": {"intro": "Key vocabulary and food-web logic, refreshed:", "sections": [{"h": "The 'Spheres' of Earth", "body": "<b>Biosphere</b> = all living things. <b>Geosphere</b> = rock/land. <b>Hydrosphere</b> = all water. <b>Atmosphere</b> = all air."}, {"h": "Food Chain Roles", "body": "<b>Producers</b> make their own food (plants via sunlight; some bacteria via chemicals). <b>Consumers</b> eat other things (herbivores eat plants, carnivores eat animals). <b>Decomposers</b> break down dead things and recycle nutrients back to the soil."}, {"h": "Nitrogen & Energy Cycles", "body": "Nitrogen: air \u2192 soil bacteria \u2192 plants \u2192 animals (by eating) \u2192 back to soil when things decompose. Same idea for energy: it flows from the Sun \u2192 producers \u2192 consumers, and cycles through decomposers."}, {"h": "Ecosystem Balance", "body": "Healthy ecosystems have MANY species in stable relationships. Introducing a new (invasive) species \u2014 even with good intentions \u2014 can upset that balance because it may have no natural predators."}]}, "quiz": [{"id": "eq1", "q": "What is the term for organisms that break down dead plants/animals? (one word)", "answer": "decomposers", "type": "text"}, {"id": "eq2", "q": "Plants get their nitrogen mainly from the ___ (soil/air/water)", "answer": "soil", "type": "text"}, {"id": "eq3", "q": "True or False: a healthy ecosystem usually has just one or two dominant species.", "answer": "false", "type": "text"}]}, {"id": "matterenergy", "title": "Matter, Energy & Earth Systems", "icon": "\u2697\ufe0f", "mistakes": [{"q": "If 4 metal blocks looked the same but were DIFFERENT colors, could 2 still probably be the same material?", "picked": "Maybe, depends on the colors", "correct": "No \u2014 color is another clue that can help tell materials apart", "explain": "Same weight is one clue toward 'same material' \u2014 but if the colors were different, that's a SEPARATE clue pointing the other way. More matching physical properties (weight, color, hardness, etc.) = more confident conclusion."}], "cheatsheet": {"intro": "Broader Earth/physical science review \u2014 these topics didn't trip you up, but are worth a fast refresh:", "sections": [{"h": "Physical Properties of Matter", "body": "Weight, color, hardness, how it conducts electricity/heat \u2014 the MORE properties that match between two objects, the more confident you can be they're the same material."}, {"h": "Chemical vs. Physical Change", "body": "Mixing vinegar + baking soda makes a NEW substance (water, CO\u2082, sodium acetate) \u2014 that's a <b>chemical reaction</b>. Total weight of everything stays the same before and after (conservation of mass) \u2014 matter isn't created or destroyed, just rearranged."}, {"h": "States of Matter & Steam", "body": "Steam is a <b>gas</b> \u2014 tiny fast-moving water particles. In a steam engine, those particles physically collide with and push the turbine blades \u2014 it's a mechanical push, not magnetism or 'pure force.'"}, {"h": "Freshwater Distribution", "body": "Most of Earth's FRESHWATER is locked in <b>glaciers</b>, then <b>groundwater</b> \u2014 lakes and rivers (what we actually use most) are less than 1%! And freshwater itself is a tiny sliver of ALL water on Earth (most is saltwater)."}]}, "quiz": [{"id": "mq1", "q": "Mixing vinegar and baking soda makes water, CO2, and sodium acetate. Compared to what you started with, the total weight afterward is... (more/less/the same)", "answer": "the same", "type": "text"}, {"id": "mq2", "q": "What state of matter is steam? (solid/liquid/gas)", "answer": "gas", "type": "text"}, {"id": "mq3", "q": "Which holds the MOST of Earth's freshwater? (lakes/glaciers/groundwater)", "answer": "glaciers", "type": "text"}]}], "social": [{"id": "government", "title": "Government & Civics", "icon": "\ud83c\udfdb\ufe0f", "mistakes": [{"q": "Which branch of government can declare war?", "picked": "Federal", "correct": "Legislative", "explain": "'Federal' isn't a branch \u2014 it describes the whole national government. The 3 branches are <b>Legislative</b> (Congress \u2014 makes laws, declares war), <b>Executive</b> (President \u2014 enforces laws), and <b>Judicial</b> (courts \u2014 interprets laws)."}, {"q": "Who was the first Chief Justice of the Supreme Court (not a president)?", "picked": "James Madison", "correct": "John Jay", "explain": "James Madison became our 4th PRESIDENT, not a chief justice. <b>John Jay</b> was the first Chief Justice, appointed by George Washington in 1789."}, {"q": "Who was president of the Confederacy during the Civil War?", "picked": "Robert E. Lee", "correct": "Jefferson Davis", "explain": "Robert E. Lee commanded the Confederate ARMY (a general). <b>Jefferson Davis</b> was the Confederacy's president \u2014 its political leader."}, {"q": "Which right is NOT in the Bill of Rights?", "picked": "Free press", "correct": "Women's right to vote", "explain": "Free press IS in the 1st Amendment (part of the Bill of Rights, 1791). Women's voting rights came much later, via the <b>19th Amendment (1920)</b> \u2014 not part of the original Bill of Rights."}], "cheatsheet": {"intro": "Government structure and key people, refreshed:", "sections": [{"h": "3 Branches of Government", "body": "<b>Legislative</b> (Congress: House + Senate) \u2014 makes laws, declares war.<br><b>Executive</b> (President) \u2014 enforces/carries out laws.<br><b>Judicial</b> (Supreme Court + federal courts) \u2014 interprets laws, decides if they're constitutional."}, {"h": "Key People to Know", "body": "<b>John Jay</b> \u2014 1st Chief Justice of the Supreme Court.<br><b>Jefferson Davis</b> \u2014 President of the Confederacy (Civil War).<br><b>Robert E. Lee</b> \u2014 Confederate Army general (not president)."}, {"h": "Bill of Rights (1791) \u2014 First 10 Amendments", "body": "Includes: free speech, free press, freedom of religion, right to bear arms, right to a fair trial. Does NOT include women's suffrage (19th Amendment, 1920) \u2014 that came much later."}, {"h": "Constitution Basics", "body": "<b>27</b> ratified amendments total. An amendment needs <b>75%</b> (3/4) of states to ratify before becoming law. Census happens every <b>10 years</b>."}]}, "quiz": [{"id": "gvq1", "q": "Which branch of government interprets laws? (legislative/executive/judicial)", "answer": "judicial", "type": "text"}, {"id": "gvq2", "q": "How many amendments does the US Constitution have?", "answer": "27", "type": "text"}, {"id": "gvq3", "q": "What amendment gave women the right to vote?", "answer": "19th", "type": "text"}]}, {"id": "geography", "title": "Geography & Maps", "icon": "\ud83d\uddfa\ufe0f", "mistakes": [{"q": "Which lake lies to the EAST of New York state?", "picked": "Lake Ontario", "correct": "Lake Champlain", "explain": "Lake Ontario is on NY's WEST/northwest border. <b>Lake Champlain</b> is the one on the EAST side, bordering Vermont. When a map question asks direction, physically check which side of the state the label sits on before answering."}, {"q": "On the world map, which ocean was at position #2?", "picked": "Indian Ocean", "correct": "Atlantic Ocean", "explain": "Position #2 sat between the Americas and Africa/Europe \u2014 that's the <b>Atlantic</b>. The Indian Ocean is on the far side of the map, between Africa and Australia."}, {"q": "Which battle began the Civil War?", "picked": "Camp Allegheny", "correct": "Fort Sumter", "explain": "The Civil War began when Confederate forces attacked <b>Fort Sumter</b>, South Carolina, in April 1861."}, {"q": "Which continent is in BOTH the Northern and Southern Hemisphere?", "picked": "Australia", "correct": "Africa", "explain": "Australia sits entirely in the Southern Hemisphere. The equator runs right through the middle of <b>Africa</b>, putting part of it north and part south of the line."}], "cheatsheet": {"intro": "Map-reading is a skill you can practice fast \u2014 here's the key facts plus the habit that prevents mix-ups:", "sections": [{"h": "Habit: Confirm Direction Physically", "body": "Before answering ANY 'which direction' map question, put your finger on the label and physically trace which edge of the map/state it's closest to. Don't answer from memory of a similar-sounding name."}, {"h": "World Oceans (by size)", "body": "Pacific (biggest, west of the Americas) \u2192 Atlantic (between Americas and Africa/Europe) \u2192 Indian (between Africa and Australia) \u2192 Arctic (top of the world, around the North Pole) \u2192 Southern (around Antarctica)."}, {"h": "Equator Crossers", "body": "Continents the equator passes through: <b>Africa</b> and <b>South America</b> (and just touches parts of Asia through Indonesia). Fully Southern Hemisphere: Australia, Antarctica."}, {"h": "Civil War Quick Facts", "body": "<b>Started:</b> Fort Sumter, SC (1861). <b>Confederacy president:</b> Jefferson Davis. <b>Ended slavery advocates:</b> Abolitionists."}]}, "quiz": [{"id": "geq1", "q": "Which ocean is directly west of North and South America?", "answer": "Pacific", "type": "text"}, {"id": "geq2", "q": "Name one continent the equator passes directly through.", "answer": "Africa", "type": "text"}, {"id": "geq3", "q": "What was the first battle of the Civil War?", "answer": "Fort Sumter", "type": "text"}]}], "bunnyTips": [{"emoji": "\ud83d\udc30", "text": "Bismillah! Take one slow breath before you start. You've got this."}, {"emoji": "\ud83d\udc30", "text": "You're a fast reader \u2014 that's a superpower! Just remember to slow down for tricky words like 'NOT' or 'EXCEPT'."}, {"emoji": "\ud83d\udc30", "text": "Read every answer choice before picking one, even if the first one looks right."}, {"emoji": "\ud83d\udc30", "text": "Stuck on a question? Skip it, keep going, and come back later with fresh eyes."}, {"emoji": "\ud83d\udc30", "text": "For punctuation questions, read the sentence one extra time before answering. Small details hide there!"}, {"emoji": "\ud83d\udc30", "text": "Estimate before you calculate \u2014 if your exact answer is way off from your estimate, double check it."}, {"emoji": "\ud83d\udc30", "text": "You already know so much of this. Trust your preparation and breathe."}, {"emoji": "\ud83d\udc30", "text": "When dividing, remember: if a digit doesn't go in at all, write a 0 \u2014 don't skip that spot!"}, {"emoji": "\ud83d\udc30", "text": "Mistakes are just information \u2014 they show you exactly what to fix. You're doing great."}, {"emoji": "\ud83d\udc30", "text": "On map questions, trace the label with your finger before answering \u2014 don't just glance."}, {"emoji": "\ud83d\udc30", "text": "Slow and steady wins today. There's no prize for finishing first \u2014 there's a prize for finishing right."}, {"emoji": "\ud83d\udc30", "text": "You are capable and prepared. M\u0101 sh\u0101 All\u0101h, look how far you've come!"}, {"emoji": "\ud83d\udc30", "text": "For fractions: same bottom number to add/subtract, flip-and-multiply to divide."}, {"emoji": "\ud83d\udc30", "text": "Circle problems: radius needs \u00d72 to become a diameter. Don't mix that up with \u00d710!"}, {"emoji": "\ud83d\udc30", "text": "Take a deep breath. In through your nose... out through your mouth. You're ready."}, {"emoji": "\ud83d\udc30", "text": "Re-read the question after you solve it \u2014 make sure you answered what was actually asked."}, {"emoji": "\ud83d\udc30", "text": "You don't have to be perfect. You just have to try your very best, and that's already a win."}]};
+
+/* ===================== STATE / PERSISTENCE ===================== */
+const STORAGE_KEY = "shareefah_countdown_v1";
+let storageOK = true;
+let state = null;
+
+function freshState(){
+  return {
+    progress: { english:{}, math:{}, science:{}, social:{} },
+    settings: { soundOn: true },
+    meta: { createdAt: Date.now(), lastSaved: null, lastManualSave: null, tipIndex: 0 }
+  };
+}
+function testStorage(){
+  try{ const k="__t__"; localStorage.setItem(k,"1"); localStorage.removeItem(k); return true; }
+  catch(e){ return false; }
+}
+function ensureUnitProgress(subject, unitId){
+  if(!state.progress[subject]) state.progress[subject] = {};
+  if(!state.progress[subject][unitId]) state.progress[subject][unitId] = { opened:false, mistakesSeen:false, quiz:{} };
+  return state.progress[subject][unitId];
+}
+function migrateState(){
+  if(!state.progress) state.progress = {};
+  ["english","math","science","social"].forEach(s=>{ if(!state.progress[s]) state.progress[s] = {}; });
+  if(!state.settings) state.settings = { soundOn:true };
+  if(state.settings.soundOn===undefined) state.settings.soundOn = true;
+  if(!state.meta) state.meta = {};
+  if(!state.meta.tipIndex && state.meta.tipIndex!==0) state.meta.tipIndex = 0;
+}
+function loadState(){
+  storageOK = testStorage();
+  if(!storageOK){ state = freshState(); return; }
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    state = raw ? JSON.parse(raw) : freshState();
+    if(!state.progress) state = freshState();
+    migrateState();
+  }catch(e){ state = freshState(); }
+}
+function saveState(silent){
+  state.meta.lastSaved = Date.now();
+  if(storageOK){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){ storageOK=false; } }
+  updateSavedPill();
+}
+function updateSavedPill(){
+  const el = document.getElementById("savedPill");
+  if(!el) return;
+  if(!state.meta.lastSaved){ el.textContent = storageOK ? "Not saved yet" : "⚠️ Storage blocked"; return; }
+  const d = new Date(state.meta.lastSaved);
+  const hh=d.getHours().toString().padStart(2,"0"), mm=d.getMinutes().toString().padStart(2,"0");
+  el.textContent = (storageOK? "Saved ":"⚠️ Blocked — saved ")+hh+":"+mm;
+}
+window.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="hidden") saveState(true); });
+window.addEventListener("pagehide", ()=>saveState(true));
+window.addEventListener("beforeunload", ()=>saveState(true));
+
+function exportProgress(){
+  saveState(true);
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href=url; a.download="shareefah_countdown_progress_"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  state.meta.lastManualSave = Date.now();
+  saveState(true);
+  showToast("💾 Saved! Keep that file somewhere safe.");
+}
+function importProgress(file){
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    try{
+      const incoming = JSON.parse(e.target.result);
+      if(!incoming.progress) throw new Error("bad file");
+      state = incoming; migrateState(); saveState(true);
+      showToast("✅ Progress loaded!");
+      render();
+    }catch(err){ showToast("⚠️ That file didn't look right."); }
+  };
+  reader.readAsText(file);
+}
+
+/* ===================== TOAST ===================== */
+let toastTimer=null;
+function showToast(msg){
+  const old = document.querySelector(".toast"); if(old) old.remove();
+  const t = document.createElement("div"); t.className="toast"; t.innerHTML=msg;
+  document.body.appendChild(t);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.remove(), 3400);
+}
+function startSaveReminders(){
+  setInterval(()=>{
+    if(document.visibilityState!=="visible") return;
+    showToast("💾 Quick reminder — tap <b>Save Progress</b> on the home screen!");
+  }, 10*60*1000);
+}
+
+/* ===================== SOUND EFFECTS (gentle, both directions) ===================== */
+let audioCtx = null;
+function getCtx(){
+  if(!audioCtx){ try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; } }
+  return audioCtx;
+}
+function playTone(freqs, dur, type){
+  if(!state.settings.soundOn) return;
+  const ctx = getCtx();
+  if(!ctx) return;
+  if(ctx.state === "suspended") ctx.resume();
+  freqs.forEach((f, i)=>{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type || "sine";
+    osc.frequency.value = f;
+    const start = ctx.currentTime + i*0.09;
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(0.14, start+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(start); osc.stop(start+dur+0.02);
+  });
+}
+function soundCorrect(){ playTone([523.25, 659.25, 783.99], 0.28, "sine"); } // C-E-G cheerful little chime
+function soundIncorrect(){ playTone([349.23, 329.63], 0.32, "sine"); } // gentle neutral descending, not harsh
+function soundCelebrate(){ playTone([523.25,659.25,783.99,1046.5], 0.35, "sine"); }
+function toggleSound(){
+  state.settings.soundOn = !state.settings.soundOn;
+  saveState(true);
+  renderMuteToggle();
+  if(state.settings.soundOn) playTone([600,800],0.2,"sine");
+}
+function renderMuteToggle(){
+  const el = document.getElementById("muteToggle");
+  if(el) el.textContent = state.settings.soundOn ? "🔊" : "🔇";
+}
+
+/* ===================== BUNNY MASCOT ===================== */
+const BUNNY_SVG = `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="42" cy="28" rx="10" ry="30" fill="#c7ccd1" stroke="#8b929b" stroke-width="2" transform="rotate(-12 42 28)"/>
+  <ellipse cx="42" cy="30" rx="5" ry="21" fill="#ffd7e6" transform="rotate(-12 42 28)"/>
+  <ellipse cx="78" cy="28" rx="10" ry="30" fill="#c7ccd1" stroke="#8b929b" stroke-width="2" transform="rotate(12 78 28)"/>
+  <ellipse cx="78" cy="30" rx="5" ry="21" fill="#ffd7e6" transform="rotate(12 78 28)"/>
+  <ellipse cx="60" cy="98" rx="34" ry="26" fill="#e3e6ea" stroke="#8b929b" stroke-width="2"/>
+  <circle cx="60" cy="64" r="30" fill="#e9ecef" stroke="#8b929b" stroke-width="2"/>
+  <ellipse cx="60" cy="72" rx="17" ry="13" fill="#ffffff"/>
+  <circle cx="42" cy="70" r="6" fill="#ffc2d6" opacity="0.7"/>
+  <circle cx="78" cy="70" r="6" fill="#ffc2d6" opacity="0.7"/>
+  <circle cx="50" cy="60" r="4.2" fill="#2b2b2b"/>
+  <circle cx="70" cy="60" r="4.2" fill="#2b2b2b"/>
+  <circle cx="51.3" cy="58.5" r="1.3" fill="#fff"/>
+  <circle cx="71.3" cy="58.5" r="1.3" fill="#fff"/>
+  <path d="M60 68 L56 72 Q60 76 64 72 Z" fill="#ff9db3"/>
+  <path d="M60 76 Q60 80 56 80" stroke="#8b929b" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <path d="M60 76 Q60 80 64 80" stroke="#8b929b" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <line x1="30" y1="68" x2="44" y2="70" stroke="#b8bdc4" stroke-width="1.5"/>
+  <line x1="30" y1="74" x2="44" y2="74" stroke="#b8bdc4" stroke-width="1.5"/>
+  <line x1="90" y1="68" x2="76" y2="70" stroke="#b8bdc4" stroke-width="1.5"/>
+  <line x1="90" y1="74" x2="76" y2="74" stroke="#b8bdc4" stroke-width="1.5"/>
+  <ellipse cx="42" cy="112" rx="10" ry="7" fill="#e3e6ea" stroke="#8b929b" stroke-width="2"/>
+  <ellipse cx="78" cy="112" rx="10" ry="7" fill="#e3e6ea" stroke="#8b929b" stroke-width="2"/>
+  <path d="M60 40 L50 34 L50 46 Z" fill="#3b82f6"/>
+  <path d="M60 40 L70 34 L70 46 Z" fill="#3b82f6"/>
+  <circle cx="60" cy="40" r="4" fill="#1d4ed8"/>
+</svg>`;
+
+function nextBunnyTip(){
+  state.meta.tipIndex = (state.meta.tipIndex + 1) % DATA.bunnyTips.length;
+  saveState(true);
+  return DATA.bunnyTips[state.meta.tipIndex];
+}
+function showBunnyBubble(forcedTip){
+  const old = document.querySelector(".bunny-bubble"); if(old) old.remove();
+  const tip = forcedTip || nextBunnyTip();
+  const bubble = document.createElement("div");
+  bubble.className = "bunny-bubble";
+  bubble.innerHTML = `<span class="bb-close">✕</span>${tip.text}`;
+  document.body.appendChild(bubble);
+  bubble.querySelector(".bb-close").addEventListener("click", ()=>bubble.remove());
+  setTimeout(()=>{ if(bubble.parentNode) bubble.remove(); }, 9000);
+}
+function setupBunny(){
+  if(document.getElementById("bunnyFab")) return;
+  const fab = document.createElement("div");
+  fab.id = "bunnyFab";
+  fab.innerHTML = BUNNY_SVG;
+  fab.addEventListener("click", ()=>showBunnyBubble());
+  document.body.appendChild(fab);
+  const mute = document.createElement("div");
+  mute.id = "muteToggle";
+  mute.className = "mute-toggle";
+  mute.textContent = state.settings.soundOn ? "🔊" : "🔇";
+  mute.addEventListener("click", toggleSound);
+  document.body.appendChild(mute);
+}
+
+/* ===================== ROUTER ===================== */
+let currentScreen = {name:"home"};
+const app = document.getElementById("app");
+const topbarTitle = document.getElementById("topbarTitle");
+const backBtn = document.getElementById("backBtn");
+
+function go(screen){
+  const old = document.querySelector(".bunny-bubble");
+  if(old) old.remove();
+  currentScreen = screen;
+  window.scrollTo(0,0);
+  render();
+}
+backBtn.addEventListener("click", ()=>{
+  if(currentScreen.name==="home") return;
+  if(currentScreen.name==="day") go({name:"home"});
+  else if(currentScreen.name==="subject") go({name:"day", day:currentScreen.day});
+  else if(currentScreen.name==="unit") go({name:"subject", day:currentScreen.day, subject:currentScreen.subject});
+  else if(currentScreen.name==="toptips") go({name:"home"});
+  else go({name:"home"});
+});
+
+const SUBJECT_META = {
+  english: {label:"English", icon:"📖", day:1},
+  math: {label:"Math", icon:"🧮", day:2},
+  science: {label:"Science", icon:"🔬", day:2},
+  social: {label:"Social Studies", icon:"🌍", day:2},
+};
+const DAY_SUBJECTS = { 1:["english"], 2:["math","science","social"] };
+
+function render(){
+  app.innerHTML = "";
+  backBtn.style.visibility = currentScreen.name==="home" ? "hidden" : "visible";
+  const titles = {
+    home:"Countdown to Tuesday!", day: currentScreen.day===1?"Day 1: English":"Day 2: Math, Science & SS",
+    subject: currentScreen.subject ? SUBJECT_META[currentScreen.subject].label : "",
+    unit: currentScreen.subject && currentScreen.unitId ? (DATA[currentScreen.subject].find(u=>u.id===currentScreen.unitId)||{}).title : "Review",
+    toptips:"Top Test Tips"
+  };
+  topbarTitle.textContent = titles[currentScreen.name] || "Countdown to Tuesday!";
+  if(currentScreen.name==="home") renderHome(app);
+  else if(currentScreen.name==="day") renderDay(app, currentScreen.day);
+  else if(currentScreen.name==="subject") renderSubjectMenu(app, currentScreen.subject, currentScreen.day);
+  else if(currentScreen.name==="unit") renderUnit(app, currentScreen.subject, currentScreen.day, currentScreen.unitId);
+  else if(currentScreen.name==="toptips") renderTopTips(app);
+  setupBunny();
+}
+
+/* ===================== PROGRESS HELPERS ===================== */
+function unitStats(subject, unitId){
+  const units = DATA[subject];
+  const unit = units.find(u=>u.id===unitId);
+  const prog = (state.progress[subject]||{})[unitId];
+  const totalQuiz = (unit.quiz||[]).length;
+  const answeredQuiz = prog ? Object.keys(prog.quiz||{}).length : 0;
+  const mistakeCount = (unit.mistakes||[]).length;
+  const mistakesOk = mistakeCount===0 ? true : (prog ? prog.mistakesSeen : false);
+  const done = answeredQuiz>=totalQuiz && mistakesOk;
+  return {answeredQuiz, totalQuiz, mistakesOk, done, hasMistakes: mistakeCount>0};
+}
+function subjectStats(subject){
+  const units = DATA[subject];
+  let done=0;
+  units.forEach(u=>{ if(unitStats(subject,u.id).done) done++; });
+  return [done, units.length];
+}
+function dayStats(day){
+  let done=0, total=0;
+  DAY_SUBJECTS[day].forEach(s=>{ const [d,t]=subjectStats(s); done+=d; total+=t; });
+  return [done,total];
+}
+
+/* ===================== HOME ===================== */
+function renderHome(root){
+  const [d1done,d1total] = dayStats(1);
+  const [d2done,d2total] = dayStats(2);
+  const d1pct = Math.round(100*d1done/d1total);
+  const d2pct = Math.round(100*d2done/d2total);
+  root.innerHTML = `
+    <h1 class="hero">Bismillah — You've Got This! 🌟</h1>
+    <p class="bismillah">Two days of review, one calm and confident Shareefah. Let's go step by step.</p>
+
+    <div class="savebar">
+      <button class="btn btn-save" id="homeSaveBtn">💾 Save Progress</button>
+      <button class="btn btn-open" id="homeOpenBtn">📂 Open Saved File</button>
+      <input type="file" id="fileInput" accept="application/json" style="display:none;">
+    </div>
+    ${!storageOK ? `<div class="warnbanner">⚠️ Auto-save is blocked on this device right now. Tap <b>Save Progress</b> often and keep the file safe — reload it anytime with <b>Open Saved File</b>.</div>` : ``}
+
+    <div class="overall-summary">
+      <div class="stat-box"><div class="num">${d1done}/${d1total}</div><div class="lab">DAY 1 UNITS</div></div>
+      <div class="stat-box"><div class="num">${d2done}/${d2total}</div><div class="lab">DAY 2 UNITS</div></div>
+    </div>
+
+    <div class="day-cards">
+      <div class="day-card day1" data-go="1">
+        <div class="day-label">Tuesday · Day 1</div>
+        <div class="day-title">📖 English</div>
+        <div class="day-desc">Conjunctions, titles, prepositions, figurative language, reading, vocabulary + a brand-new punctuation &amp; spelling booster.</div>
+        <div class="day-progress-track"><div class="day-progress-fill" style="width:${d1pct}%;"></div></div>
+        <div class="day-progress-label">${d1done} / ${d1total} units complete</div>
+      </div>
+      <div class="day-card day2" data-go="2">
+        <div class="day-label">Wednesday · Day 2</div>
+        <div class="day-title">🧮🔬🌍 Math, Science &amp; Social Studies</div>
+        <div class="day-desc">Every mistake reviewed and explained, a full last-minute cheat sheet per topic, and fresh practice to lock it all in.</div>
+        <div class="day-progress-track"><div class="day-progress-fill" style="width:${d2pct}%;"></div></div>
+        <div class="day-progress-label">${d2done} / ${d2total} units complete</div>
+      </div>
+    </div>
+
+    <div class="unit-row" data-go-tips="1" style="margin-bottom:18px;">
+      <div class="uicon">💡</div>
+      <div class="info"><div class="u-title">Top Test Tips</div><div class="u-sub">The most important reminders, all in one place</div></div>
+      <span class="chev">›</span>
+    </div>
+
+    <p class="hint" style="text-align:center;color:var(--sub);font-size:12.5px;">Progress saves automatically. Tap <b>Save Progress</b> to also keep a backup file.</p>
+  `;
+  root.querySelectorAll("[data-go]").forEach(el=>{
+    el.addEventListener("click", ()=>go({name:"day", day: +el.getAttribute("data-go")}));
+  });
+  root.querySelector("[data-go-tips]").addEventListener("click", ()=>go({name:"toptips"}));
+  document.getElementById("homeSaveBtn").addEventListener("click", exportProgress);
+  document.getElementById("homeOpenBtn").addEventListener("click", ()=>document.getElementById("fileInput").click());
+  document.getElementById("fileInput").addEventListener("change", (e)=>{
+    if(e.target.files && e.target.files[0]) importProgress(e.target.files[0]);
+    e.target.value="";
+  });
+  setTimeout(()=>showBunnyBubble(), 500);
+}
+
+/* ===================== DAY SCREEN ===================== */
+function renderDay(root, day){
+  const subjects = DAY_SUBJECTS[day];
+  let rows = "";
+  subjects.forEach(s=>{
+    const meta = SUBJECT_META[s];
+    const [done,total] = subjectStats(s);
+    const donePct = Math.round(100*done/total);
+    rows += `
+      <div class="unit-row" data-subject="${s}">
+        <div class="uicon">${meta.icon}</div>
+        <div class="info">
+          <div class="u-title">${meta.label}</div>
+          <div class="u-sub">${DATA[s].length} review units</div>
+          <div class="progress-track"><div class="progress-fill" style="width:${donePct}%;"></div></div>
+        </div>
+        ${done>=total? `<span class="badge-mastered">✓ Done</span>` : (done>0? `<span class="badge-progress">${done}/${total}</span>` : ``)}
+        <span class="chev">›</span>
+      </div>`;
+  });
+  const dayLabel = day===1 ? "Day 1 — English" : "Day 2 — Math, Science & Social Studies";
+  const dayDesc = day===1 ? "You scored 100% in practice already — today is about locking it in and adding one new skill." : "Every mistake gets fixed, every topic gets a fast refresh, then a few new questions to prove it's mastered.";
+  root.innerHTML = `
+    <div class="section-banner"><div class="b-title">${dayLabel}</div><div class="b-sub">${dayDesc}</div></div>
+    <div class="unit-list">${rows}</div>
+  `;
+  root.querySelectorAll("[data-subject]").forEach(el=>{
+    el.addEventListener("click", ()=>go({name:"subject", day, subject: el.getAttribute("data-subject")}));
+  });
+}
+
+/* ===================== SUBJECT MENU ===================== */
+function renderSubjectMenu(root, subject, day){
+  const meta = SUBJECT_META[subject];
+  const units = DATA[subject];
+  let rows = "";
+  units.forEach((u,idx)=>{
+    const st = unitStats(subject, u.id);
+    let badge = "";
+    if(st.done) badge = `<span class="badge-mastered">✓ Done</span>`;
+    else if(st.answeredQuiz>0) badge = `<span class="badge-progress">${st.answeredQuiz}/${st.totalQuiz}</span>`;
+    const subLabel = (u.mistakes||[]).length>0 ? `${u.mistakes.length} mistake${u.mistakes.length>1?'s':''} to fix + review + quiz` : `Review + confidence quiz`;
+    rows += `
+      <div class="unit-row" data-unit="${u.id}">
+        <div class="uicon">${u.icon}</div>
+        <div class="info"><div class="u-title">${u.title}</div><div class="u-sub">${subLabel}</div></div>
+        ${badge}
+        <span class="chev">›</span>
+      </div>`;
+  });
+  root.innerHTML = `
+    <div class="section-banner"><div class="b-title">${meta.icon} ${meta.label}</div><div class="b-sub">Tap a unit to fix mistakes, review, and quiz yourself</div></div>
+    <div class="unit-list">${rows}</div>
+  `;
+  root.querySelectorAll("[data-unit]").forEach(el=>{
+    el.addEventListener("click", ()=>go({name:"unit", day, subject, unitId: el.getAttribute("data-unit")}));
+  });
+}
+
+/* ===================== UNIT DETAIL (mistakes + cheatsheet + quiz) ===================== */
+function renderUnit(root, subject, day, unitId){
+  const unit = DATA[subject].find(u=>u.id===unitId);
+  const prog = ensureUnitProgress(subject, unitId);
+  prog.opened = true; saveState(true);
+
+  let html = `<div class="section-banner"><div class="b-title">${unit.icon} ${unit.title}</div></div>`;
+
+  // celebratory banner for mastered English units
+  if(unit.mastered){
+    html += `<div class="celebrate-banner">🎉 You already got this 100% right in practice! This is just a fast confidence boost.</div>`;
+  }
+
+  // special long-division worked example
+  if(unit.special === "longdiv"){
+    html += `<div class="review-card"><h3>${unit.intro}</h3>
+      <div class="worked-example">
+        <div class="we-title">📝 The Golden Rule</div>
+        <p style="font-size:13.5px;line-height:1.5;">${unit.goldenRule}</p>
+      </div>
+      <div class="worked-example">
+        <div class="we-title">Watch It Work: ${unit.worked.problem}</div>
+        ${unit.worked.steps.map(s=>`
+          <div class="we-step">
+            <div class="we-digit">${s.quotientDigit}</div>
+            <div>
+              <div class="we-text">${s.text}</div>
+              <div class="we-detail">${s.detail}</div>
+            </div>
+          </div>
+        `).join("")}
+        <div class="we-final">Final Answer: ${unit.worked.answer}</div>
+        <div class="we-warning">⚠️ ${unit.worked.warning} (Skipping the 0 would give <b>${unit.worked.wrongIfSkipped}</b> — wrong!)</div>
+      </div>
+    </div>`;
+  }
+
+  // mistakes section
+  if((unit.mistakes||[]).length>0){
+    html += `<div class="review-card"><h3>🔧 Your Mistakes, Fixed</h3>`;
+    unit.mistakes.forEach((m,i)=>{
+      html += `<div class="mistake-item fixed">
+        <div class="m-q">${m.q}</div>
+        <div class="m-compare">You answered: <span class="m-picked">${m.picked}</span> &nbsp;→&nbsp; Correct: <span class="m-correct">${m.correct}</span></div>
+        <div class="m-explain">${m.explain}</div>
+      </div>`;
+    });
+    html += `<button class="btn btn-save btn-full" id="mistakesSeenBtn" ${prog.mistakesSeen?'disabled':''}>${prog.mistakesSeen? '✓ Marked as Reviewed' : "I've Read These — Mark as Reviewed"}</button></div>`;
+  }
+
+  // cheat sheet (skip for special units like long-division that render their own explanation above)
+  if(unit.cheatsheet){
+    const cs = unit.cheatsheet;
+    html += `<div class="review-card"><h3>⚡ Last-Minute Review</h3><p style="font-size:13.5px;color:#374151;">${cs.intro}</p>`;
+    cs.sections.forEach(sec=>{
+      html += `<div class="cheat-section"><h4>${sec.h}</h4><p>${sec.body}</p></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // quiz
+  html += `<div class="review-card"><h3>✏️ Quick Quiz</h3><div id="quizList"></div></div>`;
+
+  root.innerHTML = html;
+
+  if((unit.mistakes||[]).length>0){
+    const btn = document.getElementById("mistakesSeenBtn");
+    btn.addEventListener("click", ()=>{
+      prog.mistakesSeen = true; saveState(true);
+      btn.disabled = true; btn.textContent = "✓ Marked as Reviewed";
+      soundCelebrate();
+      showBunnyBubble({emoji:"🐰", text:"Great job reviewing those! Now let's lock it in with a quick quiz."});
+    });
+  }
+
+  const quizList = document.getElementById("quizList");
+  unit.quiz.forEach((q, idx)=>{
+    const saved = prog.quiz[q.id];
+    const item = document.createElement("div");
+    item.className = "quiz-item";
+    item.innerHTML = `
+      <div class="q-text">${idx+1}. ${q.q}</div>
+      <div>
+        <input type="text" id="qin_${q.id}" placeholder="Your answer" ${saved?'disabled':''} value="${saved?saved.value:''}">
+        <button class="checkbtn" id="qbtn_${q.id}" ${saved?'disabled':''}>Check</button>
+        <span class="feedback ${saved?(saved.correct?'good':'bad'):''}" id="qfb_${q.id}">${saved?(saved.correct?'✓ Correct!':'Good try — see below'):''}</span>
+      </div>
+      ${saved && !saved.correct && q.explain ? `<div class="reveal">${q.explain}</div>` : ''}
+    `;
+    quizList.appendChild(item);
+    if(!saved){
+      const check = ()=>{
+        const val = document.getElementById(`qin_${q.id}`).value.trim();
+        if(val==="") return;
+        const ok = checkAnswer(val, q.answer);
+        prog.quiz[q.id] = {value:val, correct:ok};
+        saveState();
+        document.getElementById(`qin_${q.id}`).disabled = true;
+        document.getElementById(`qbtn_${q.id}`).disabled = true;
+        const fb = document.getElementById(`qfb_${q.id}`);
+        fb.textContent = ok ? "✓ Correct!" : "Good try — see below";
+        fb.className = "feedback "+(ok?"good":"bad");
+        if(ok){ soundCorrect(); } else { soundIncorrect(); }
+        if(!ok && q.explain){
+          const div = document.createElement("div");
+          div.className="reveal"; div.textContent=q.explain;
+          item.appendChild(div);
+        }
+        maybeCelebrateUnit(subject, unitId);
+      };
+      document.getElementById(`qbtn_${q.id}`).addEventListener("click", check);
+      document.getElementById(`qin_${q.id}`).addEventListener("keydown", e=>{ if(e.key==="Enter") check(); });
+    }
+  });
+
+  const wrap = document.createElement("div");
+  wrap.className = "footer-nav";
+  wrap.innerHTML = `<button class="btn btn-secondary btn-full" id="backToSubjectBtn">‹ Back to ${SUBJECT_META[subject].label}</button>`;
+  root.appendChild(wrap);
+  document.getElementById("backToSubjectBtn").addEventListener("click", ()=>go({name:"subject", day, subject}));
+}
+
+function checkAnswer(input, expected){
+  if(typeof expected === "number"){
+    const v = parseFloat(String(input).replace(/,/g,""));
+    if(isNaN(v)) return false;
+    const tol = Math.max(0.05, Math.abs(expected)*0.01);
+    return Math.abs(v-expected) <= tol;
+  }
+  // text answer: normalize
+  const norm = s => String(s).toLowerCase().trim().replace(/[.,!?']/g,"").replace(/\s+/g," ");
+  return norm(input) === norm(expected);
+}
+
+function maybeCelebrateUnit(subject, unitId){
+  const st = unitStats(subject, unitId);
+  if(st.done){
+    showToast("🎉 Unit complete! Amazing work.");
+    showBunnyBubble({emoji:"🐰", text:"You finished this whole unit — mā shā Allāh! On to the next one whenever you're ready."});
+  }
+}
+
+/* ===================== TOP TEST TIPS ===================== */
+function renderTopTips(root){
+  root.innerHTML = `
+    <div class="section-banner"><div class="b-title">💡 Top Test Tips</div><div class="b-sub">The most important reminders for test day</div></div>
+    <div class="toptips-box">
+      <h3>🌬️ Before &amp; During</h3>
+      <ul>
+        <li>Say <b>Bismillah</b> and take a slow breath before starting each section.</li>
+        <li><b>Slow down on purpose.</b> You're a fast reader — that's wonderful, but it means the small stuff (a "NOT," a comma, a decimal point) can slip by. Read once for meaning, then once more for the details.</li>
+        <li>Read <b>every</b> answer choice before picking one, even if the first one looks right.</li>
+        <li>For punctuation/spelling questions especially: read the sentence one extra time before answering.</li>
+        <li>Estimate before you calculate in math — if your exact answer is way off from your estimate, recheck it.</li>
+        <li>Stuck on a question? Skip it, keep moving, and come back later with fresh eyes.</li>
+        <li>In long division, remember: if a digit doesn't go in at all, you still write a <b>0</b> — never skip that spot.</li>
+      </ul>
+      <h3>🧘 Staying Calm</h3>
+      <ul>
+        <li>Feeling rushed or nervous? Pause. Three slow breaths. Then keep going.</li>
+        <li>There's no prize for finishing first — there's a prize for finishing <b>right</b>. Use all your time.</li>
+        <li>One hard question doesn't decide the whole test. Let it go and move on.</li>
+        <li>You are prepared. Trust the work you've put in.</li>
+      </ul>
+      <h3>🌙 Tonight &amp; Tomorrow Morning</h3>
+      <ul>
+        <li>Get a full night's sleep — your brain locks in everything you reviewed today while you sleep.</li>
+        <li>Eat a good breakfast, and start the morning calm and unhurried.</li>
+      </ul>
+    </div>
+    <div class="dua-box" style="background:var(--blue-pale);color:var(--blue3);border-radius:16px;padding:16px;font-size:13.5px;line-height:1.6;">🤲 "Rabbi zidni 'ilmā" — "My Lord, increase me in knowledge." You've worked hard. Now go show what you know, in shā Allāh.</div>
+  `;
+}
+
+/* ===================== INIT ===================== */
+loadState();
+render();
+setInterval(()=>saveState(true), 45000);
+startSaveReminders();
+updateSavedPill();
+
+</script>
+</body>
+</html>
